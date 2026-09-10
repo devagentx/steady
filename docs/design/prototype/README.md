@@ -10,6 +10,7 @@ Open [`index.html`](index.html) in a browser to explore:
 - Manage Habits selection
 - Exact-time and routine-cue scheduling
 - Local profile settings
+- Steady Coins shop, Streak Shield purchase, and missed-day decision
 - Insights Coming soon state
 - Travel and pause interactions
 
@@ -41,4 +42,3 @@ code.
 
 The public GitHub Pages deployment is intended for design review and portfolio
 demonstration.
-

@@ -21,11 +21,13 @@ greyed out, struck through, and moved below incomplete habits.
 
 The MVP is local-first, has no required account or Steady backend, and supports up to seven
 non-archived habits, and treats Steady Coins as non-redeemable personal
-motivation. Profile, habit, completion, streak, and coin data must stay
-on-device. Optional external APIs may provide contextual information such as
-weather, but must not receive private product data. Insights is a Coming soon
-page; Settings supports a local display name and profile icon. Future
-subscriptions and real-world rewards are not MVP scope.
+motivation. Coins may buy a one-day Streak Shield, but the shield is never
+consumed automatically; after a missed day, the user chooses whether to use it
+or let the streak end. Profile, habit, completion, streak, coin, and shield data
+must stay on-device. Optional external APIs may provide contextual information
+such as weather, but must not receive private product data. Insights is a
+Coming soon page; Settings supports a local display name and profile icon.
+Future subscriptions and real-world rewards are not MVP scope.
 
 Use Kotlin, Jetpack Compose, Material 3, JDK 17, and the checked-in Gradle
 wrapper. Add libraries only when the same change uses them. Update the decision

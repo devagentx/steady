@@ -2,10 +2,10 @@
 
 Steady is a calm, offline-first Android habit tracker from **MonkMind Labs**.
 It helps people build consistency through a focused daily checklist, streaks,
-Steady Coins and locally learned reminder suggestions. The MVP keeps core data
-on-device without a Steady backend; optional external APIs may provide
-contextual information such as weather. Insights is initially presented as
-Coming soon.
+Steady Coins, a Coins shop with a one-day Streak Shield, and locally learned
+reminder suggestions. The MVP keeps core data on-device without a Steady
+backend; optional external APIs may provide contextual information such as
+weather. Insights is initially presented as Coming soon.
 
 ## Project direction
 

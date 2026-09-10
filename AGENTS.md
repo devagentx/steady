@@ -34,6 +34,9 @@ clear ownership boundary and an approved product need.
 - Keep the daily checklist as the primary experience.
 - The MVP is offline-first and does not require an account.
 - Steady Coins are motivational only in the MVP and have no redeemable value.
+- Steady Coins may buy a one-day Streak Shield. A shield protects one missed
+  day, is never consumed automatically, and requires the user's decision after
+  the missed day.
 - Do not implement future subscriptions, a backend, social features, or health
   integrations unless the task explicitly moves them into scope.
 - Preserve the calm, premium, non-judgmental product voice.
