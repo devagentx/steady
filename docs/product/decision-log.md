@@ -6,7 +6,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | ID | Status | Decision | Notes |
 |---|---|---|---|
 | P-001 | Confirmed | Steady is a recurring habit tracker, not a general task manager. | One-off tasks and projects are outside the MVP. |
-| P-002 | Confirmed | Habit completion is binary. | Quantities may appear in the habit name or supporting text but are not logged numerically. |
+| P-002 | Confirmed | Habit completion is binary. | Quantities may describe the target, but the MVP never displays or records partial progress such as steps so far or water consumed. |
 | P-003 | Confirmed | The MVP works on-device without required sign-in. | Cloud sync is outside MVP scope. |
 | P-004 | Confirmed | The Today checklist is the main home-screen content. | Rewards and analytics are supporting content. |
 | P-005 | Confirmed | The initial navigation has Today, Insights, and Settings. | Habit management opens from Today. |
