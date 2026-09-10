@@ -2,7 +2,14 @@
 
 Steady is a calm, offline-first Android habit tracker from **MonkMind Labs**.
 It helps people build consistency through a focused daily checklist, streaks,
-transparent scoring, weekly insights, and locally learned reminder suggestions.
+Steady Coins, weekly insights, and locally learned reminder suggestions.
+
+## Project direction
+
+- [Product brief](docs/product/product-brief.md)
+- [Design philosophy](docs/design/design-philosophy.md)
+- [Product decision log](docs/product/decision-log.md)
+- [AI agent and contributor guide](AGENTS.md)
 
 ## Technology
 
