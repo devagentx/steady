@@ -4,6 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Steady — Interactive Design Prototype</title>
+  <script>
+    (() => {
+      const key = 'steadyAppearance';
+      let preference = 'system';
+      try {
+        const saved = localStorage.getItem(key);
+        if (['system', 'light', 'dark'].includes(saved)) preference = saved;
+      } catch {}
+      const systemDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.appearance = preference;
+      document.documentElement.dataset.theme =
+        preference === 'system' ? (systemDark ? 'dark' : 'light') : preference;
+    })();
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -19,8 +33,51 @@
       --warm: #c99a62;
       --warm-soft: #f4e8d7;
       --danger: #9a645f;
+      --primary-fill: var(--primary);
+      --on-primary: #fffdf7;
+      --input: #fffefa;
+      --muted-surface: #e8e7df;
+      --completed-surface: rgba(236, 237, 232, .88);
+      --completed-border: #dedfd9;
+      --completed-control: #8b918c;
+      --blue: #4f7180;
+      --blue-soft: #e7f0f2;
+      --lilac: #73637c;
+      --lilac-soft: #eee9f0;
+      --neutral-icon: #69716b;
+      --neutral-soft: #eeeee9;
       --shadow: 0 28px 80px rgba(49, 58, 52, 0.17), 0 3px 14px rgba(49, 58, 52, 0.08);
       --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #151a17;
+      --surface: #1e2521;
+      --primary: #9bc8b0;
+      --primary-dark: #456c59;
+      --sage-light: #2d4639;
+      --sage-soft: #24352d;
+      --text: #f1eee6;
+      --secondary: #adb6af;
+      --border: #39413c;
+      --warm: #ddb37e;
+      --warm-soft: #3b3023;
+      --danger: #e0a09a;
+      --primary-fill: #527d69;
+      --on-primary: #fbfdfb;
+      --input: #202722;
+      --muted-surface: #2a302c;
+      --completed-surface: rgba(37, 43, 39, .94);
+      --completed-border: #3b433e;
+      --completed-control: #657169;
+      --blue: #9fc7d4;
+      --blue-soft: #263940;
+      --lilac: #c3afd0;
+      --lilac-soft: #382f3d;
+      --neutral-icon: #b6beb8;
+      --neutral-soft: #303632;
+      --shadow: 0 30px 90px rgba(0, 0, 0, .46), 0 4px 16px rgba(0, 0, 0, .28);
     }
 
     * { box-sizing: border-box; }
@@ -35,6 +92,12 @@
         radial-gradient(circle at 22% 12%, rgba(220, 233, 225, .72), transparent 31rem),
         radial-gradient(circle at 80% 86%, rgba(244, 232, 215, .75), transparent 32rem),
         #efede7;
+    }
+    html[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 22% 12%, rgba(73, 108, 89, .28), transparent 31rem),
+        radial-gradient(circle at 80% 86%, rgba(110, 80, 47, .22), transparent 32rem),
+        #0d110f;
     }
 
     button, textarea, input { font: inherit; }
@@ -392,7 +455,14 @@
       white-space: nowrap;
       transition: color .2s;
     }
-    .habit-subtitle { display: block; color: var(--secondary); font-size: 10px; }
+    .habit-subtitle {
+      display: block;
+      overflow: hidden;
+      color: var(--secondary);
+      font-size: 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .complete .habit-title {
       color: #69716b;
       text-decoration: line-through;
@@ -681,6 +751,62 @@
       background: var(--sage-soft);
     }
     .settings-row span:last-child { color: var(--secondary); font-size: 10px; font-weight: 600; }
+    .appearance-card {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      background: rgba(255, 252, 245, .82);
+    }
+    .appearance-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .appearance-heading strong { display: block; margin-bottom: 3px; font-size: 12px; }
+    .appearance-heading span { display: block; color: var(--secondary); font-size: 9px; line-height: 1.4; }
+    .appearance-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+    .appearance-option {
+      min-height: 68px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 5px;
+      padding: 8px 5px;
+      color: var(--secondary);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--input);
+      cursor: pointer;
+      font-size: 8.5px;
+      font-weight: 800;
+      transition: .2s var(--ease);
+    }
+    .appearance-option svg { width: 20px; height: 20px; }
+    .appearance-option:hover { border-color: rgba(66, 107, 90, .38); }
+    .appearance-option[aria-checked="true"] {
+      color: var(--primary);
+      border-color: rgba(66, 107, 90, .35);
+      background: var(--sage-soft);
+      box-shadow: inset 0 0 0 1px rgba(66, 107, 90, .08);
+    }
+    .appearance-option:focus-visible {
+      outline: 3px solid rgba(66, 107, 90, .18);
+      outline-offset: 2px;
+    }
+    .appearance-status {
+      display: block;
+      margin-top: 9px;
+      color: var(--secondary);
+      font-size: 8.5px;
+      line-height: 1.4;
+    }
 
     .bottom-nav {
       position: relative;
@@ -1389,7 +1515,16 @@
     .preview-icon-btn.neutral { color: #69716b; background: #eeeee9; }
     .preview-icon-btn svg { width: 22px; height: 22px; }
     .preview-copy strong { display: block; margin-bottom: 3px; font-size: 13px; }
-    .preview-copy span { display: block; color: var(--secondary); font-size: 9px; line-height: 1.35; }
+    .preview-copy { min-width: 0; }
+    .preview-copy span {
+      display: block;
+      overflow: hidden;
+      color: var(--secondary);
+      font-size: 9px;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .preview-check {
       width: 35px;
       height: 35px;
@@ -1416,7 +1551,20 @@
       font-size: 10px;
       font-weight: 800;
     }
-    .habit-name-input {
+    .field-label-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .field-label-row .form-label { margin-bottom: 7px; }
+    .optional-label {
+      color: var(--secondary);
+      font-size: 8.5px;
+      font-weight: 700;
+    }
+    .habit-name-input,
+    .goal-note-input {
       width: 100%;
       height: 45px;
       padding: 0 12px;
@@ -1428,10 +1576,23 @@
       font-size: 12px;
       font-weight: 650;
     }
-    .habit-name-input:focus {
+    .habit-name-input:focus,
+    .goal-note-input:focus {
       border-color: rgba(66, 107, 90, .58);
       box-shadow: 0 0 0 3px rgba(66, 107, 90, .08);
     }
+    .field-help {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 7px;
+      color: var(--secondary);
+      font-size: 8.5px;
+      line-height: 1.4;
+    }
+    .field-help span:first-child { max-width: 235px; }
+    .field-count { flex: 0 0 auto; font-variant-numeric: tabular-nums; }
     .suggestion-note {
       display: flex;
       align-items: center;
@@ -1690,6 +1851,175 @@
     }
     .feedback-panel textarea:focus { border-color: rgba(66, 107, 90, .55); }
 
+    html[data-theme="dark"] .prototype-label,
+    html[data-theme="dark"] .interaction-hint { color: #9ca69f; }
+    html[data-theme="dark"] .mode-switch,
+    html[data-theme="dark"] .feedback-panel details {
+      border-color: var(--border);
+      background: rgba(30, 37, 33, .82);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .24);
+    }
+    html[data-theme="dark"] .mode-btn.active,
+    html[data-theme="dark"] .primary-cta,
+    html[data-theme="dark"] .shop-buy-btn,
+    html[data-theme="dark"] .shield-use-btn,
+    html[data-theme="dark"] .day-chip.active,
+    html[data-theme="dark"] .celebration-mark {
+      color: var(--on-primary);
+      border-color: var(--primary-fill);
+      background: var(--primary-fill);
+    }
+    html[data-theme="dark"] .progress-fill,
+    html[data-theme="dark"] .toggle.on { background: var(--primary-fill); }
+    html[data-theme="dark"] .phone-screen::before {
+      background: linear-gradient(180deg, rgba(54, 82, 67, .45), rgba(21, 26, 23, 0));
+    }
+    html[data-theme="dark"] .travel-btn.active {
+      color: var(--warm);
+      border-color: #654f34;
+      background: var(--warm-soft);
+    }
+    html[data-theme="dark"] .travel-btn,
+    html[data-theme="dark"] .summary-card,
+    html[data-theme="dark"] .habit-row,
+    html[data-theme="dark"] .profile-card,
+    html[data-theme="dark"] .settings-row,
+    html[data-theme="dark"] .appearance-card,
+    html[data-theme="dark"] .celebration-card,
+    html[data-theme="dark"] .shop-item,
+    html[data-theme="dark"] .manage-row,
+    html[data-theme="dark"] .archived-entry,
+    html[data-theme="dark"] .habit-preview,
+    html[data-theme="dark"] .form-section {
+      border-color: var(--border);
+      background: rgba(30, 37, 33, .94);
+      box-shadow: none;
+    }
+    html[data-theme="dark"] .summary-card::after { background: rgba(64, 96, 79, .32); }
+    html[data-theme="dark"] button.metric:hover,
+    html[data-theme="dark"] button.metric:focus-visible {
+      color: var(--warm);
+      background: var(--warm-soft);
+    }
+    html[data-theme="dark"] .metric-affordance { color: #9f988c !important; }
+    html[data-theme="dark"] .progress-track,
+    html[data-theme="dark"] .inventory-pill.empty,
+    html[data-theme="dark"] .shop-buy-btn:disabled,
+    html[data-theme="dark"] .shield-use-btn:disabled,
+    html[data-theme="dark"] .schedule-mode-switch { background: var(--muted-surface); }
+    html[data-theme="dark"] .habit-row:hover,
+    html[data-theme="dark"] .manage-row:hover { border-color: #526158; }
+    html[data-theme="dark"] .habit-row.complete {
+      border-color: var(--completed-border);
+      background: var(--completed-surface);
+    }
+    html[data-theme="dark"] .habit-row.complete:hover { border-color: var(--completed-border); }
+    html[data-theme="dark"] .complete .habit-title { color: #9ca59f; text-decoration-color: #789282; }
+    html[data-theme="dark"] .complete .habit-icon,
+    html[data-theme="dark"] .complete .check {
+      color: var(--on-primary);
+      border-color: var(--completed-control);
+      background: var(--completed-control);
+    }
+    html[data-theme="dark"] .check,
+    html[data-theme="dark"] .profile-input,
+    html[data-theme="dark"] .appearance-option,
+    html[data-theme="dark"] .sheet-option,
+    html[data-theme="dark"] .demo-btn,
+    html[data-theme="dark"] .habit-name-input,
+    html[data-theme="dark"] .goal-note-input,
+    html[data-theme="dark"] .preset-chip,
+    html[data-theme="dark"] .day-chip,
+    html[data-theme="dark"] .schedule-mode-btn.active,
+    html[data-theme="dark"] .feedback-panel textarea {
+      color: var(--text);
+      border-color: var(--border);
+      background: var(--input);
+    }
+    html[data-theme="dark"] .habit-icon.blue,
+    html[data-theme="dark"] .manage-icon.blue,
+    html[data-theme="dark"] .preview-icon-btn.blue,
+    html[data-theme="dark"] .picker-swatch.blue { color: var(--blue); background: var(--blue-soft); }
+    html[data-theme="dark"] .habit-icon.lilac,
+    html[data-theme="dark"] .manage-icon.lilac,
+    html[data-theme="dark"] .preview-icon-btn.lilac,
+    html[data-theme="dark"] .picker-swatch.lilac { color: var(--lilac); background: var(--lilac-soft); }
+    html[data-theme="dark"] .habit-icon.warm,
+    html[data-theme="dark"] .manage-icon.warm,
+    html[data-theme="dark"] .preview-icon-btn.warm,
+    html[data-theme="dark"] .picker-swatch.warm { color: var(--warm); background: var(--warm-soft); }
+    html[data-theme="dark"] .preview-icon-btn.neutral,
+    html[data-theme="dark"] .picker-swatch.neutral { color: var(--neutral-icon); background: var(--neutral-soft); }
+    html[data-theme="dark"] .bottom-nav,
+    html[data-theme="dark"] .shop-appbar,
+    html[data-theme="dark"] .manage-appbar,
+    html[data-theme="dark"] .editor-appbar {
+      border-color: var(--border);
+      background: rgba(21, 26, 23, .92);
+    }
+    html[data-theme="dark"] .nav-item { color: #98a19b; }
+    html[data-theme="dark"] .nav-item.active { color: var(--primary); }
+    html[data-theme="dark"] .day-celebration { background: rgba(12, 15, 13, .72); }
+    html[data-theme="dark"] .shop-page {
+      background:
+        radial-gradient(circle at 82% 8%, rgba(102, 75, 45, .3), transparent 190px),
+        linear-gradient(180deg, rgba(50, 77, 63, .35), rgba(21, 26, 23, 0) 250px),
+        var(--bg);
+    }
+    html[data-theme="dark"] .coin-emblem {
+      color: var(--warm);
+      border-color: #59472f;
+      background: linear-gradient(145deg, #453724, #30261a);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
+    }
+    html[data-theme="dark"] .shop-balance span,
+    html[data-theme="dark"] .celebration-coins { color: var(--warm); }
+    html[data-theme="dark"] .price-note {
+      color: #d6bd9a;
+      border-color: #56452f;
+      background: rgba(59, 48, 35, .78);
+    }
+    html[data-theme="dark"] .shop-demo,
+    html[data-theme="dark"] .capacity-pill {
+      border-color: #3c5749;
+      background: rgba(36, 53, 45, .75);
+    }
+    html[data-theme="dark"] .missed-day-backdrop,
+    html[data-theme="dark"] .sheet-backdrop,
+    html[data-theme="dark"] .picker-backdrop { background: rgba(5, 8, 6, .58); }
+    html[data-theme="dark"] .missed-day-dialog,
+    html[data-theme="dark"] .sheet {
+      border-color: var(--border);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .42);
+    }
+    html[data-theme="dark"] .handle { background: #59615c; }
+    html[data-theme="dark"] .manage-habits {
+      background:
+        linear-gradient(180deg, rgba(48, 74, 61, .34), rgba(21, 26, 23, 0) 210px),
+        var(--bg);
+    }
+    html[data-theme="dark"] .editor-save-btn:disabled,
+    html[data-theme="dark"] .shop-buy-btn:disabled,
+    html[data-theme="dark"] .shield-use-btn:disabled { color: #818a84; }
+    html[data-theme="dark"] .preview-check {
+      color: #7f8882;
+      border-color: var(--border);
+      background: var(--input);
+    }
+    html[data-theme="dark"] .toggle { background: #4a524d; }
+    html[data-theme="dark"] .toggle::after { background: #f1eee6; }
+    html[data-theme="dark"] .icon-picker { box-shadow: 0 -12px 38px rgba(0, 0, 0, .4); }
+    html[data-theme="dark"] .toast { background: rgba(224, 233, 227, .94); color: #172019; }
+    html[data-theme="dark"] .appearance-option[aria-checked="true"] {
+      color: var(--primary);
+      border-color: #4b6d5b;
+      background: var(--sage-soft);
+    }
+    html[data-theme="dark"] .appearance-option:focus-visible {
+      outline-color: rgba(155, 200, 176, .34);
+    }
+    html[data-theme="dark"] .archive-btn { border-color: rgba(224, 160, 154, .34); }
+
     .empty-mode .today-state { display: none; }
     .empty-mode .empty-state { display: block; }
     .destination-insights .today-destination,
@@ -1827,46 +2157,46 @@
                 </div>
 
                 <div class="habit-list" id="habitList">
-                  <button class="habit-row complete" style="--delay:.14s" aria-pressed="true" onclick="toggleHabit(this)">
+                  <button class="habit-row complete" id="todayRow-exercise" style="--delay:.14s" aria-pressed="true" onclick="toggleHabit(this)">
                     <span class="habit-icon">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8v8M18 8v8M3.5 10v4M20.5 10v4M6 12h12"/></svg>
                     </span>
                     <span class="habit-copy">
                       <span class="habit-title">Exercise</span>
-                      <span class="habit-subtitle">30 minutes · Morning</span>
+                      <span class="habit-subtitle">30 minutes · 7:30 AM</span>
                     </span>
                     <span class="check">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
                     </span>
                   </button>
 
-                  <button class="habit-row complete" style="--delay:.18s" aria-pressed="true" onclick="toggleHabit(this)">
+                  <button class="habit-row complete" id="todayRow-protein" style="--delay:.18s" aria-pressed="true" onclick="toggleHabit(this)">
                     <span class="habit-icon warm">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4Z"/><path d="M9 14v2.5A2.5 2.5 0 0 0 11.5 19h1a2.5 2.5 0 0 0 2.5-2.5V14M8 4V2M16 4V2"/></svg>
                     </span>
                     <span class="habit-copy">
-                      <span class="habit-title">Protein goal</span>
-                      <span class="habit-subtitle">120 g · Daily target</span>
+                      <span class="habit-title">Protein</span>
+                      <span class="habit-subtitle">125 g protein · Anytime</span>
                     </span>
                     <span class="check">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
                     </span>
                   </button>
 
-                  <button class="habit-row" style="--delay:.22s" aria-pressed="false" onclick="toggleHabit(this)">
+                  <button class="habit-row" id="todayRow-water" style="--delay:.22s" aria-pressed="false" onclick="toggleHabit(this)">
                     <span class="habit-icon blue">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2S6.5 9.4 6.5 14a5.5 5.5 0 0 0 11 0C17.5 9.4 12 3.2 12 3.2Z"/><path d="M9.4 15.2a2.8 2.8 0 0 0 2.6 1.9"/></svg>
                     </span>
                     <span class="habit-copy">
-                      <span class="habit-title">Water goal</span>
-                      <span class="habit-subtitle">2.5 L · All day</span>
+                      <span class="habit-title">Water</span>
+                      <span class="habit-subtitle">2.5 L water · Anytime</span>
                     </span>
                     <span class="check">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
                     </span>
                   </button>
 
-                  <button class="habit-row complete" style="--delay:.26s" aria-pressed="true" onclick="toggleHabit(this)">
+                  <button class="habit-row complete" id="todayRow-supplements" style="--delay:.26s" aria-pressed="true" onclick="toggleHabit(this)">
                     <span class="habit-icon lilac">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 3h6v4H9zM8 7h8a2 2 0 0 1 2 2v11H6V9a2 2 0 0 1 2-2Z"/><path d="M9 12h6M12 9v6"/></svg>
                     </span>
@@ -1879,13 +2209,13 @@
                     </span>
                   </button>
 
-                  <button class="habit-row" style="--delay:.3s" aria-pressed="false" onclick="toggleHabit(this)">
+                  <button class="habit-row" id="todayRow-steps" style="--delay:.3s" aria-pressed="false" onclick="toggleHabit(this)">
                     <span class="habit-icon warm">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.8 4.2c1.3 1.2 1.4 3.6.2 5S5.5 10.7 4.5 9.4 4.3 6 5.6 4.8s2.1-1.5 3.2-.6ZM15.2 13.3c1.3 1.2 1.4 3.6.2 5s-3.5 1.5-4.5.2-.2-3.4 1.1-4.6 2.1-1.5 3.2-.6Z"/></svg>
                     </span>
                     <span class="habit-copy">
-                      <span class="habit-title">10K steps</span>
-                      <span class="habit-subtitle">Daily goal · Anytime</span>
+                      <span class="habit-title">Walk</span>
+                      <span class="habit-subtitle">10,000 steps · Anytime</span>
                     </span>
                     <span class="check">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
@@ -1943,9 +2273,31 @@
                     <span>Your profile and habits stay on this device. Steady does not create an online account or upload this information.</span>
                   </div>
                 </section>
+                <section class="appearance-card" aria-labelledby="appearanceTitle">
+                  <div class="appearance-heading">
+                    <div>
+                      <strong id="appearanceTitle">Appearance</strong>
+                      <span>Choose a steady look, or follow your device.</span>
+                    </div>
+                  </div>
+                  <div class="appearance-options" role="radiogroup" aria-labelledby="appearanceTitle">
+                    <button class="appearance-option" id="appearance-system" type="button" role="radio" aria-checked="true" tabindex="0" data-choice="appearance-system" onclick="setAppearance('system')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M8 8h3v5H8zM13 8h3v5h-3z"/></svg>
+                      <span>System default</span>
+                    </button>
+                    <button class="appearance-option" id="appearance-light" type="button" role="radio" aria-checked="false" tabindex="-1" data-choice="appearance-light" onclick="setAppearance('light')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"/></svg>
+                      <span>Light</span>
+                    </button>
+                    <button class="appearance-option" id="appearance-dark" type="button" role="radio" aria-checked="false" tabindex="-1" data-choice="appearance-dark" onclick="setAppearance('dark')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z"/></svg>
+                      <span>Dark</span>
+                    </button>
+                  </div>
+                  <span class="appearance-status" id="appearanceStatus" aria-live="polite"></span>
+                </section>
                 <div class="settings-list">
                   <div class="settings-row"><span>Reminders</span><span>On</span></div>
-                  <div class="settings-row"><span>Appearance</span><span>System</span></div>
                   <div class="settings-row"><span>Manage habits</span><span>5 active</span></div>
                   <button class="settings-row" type="button" onclick="sendFeedback()">
                     <span>Send feedback</span>
@@ -2098,7 +2450,7 @@
                   <span class="manage-icon warm">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4Z"/><path d="M9 14v2.5A2.5 2.5 0 0 0 11.5 19h1a2.5 2.5 0 0 0 2.5-2.5V14M8 4V2M16 4V2"/></svg>
                   </span>
-                  <span class="manage-copy"><strong>Protein goal</strong><span>Every day · Anytime · Reminder on</span><small>Active</small></span>
+                  <span class="manage-copy"><strong>Protein</strong><span>Every day · Anytime · Reminder on</span><small>Active</small></span>
                   <span class="manage-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
                 </button>
 
@@ -2106,7 +2458,7 @@
                   <span class="manage-icon blue">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2S6.5 9.4 6.5 14a5.5 5.5 0 0 0 11 0C17.5 9.4 12 3.2 12 3.2Z"/><path d="M9.4 15.2a2.8 2.8 0 0 0 2.6 1.9"/></svg>
                   </span>
-                  <span class="manage-copy"><strong>Water goal</strong><span>Every day · Anytime · Reminder on</span><small>Active</small></span>
+                  <span class="manage-copy"><strong>Water</strong><span>Every day · Anytime · Reminder on</span><small>Active</small></span>
                   <span class="manage-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
                 </button>
 
@@ -2122,7 +2474,7 @@
                   <span class="manage-icon warm">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.8 4.2c1.3 1.2 1.4 3.6.2 5S5.5 10.7 4.5 9.4 4.3 6 5.6 4.8s2.1-1.5 3.2-.6ZM15.2 13.3c1.3 1.2 1.4 3.6.2 5s-3.5 1.5-4.5.2-.2-3.4 1.1-4.6 2.1-1.5 3.2-.6Z"/></svg>
                   </span>
-                  <span class="manage-copy"><strong>10K steps</strong><span>Every day · Anytime · Reminder off</span><small>Active</small></span>
+                  <span class="manage-copy"><strong>Walk</strong><span>Every day · Anytime · Reminder off</span><small>Active</small></span>
                   <span class="manage-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
                 </button>
               </div>
@@ -2159,7 +2511,7 @@
                 <button class="preview-icon-btn neutral" id="previewIcon" type="button" onclick="openIconPicker()" aria-label="Choose habit icon and color"></button>
                 <div class="preview-copy">
                   <strong id="previewName">Your new habit</strong>
-                  <span id="previewSchedule">Every day · Anytime</span>
+                  <span id="previewContext">Anytime</span>
                 </div>
                 <span class="preview-check" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
@@ -2172,6 +2524,18 @@
                 <div class="suggestion-note" id="suggestionNote">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4"/><path d="M8.2 14.5A6 6 0 1 1 15.8 14.5C14.7 15.3 14 16.1 14 18h-4c0-1.9-.7-2.7-1.8-3.5Z"/></svg>
                   <span>Steady suggests an icon and color locally as you type.</span>
+                </div>
+              </section>
+
+              <section class="form-section">
+                <div class="field-label-row">
+                  <label class="form-label" for="goalNoteInput">Goal or note</label>
+                  <span class="optional-label">Optional</span>
+                </div>
+                <input class="goal-note-input" id="goalNoteInput" maxlength="56" placeholder="e.g. 2.5 L water" autocomplete="off" aria-describedby="goalNoteHelp goalNoteCount" oninput="handleGoalNoteInput()" />
+                <div class="field-help">
+                  <span id="goalNoteHelp">A short target or personal reminder. It adds context only — completion stays done or not done.</span>
+                  <span class="field-count" id="goalNoteCount">0 / 56</span>
                 </div>
               </section>
 
@@ -2307,8 +2671,11 @@
     const manageHabits = document.getElementById('manageHabits');
     const habitEditor = document.getElementById('habitEditor');
     const habitNameInput = document.getElementById('habitNameInput');
+    const goalNoteInput = document.getElementById('goalNoteInput');
     const previewIcon = document.getElementById('previewIcon');
     const pickerBackdrop = document.getElementById('pickerBackdrop');
+    const APPEARANCE_KEY = 'steadyAppearance';
+    const systemAppearance = window.matchMedia('(prefers-color-scheme: dark)');
     const iconSvgs = {
       drop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2S6.5 9.4 6.5 14a5.5 5.5 0 0 0 11 0C17.5 9.4 12 3.2 12 3.2Z"/><path d="M9.4 15.2a2.8 2.8 0 0 0 2.6 1.9"/></svg>',
       dumbbell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8v8M18 8v8M3.5 10v4M20.5 10v4M6 12h12"/></svg>',
@@ -2318,11 +2685,11 @@
       leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>'
     };
     const habits = {
-      exercise: { name: 'Exercise', icon: 'dumbbell', color: 'sage', days: 'weekdays', scheduleMode: 'time', time: '07:30', cue: 'After waking', cueReminderTime: '07:30', reminder: true },
-      protein: { name: 'Protein goal', icon: 'protein', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '12:00', reminder: true },
-      water: { name: 'Water goal', icon: 'drop', color: 'blue', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '10:00', reminder: true },
-      supplements: { name: 'Supplements', icon: 'bottle', color: 'lilac', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'After breakfast', cueReminderTime: '08:30', reminder: true },
-      steps: { name: '10K steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false }
+      exercise: { name: 'Exercise', goalNote: '30 minutes', icon: 'dumbbell', color: 'sage', days: 'weekdays', scheduleMode: 'time', time: '07:30', cue: 'After waking', cueReminderTime: '07:30', reminder: true },
+      protein: { name: 'Protein', goalNote: '125 g protein', icon: 'protein', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '12:00', reminder: true },
+      water: { name: 'Water', goalNote: '2.5 L water', icon: 'drop', color: 'blue', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '10:00', reminder: true },
+      supplements: { name: 'Supplements', goalNote: '', icon: 'bottle', color: 'lilac', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'After breakfast', cueReminderTime: '08:30', reminder: true },
+      steps: { name: 'Walk', goalNote: '10,000 steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false }
     };
     const avatarOptions = ['🌿', '⛰️', '🌙', '☀️', '🪷'];
     const STREAK_SHIELD_PRICE = 40;
@@ -2339,6 +2706,7 @@
     let selectedIcon = 'leaf';
     let selectedColor = 'neutral';
     let manualIconChoice = false;
+    let appearancePreference = document.documentElement.dataset.appearance || 'system';
 
     habitList.querySelectorAll('.habit-row.complete').forEach(row => {
       row.setAttribute('aria-disabled', 'true');
@@ -2641,6 +3009,8 @@
 
       if (mode === 'add') {
         habitNameInput.value = '';
+        goalNoteInput.value = '';
+        updateGoalNoteCounter();
         applyDayPreset('everyday');
         document.getElementById('preferredTime').value = '';
         document.getElementById('routineCue').value = 'Anytime';
@@ -2659,6 +3029,8 @@
       const habit = habits[key] || habits.exercise;
       editingHabitKey = key in habits ? key : 'exercise';
       habitNameInput.value = habit.name;
+      goalNoteInput.value = habit.goalNote || '';
+      updateGoalNoteCounter();
       applyDayPreset(habit.days);
       document.getElementById('preferredTime').value = habit.time;
       document.getElementById('routineCue').value = habit.cue;
@@ -2680,6 +3052,15 @@
       updatePreview();
     }
 
+    function handleGoalNoteInput() {
+      updateGoalNoteCounter();
+      updatePreview();
+    }
+
+    function updateGoalNoteCounter() {
+      document.getElementById('goalNoteCount').textContent = `${goalNoteInput.value.length} / 56`;
+    }
+
     function selectedDays() {
       return [...document.querySelectorAll('.day-chip.active')].map(chip => chip.dataset.day);
     }
@@ -2698,21 +3079,31 @@
       updatePreview();
     }
 
+    function scheduleLabel(mode = scheduleMode, time = document.getElementById('preferredTime').value, cue = document.getElementById('routineCue').value) {
+      if (mode === 'time') {
+        return time
+          ? new Date(`2000-01-01T${time}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+          : 'Choose a time';
+      }
+      return cue;
+    }
+
+    function habitSubtitle(goalNote, mode = scheduleMode, time, cue) {
+      return [goalNote && goalNote.trim(), scheduleLabel(mode, time, cue)].filter(Boolean).join(' · ');
+    }
+
     function updatePreview() {
       const name = habitNameInput.value.trim();
       const days = selectedDays();
       const time = document.getElementById('preferredTime').value;
-      let daysCopy = `${days.length} days a week`;
-      if (days.length === 7) daysCopy = 'Every day';
-      if (days.join(',') === 'Mon,Tue,Wed,Thu,Fri') daysCopy = 'Weekdays';
-      const scheduleCopy = scheduleMode === 'time'
-        ? time
-          ? new Date(`2000-01-01T${time}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-          : 'Choose a time'
-        : document.getElementById('routineCue').value;
 
       document.getElementById('previewName').textContent = name || 'Your new habit';
-      document.getElementById('previewSchedule').textContent = `${daysCopy} · ${scheduleCopy}`;
+      document.getElementById('previewContext').textContent = habitSubtitle(
+        goalNoteInput.value,
+        scheduleMode,
+        time,
+        document.getElementById('routineCue').value
+      );
       document.getElementById('editorSave').disabled =
         !name || days.length === 0 || (scheduleMode === 'time' && !time);
     }
@@ -2780,6 +3171,7 @@
           habits[editingHabitKey] = {
             ...habits[editingHabitKey],
             name,
+            goalNote: goalNoteInput.value.trim(),
             icon: selectedIcon,
             color: selectedColor,
             days: selectedDays().length === 7 ? 'everyday' : 'weekdays',
@@ -2790,6 +3182,7 @@
             reminder: document.getElementById('reminderToggle').classList.contains('on')
           };
           updateManageRow(editingHabitKey);
+          updateTodayRow(editingHabitKey);
         }
         closeHabitEditor();
         showToast(`${name} updated on this device.`);
@@ -2815,10 +3208,63 @@
         `${daysCopy} · ${scheduleCopy} · Reminder ${habit.reminder ? 'on' : 'off'}`;
     }
 
+    function updateTodayRow(key) {
+      const habit = habits[key];
+      const row = document.getElementById(`todayRow-${key}`);
+      if (!habit || !row) return;
+      row.querySelector('.habit-icon').className = `habit-icon ${habit.color}`;
+      row.querySelector('.habit-icon').innerHTML = iconSvgs[habit.icon];
+      row.querySelector('.habit-title').textContent = habit.name;
+      row.querySelector('.habit-subtitle').textContent = habitSubtitle(
+        habit.goalNote,
+        habit.scheduleMode,
+        habit.time,
+        habit.cue
+      );
+    }
+
     function archiveHabit() {
       const name = habitNameInput.value.trim() || 'Habit';
       closeHabitEditor();
       showToast(`${name} archived. You can restore it later.`);
+    }
+
+    function applyAppearance(preference, { persist = false, announce = false } = {}) {
+      if (!['system', 'light', 'dark'].includes(preference)) preference = 'system';
+      appearancePreference = preference;
+      const resolvedTheme =
+        preference === 'system' ? (systemAppearance.matches ? 'dark' : 'light') : preference;
+
+      document.documentElement.dataset.appearance = preference;
+      document.documentElement.dataset.theme = resolvedTheme;
+      document.querySelectorAll('.appearance-option').forEach(option => {
+        const selected = option.id === `appearance-${preference}`;
+        option.setAttribute('aria-checked', String(selected));
+        option.tabIndex = selected ? 0 : -1;
+      });
+
+      const status = document.getElementById('appearanceStatus');
+      if (status) {
+        status.textContent = preference === 'system'
+          ? `Following your device · ${resolvedTheme === 'dark' ? 'Dark' : 'Light'} right now`
+          : `${preference === 'dark' ? 'Dark' : 'Light'} stays selected on this device`;
+      }
+
+      if (persist) {
+        try { localStorage.setItem(APPEARANCE_KEY, preference); } catch {}
+      }
+      if (announce) {
+        const label = preference === 'system' ? 'System default' : preference === 'dark' ? 'Dark' : 'Light';
+        showToast(`${label} appearance selected.`);
+      }
+    }
+
+    function setAppearance(preference) {
+      applyAppearance(preference, { persist: true, announce: true });
+    }
+
+    function handleSystemAppearanceChange() {
+      if (appearancePreference === 'system') applyAppearance('system');
     }
 
     function cycleAvatar() {
@@ -2880,7 +3326,27 @@
       }
     });
 
+    document.querySelectorAll('.appearance-option').forEach((option, index, options) => {
+      option.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1;
+        const next = options[(index + direction + options.length) % options.length];
+        next.focus();
+        setAppearance(next.id.replace('appearance-', ''));
+      });
+    });
+    if (systemAppearance.addEventListener) {
+      systemAppearance.addEventListener('change', handleSystemAppearanceChange);
+    } else {
+      systemAppearance.addListener(handleSystemAppearanceChange);
+    }
+    window.addEventListener('storage', event => {
+      if (event.key === APPEARANCE_KEY) applyAppearance(event.newValue || 'system');
+    });
+
     setPreviewIcon('leaf', 'neutral');
+    applyAppearance(appearancePreference);
     updateShopState();
   </script>
 </body>

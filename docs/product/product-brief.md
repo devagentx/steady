@@ -38,6 +38,7 @@ their daily progress without creating an account.
 
 - Android-first application
 - Daily and selected-weekday recurring habits
+- Optional short Goal or note text on every habit for display-only context
 - Maximum of seven non-archived habits
 - Unlimited archived habits
 - Daily checklist generated from the routine
@@ -46,6 +47,7 @@ their daily progress without creating an account.
 - Steady Coins as personal motivation
 - Steady Coins shop with a one-day Streak Shield
 - Local profile with a display name and selectable icon
+- Appearance setting with System default, Light, and Dark choices
 - User-initiated email feedback to `ceo@monklabs.ai`
 - Insights destination presented as Coming soon
 - Temporary habit or routine pause
@@ -105,8 +107,24 @@ data migration, and user value have been decided.
 - Users must be told that uninstalling the app may remove their data until
   backup or export exists.
 
+## Appearance
+
+- System default is the initial appearance choice and follows the device theme.
+- Users may explicitly choose Light or Dark, and that preference persists
+  locally.
+- Both themes retain Steady's warm, calm, premium hierarchy and accessible
+  contrast across every screen and state.
+- Android should use platform-native theme observation and preference storage.
+  Steady uses its intentional light and dark palettes; this decision does not
+  enable arbitrary Material dynamic color.
+
 ## Success criteria
 
 The MVP succeeds when users can understand today's routine immediately,
 complete it with minimal interaction, and return because the experience feels
 helpful rather than demanding.
+
+A Goal or note may describe a target such as `125 g protein`, `2.5 L water`, or
+`10,000 steps`, or hold a short personal reminder. It is optional display-only
+context: Steady does not parse it, record partial quantities, show progress
+controls, or change the habit's binary, irreversible-for-the-day completion.

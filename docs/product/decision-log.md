@@ -6,7 +6,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | ID | Status | Decision | Notes |
 |---|---|---|---|
 | P-001 | Confirmed | Steady is a recurring habit tracker, not a general task manager. | One-off tasks and projects are outside the MVP. |
-| P-002 | Confirmed | Habit completion is binary. | Quantities may describe the target, but the MVP never displays or records partial progress such as steps so far or water consumed. |
+| P-002 | Confirmed | Habit completion is binary and irreversible for the day. | Every habit may have an optional short Goal or note for display-only context, including targets such as `125 g protein`, `2.5 L water`, or `10,000 steps`. Steady never parses it or displays/records partial progress, quantity controls, or numeric logs. |
 | P-003 | Confirmed | The MVP works on-device without required sign-in. | Cloud sync is outside MVP scope. |
 | P-004 | Confirmed | The Today checklist is the main home-screen content. | Rewards and analytics are supporting content. |
 | P-005 | Confirmed | The initial navigation has Today, Insights, and Settings. | Habit management opens from Today. |
@@ -29,11 +29,12 @@ entry when a decision changes and preserve the previous direction in its notes.
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |
-| D-004 | Confirmed | Adding and editing a habit uses a focused full-screen form with a live row preview. | The form includes name, icon/color, active days, preferred time, and reminder toggle. |
+| D-004 | Confirmed | Adding and editing a habit uses a focused full-screen form with a live row preview. | The form includes name, optional Goal or note, icon/color, active days, preferred time or routine cue, and reminder toggle. Goal or note is display-only context and does not change binary completion. |
 | D-005 | Confirmed | Habit names locally suggest an icon and color while the user types. | Tapping the icon opens manual selection; a manual choice overrides future automatic suggestions. |
 | D-006 | Confirmed | A habit schedule uses either an exact time or a routine cue. | Initial cues include Anytime, After waking, After breakfast, After lunch, After dinner, and Before bed; Steady does not infer when those events occur. |
 | D-007 | Confirmed | Completing every scheduled habit triggers one brief whole-day celebration. | The animation is restrained, appears once for the day, shows earned Steady Coins, and respects reduced motion. |
 | D-008 | Confirmed | Empty-state Add your first habit opens the creation form directly. | Show the Add/manage choice only when at least one habit exists. |
+| D-009 | Confirmed | Settings offers System default, Light, and Dark appearance choices. | System default follows device appearance and reacts while selected; explicit Light or Dark persists locally. All screens and states use intentional Steady palettes with accessible contrast. This does not imply arbitrary Material dynamic color. |
 | A-001 | Confirmed | The repository remains limited to `app` and `core:designsystem` during design exploration. | Add modules only after a real vertical slice establishes a boundary. |
 
 ## Open decisions
@@ -42,7 +43,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 - Final Streak Shield price and inventory limits
 - Accidental completion protection for one-way completion
 - Pause-day consistency formula
-- Final typography and dark theme
+- Final typography
 - Habit creation and editing flow
 - Future Insights screen hierarchy and metrics
 - Premium pricing and downgrade behavior

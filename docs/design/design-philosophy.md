@@ -81,6 +81,40 @@ These values are provisional until the design is finalized.
 | Border | `#E6E3DA` | Definition without heavy shadow |
 | Warm highlight | `#C99A62` | Restrained streak or reward accent |
 
+### Appearance
+
+Steady supports three appearance choices:
+
+- **System default** — the initial choice; follows the current device theme and
+  reacts when the device changes between light and dark.
+- **Light** — keeps the warm off-white canvas and deep sage hierarchy.
+- **Dark** — uses warm green-black canvases, softly lifted charcoal-sage
+  surfaces, light sage accents, and restrained warm highlights.
+
+An explicit Light or Dark choice persists locally. Every destination, editor,
+sheet, dialog, toast, empty state, completed state, shop state, and celebration
+must use the selected appearance; dark theme is not a Settings-only preview.
+Theme changes preserve semantic hierarchy and readable contrast rather than
+simply inverting colors.
+
+Working dark palette:
+
+| Role | Value | Intent |
+|---|---|---|
+| Background | `#151A17` | Warm green-black canvas |
+| Surface | `#1E2521` | Quiet lifted content surface |
+| Primary sage text/accent | `#9BC8B0` | Accessible calm accent on dark surfaces |
+| Primary filled action | `#527D69` | Stable action fill with light foreground |
+| Primary text | `#F1EEE6` | Warm near-white |
+| Secondary text | `#ADB6AF` | Readable subdued context |
+| Border | `#39413C` | Low-noise separation |
+| Warm highlight | `#DDB37E` | Restrained reward emphasis |
+
+On Android, implement appearance with platform-native theme observation and
+persisted app preferences. Use Steady's deliberate semantic light/dark color
+tokens; do not enable Material dynamic color unless a separate confirmed
+decision defines how generated colors preserve the brand and accessibility.
+
 ### Shape
 
 - Habit rows use comfortable rounded corners around 16–20dp.
@@ -117,6 +151,12 @@ card or error state.
 - The entire row is a completion target.
 - Each row contains an icon, title, optional supporting detail, and large check
   control.
+- Supporting detail composes the optional Goal or note first and the routine
+  cue or time second, separated by a quiet middle dot. Omit either part when it
+  is absent rather than reserving space or adding another row.
+- Goal or note is display-only context. It may state a target or personal
+  reminder, but it must never become a progress control, partial quantity
+  display, or numeric log.
 - Incomplete habits appear first.
 - A completed habit is struck through and greyed out.
 - Completion is final for the current day.
@@ -148,14 +188,20 @@ Habit creation and editing use the same focused full-screen composition:
 1. Top app bar with cancel/back and save
 2. Live habit-row preview
 3. Habit name
-4. Icon and color selection
-5. Active-day schedule
-6. Exact time or routine cue
-7. Reminder toggle
-8. Archive action when editing
+4. Optional Goal or note
+5. Icon and color selection
+6. Active-day schedule
+7. Exact time or routine cue
+8. Reminder toggle
+9. Archive action when editing
 
 The form should feel like shaping one small practice, not configuring a complex
 automation.
+
+Goal or note uses a concise single-line field with a sensible character limit.
+Its help text must explain that it adds context only and that completion remains
+done or not done. The live preview and saved Today row show the value without
+obscuring the habit's routine cue or time.
 
 When no habits exist, Add your first habit opens this form directly. Do not show
 a management choice that has no valid management action.

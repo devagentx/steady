@@ -7,6 +7,14 @@ reminder suggestions. The MVP keeps core data on-device without a Steady
 backend; optional external APIs may provide contextual information such as
 weather. Insights is initially presented as Coming soon.
 
+Each habit may also carry an optional short Goal or note, shown only as
+contextual text. It does not introduce quantity tracking: daily completion
+remains binary and cannot be undone after completion.
+
+Appearance supports System default, Light, and Dark. The preference is local,
+and both palettes preserve Steady's intentional visual identity rather than
+opting into arbitrary Material dynamic color.
+
 ## Project direction
 
 - [Product brief](docs/product/product-brief.md)

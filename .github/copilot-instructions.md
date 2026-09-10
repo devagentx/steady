@@ -18,6 +18,13 @@ unused dependencies.
 Steady must feel calm, warm, premium, accessible, and non-judgmental. The Today
 checklist is the primary experience. Completed habits are final for that day,
 greyed out, struck through, and moved below incomplete habits.
+An optional short Goal or note may provide display-only context on a habit,
+including quantity-shaped text such as `2.5 L water`; it must never create
+partial tracking, progress controls, numeric logging, or reversible completion.
+Appearance has three confirmed modes: System default, Light, and Dark. Apply
+the chosen Steady palette to every screen and state, persist explicit choices
+locally, and follow device changes only in System mode. Use Android-native
+theme handling; do not enable arbitrary Material dynamic color by implication.
 
 The MVP is local-first, has no required account or Steady backend, and supports up to seven
 non-archived habits, and treats Steady Coins as non-redeemable personal

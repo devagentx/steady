@@ -51,7 +51,15 @@ clear ownership boundary and an approved product need.
   motion.
 - Completed habits are struck through, greyed out, locked for the day, and
   moved below incomplete habits.
+- Every habit may have an optional short Goal or note. Treat it as display-only
+  context beside the routine cue/time; never add partial quantity tracking,
+  progress controls, numeric logging, or reversible daily completion.
 - Accessibility and reduced-motion behavior are requirements, not polish.
+- Preserve the confirmed System default, Light, and Dark appearance modes
+  across every screen and state. Store explicit choices locally and react to
+  device theme changes only while System default is selected.
+- Implement Android appearance with platform-native theme APIs and Steady's
+  semantic light/dark tokens. Do not infer approval for Material dynamic color.
 - Treat `docs/design/prototype/index.html` as the interactive visual reference.
   Open it in a browser before changing Android UI.
 - Do not copy HTML/CSS directly into Compose. Recreate the documented intent
