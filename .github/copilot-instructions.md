@@ -36,6 +36,23 @@ such as weather, but must not receive private product data. Insights is a
 Coming soon page; Settings supports a local display name and profile icon.
 Future subscriptions and real-world rewards are not MVP scope.
 
+Habit management has two distinct confirmed actions: Archive is reversible,
+uses neutral/warm presentation, and frees an active slot; Delete is permanent,
+uses restrained red danger styling, and requires an explicit confirmation that
+names the habit. Reset all data must use a high-friction confirmation, erase
+habits, profile, onboarding completion, completion/progress, streaks, Coins,
+Shields, and appearance, then reopen first-launch onboarding with System
+default appearance.
+The browser prototype simulates these rules with `localStorage`; that storage
+implementation is not Android production architecture.
+
+Fresh launch and Reset all data show onboarding before Today. Require a
+non-empty local display name; icon selection is optional with a calm default.
+State clearly that the profile stays on-device and is not an account. Persist
+completion, name, and icon locally, then open empty Today with Add your first
+habit and no seeded demo habits. Any prototype sample-data path must be
+explicitly labeled prototype-only.
+
 Use Kotlin, Jetpack Compose, Material 3, JDK 17, and the checked-in Gradle
 wrapper. Add libraries only when the same change uses them. Update the decision
 log whenever product behavior changes.

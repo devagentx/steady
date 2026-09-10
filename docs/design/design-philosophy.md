@@ -181,6 +181,27 @@ an online account. The app may use optional external services for contextual
 information, but those services must remain visually and technically separate
 from the user's private habit data.
 
+## First-launch onboarding
+
+On a true fresh launch, show one focused onboarding screen before Today:
+
+1. Calm welcome and concise explanation
+2. Required display-name field
+3. Optional profile-icon choices with a calm default already selected
+4. Clear on-device privacy statement: this is not an account
+5. Continue action enabled only for a non-empty trimmed name
+
+Support keyboard submission, visible validation, programmatic initial focus,
+accessible field/radio labels, and restrained or removed motion according to
+the system preference. The screen uses the resolved System, Light, or Dark
+Steady palette.
+
+After success, persist onboarding completion, name, and icon locally and move
+to the empty Today state with the direct Add your first habit action. Do not
+seed sample habits. A design prototype may provide a separate, explicitly
+labeled prototype-only sample-data action; it must not silently represent
+production first-launch behavior.
+
 ## Add and edit habit form
 
 Habit creation and editing use the same focused full-screen composition:
@@ -193,7 +214,8 @@ Habit creation and editing use the same focused full-screen composition:
 6. Active-day schedule
 7. Exact time or routine cue
 8. Reminder toggle
-9. Archive action when editing
+9. Reversible Archive action when editing
+10. Separate permanent Delete action when editing
 
 The form should feel like shaping one small practice, not configuring a complex
 automation.
@@ -215,6 +237,24 @@ Scheduling should support either an exact clock time or a familiar routine cue
 such as After waking, After breakfast, After lunch, After dinner, Before bed, or
 Anytime. A cue describes the user's intention; the app must not imply that it
 can detect when the real-world event occurred.
+
+## Data management and destructive actions
+
+- Archive is a calm, reversible management action. Use neutral or warm styling,
+  move the habit out of Today, and explain that it can be restored.
+- Delete is permanent and must never be combined with Archive. Use restrained,
+  readable red only for the delete control and confirmation. The dialog names
+  the habit and states that removal cannot be undone.
+- Reset all data belongs in a clearly labeled Data and privacy area in
+  Settings. Use a two-step explicit confirmation and enumerate exactly what is
+  erased: active and archived habits, profile, onboarding completion,
+  completion/progress, streaks, Steady Coins, Streak Shields, and appearance
+  preference.
+- After reset, close overlays, use System default appearance, clear the local
+  profile, zero rewards, and immediately show first-launch onboarding. After
+  the user completes it, show empty Today. Do not silently seed example habits.
+- Danger styling must maintain readable contrast in System, Light, and Dark and
+  must not leak into completion, missed-day, or archive interactions.
 
 ## Product voice
 

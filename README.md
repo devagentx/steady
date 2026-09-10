@@ -25,6 +25,10 @@ opting into arbitrary Material dynamic color.
 
 The interactive prototype is deployed through GitHub Pages for design review.
 It is a visual specification, not a web version of the production Android app.
+Its browser-only simulation now persists mutable habits and supports add, edit,
+reversible archive/restore, permanent delete, and reset-all-data flows. These
+interactions demonstrate confirmed product rules, but their `localStorage`
+implementation is prototype scaffolding rather than Android production code.
 
 ## Current status
 
@@ -32,6 +36,15 @@ The product behavior and visual direction are documented and represented in the
 interactive prototype. The Android application is still a minimal runnable
 shell; the prototype screens and local product data have not yet been
 implemented in Compose.
+
+Confirmed management behavior distinguishes reversible Archive from permanent
+Delete. Reset all data erases habits, profile, completion/progress, streaks,
+Steady Coins, Streak Shields, appearance, and onboarding completion, then
+reopens first-launch onboarding using System default appearance.
+
+First launch requires a non-empty local display name, offers an optional profile
+icon with a calm default, explains that the profile is on-device and not an
+account, and then opens an empty Today list with Add your first habit.
 
 ## Technology
 

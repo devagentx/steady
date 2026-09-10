@@ -81,6 +81,17 @@ clear ownership boundary and an approved product need.
   integrations unless the task explicitly moves them into scope.
 - Preserve the calm, premium, non-judgmental product voice.
 - Never introduce dark patterns, guilt-driven copy, or excessive gamification.
+- Archive is reversible and neutral/warm. Delete is a separate permanent,
+  explicitly confirmed action using restrained danger styling.
+- Reset all data is a high-friction destructive action. It erases all local
+  product data and preferences and reopens first-launch onboarding using System
+  default appearance.
+- A true first launch requires a non-empty local display name before Today.
+  Profile icon selection is optional and has a calm default. Explain that the
+  profile stays on-device and is not an account; completion opens empty Today
+  with Add your first habit and must not seed demo habits.
+- Prototype sample data must be entered through an explicitly labeled
+  prototype-only control, never a silent production-behavior bypass.
 
 ## Design guardrails
 
@@ -102,6 +113,10 @@ clear ownership boundary and an approved product need.
   semantic light/dark tokens. Do not infer approval for Material dynamic color.
 - Treat `docs/design/prototype/index.html` as the interactive visual reference.
   Open it in a browser before changing Android UI.
+- The prototype uses browser `localStorage` to simulate mutable local data,
+  including add/edit/archive/restore/delete/reset flows. That persistence
+  mechanism is prototype-only; preserve the confirmed behavior when Android
+  implementation begins, but do not port the web storage code.
 - Do not copy HTML/CSS directly into Compose. Recreate the documented intent
   using Android-native components and patterns.
 

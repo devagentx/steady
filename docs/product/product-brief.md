@@ -41,12 +41,15 @@ their daily progress without creating an account.
 - Optional short Goal or note text on every habit for display-only context
 - Maximum of seven non-archived habits
 - Unlimited archived habits
+- Reversible habit archive and restore
+- Separately confirmed permanent habit deletion
 - Daily checklist generated from the routine
 - Binary habit completion
 - Streaks
 - Steady Coins as personal motivation
 - Steady Coins shop with a one-day Streak Shield
 - Local profile with a display name and selectable icon
+- First-launch onboarding requiring a local display name
 - Appearance setting with System default, Light, and Dark choices
 - User-initiated email feedback to `ceo@monklabs.ai`
 - Insights destination presented as Coming soon
@@ -106,6 +109,37 @@ data migration, and user value have been decided.
 - Notification content should eventually support a privacy-sensitive mode.
 - Users must be told that uninstalling the app may remove their data until
   backup or export exists.
+- Users can reset all local data. Reset removes habits (active and archived),
+  profile, completion/progress, streaks, Steady Coins, Streak Shields, and
+  appearance preference, then reopens first-launch onboarding with System
+  default appearance. It cannot be undone.
+
+## First launch
+
+- A true fresh launch shows focused onboarding before Today.
+- A non-empty display name is required to continue.
+- Profile icon selection is optional. Steady provides a calm default icon and
+  allows the user to choose another during onboarding.
+- The screen clearly explains that the profile stays on the device, is not an
+  account, and is not uploaded.
+- Successful onboarding persists completion, name, and selected/default icon
+  locally, then opens the empty Today state with Add your first habit.
+- Fresh launch and Reset all data never seed or restore example habits.
+- The web prototype may expose an explicitly labeled prototype-only sample-data
+  path for design review; Android production behavior must not bypass onboarding.
+
+## Data management
+
+- Archive is reversible, removes a habit from Today, and frees one of the seven
+  active slots. Archived habits remain available to restore or permanently
+  delete.
+- Delete is permanent and separate from Archive. Confirmation names the habit
+  and explains that its local history is removed.
+- Reset all data is intentionally high friction and requires two explicit
+  confirmation steps.
+- The interactive web prototype simulates these confirmed rules with browser
+  persistence. The browser storage mechanism itself is not an Android product
+  or architecture decision.
 
 ## Appearance
 

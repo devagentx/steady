@@ -16,6 +16,16 @@
       document.documentElement.dataset.appearance = preference;
       document.documentElement.dataset.theme =
         preference === 'system' ? (systemDark ? 'dark' : 'light') : preference;
+
+      let onboarded = false;
+      try {
+        onboarded = localStorage.getItem('steadyOnboardingCompleteV1') === 'true';
+        if (!onboarded) {
+          const legacyData = JSON.parse(localStorage.getItem('steadyPrototypeDataV2') || 'null');
+          onboarded = Boolean(legacyData?.profileName?.trim());
+        }
+      } catch {}
+      document.documentElement.dataset.onboarding = onboarded ? 'complete' : 'pending';
     })();
   </script>
   <style>
@@ -32,7 +42,9 @@
       --border: #e6e3da;
       --warm: #c99a62;
       --warm-soft: #f4e8d7;
-      --danger: #9a645f;
+      --danger: #9b3f3a;
+      --danger-dark: #7f302c;
+      --danger-soft: #f8e8e6;
       --primary-fill: var(--primary);
       --on-primary: #fffdf7;
       --input: #fffefa;
@@ -64,6 +76,8 @@
       --warm: #ddb37e;
       --warm-soft: #3b3023;
       --danger: #e0a09a;
+      --danger-dark: #f0b1aa;
+      --danger-soft: #3f2927;
       --primary-fill: #527d69;
       --on-primary: #fbfdfb;
       --input: #202722;
@@ -1250,6 +1264,7 @@
     .sheet-option svg { width: 18px; height: 18px; color: var(--primary); }
     .sheet-option span { font-size: 12px; font-weight: 750; }
     .sheet-option small { display: block; margin-top: 2px; color: var(--secondary); font-size: 9px; font-weight: 500; }
+    .sheet-option:disabled { opacity: .52; cursor: default; }
 
     .manage-habits {
       position: absolute;
@@ -1416,6 +1431,50 @@
     }
     .archived-entry span { display: flex; align-items: center; gap: 8px; }
     .archived-entry svg { width: 15px; height: 15px; }
+    .archived-section {
+      display: none;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .archived-section.has-items { display: block; }
+    .archived-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 0 3px 9px;
+    }
+    .archived-title strong { font-size: 11px; }
+    .archived-title span { color: var(--secondary); font-size: 8px; }
+    .archived-list { display: grid; gap: 8px; }
+    .archived-row {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--surface) 70%, transparent);
+    }
+    .archived-row .manage-icon { width: 40px; height: 40px; opacity: .78; }
+    .archived-actions { display: flex; gap: 5px; }
+    .small-action {
+      min-height: 34px;
+      padding: 0 9px;
+      border: 1px solid rgba(66, 107, 90, .2);
+      border-radius: 11px;
+      color: var(--primary);
+      background: var(--sage-soft);
+      cursor: pointer;
+      font-size: 8px;
+      font-weight: 800;
+    }
+    .small-action.danger {
+      color: var(--danger);
+      border-color: color-mix(in srgb, var(--danger) 28%, transparent);
+      background: var(--danger-soft);
+    }
 
     .habit-editor {
       position: absolute;
@@ -1748,19 +1807,268 @@
       line-height: 1.45;
     }
     .device-note svg { width: 13px; height: 13px; flex: 0 0 auto; color: var(--primary); }
-    .archive-btn {
+    .habit-management-actions {
       display: none;
+      gap: 8px;
+    }
+    .habit-editor.edit-mode .habit-management-actions { display: grid; }
+    .archive-btn,
+    .delete-btn {
       width: 100%;
       padding: 11px;
-      color: var(--danger);
-      border: 1px solid rgba(154, 100, 95, .18);
       border-radius: 14px;
-      background: transparent;
       cursor: pointer;
       font-size: 9px;
       font-weight: 800;
     }
-    .habit-editor.edit-mode .archive-btn { display: block; }
+    .archive-btn {
+      color: #76572f;
+      border: 1px solid rgba(201, 154, 98, .36);
+      background: var(--warm-soft);
+    }
+    .delete-btn {
+      color: var(--danger);
+      border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+      background: var(--danger-soft);
+    }
+    .data-privacy-card {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid color-mix(in srgb, var(--danger) 25%, var(--border));
+      border-radius: 19px;
+      background: color-mix(in srgb, var(--danger-soft) 42%, var(--surface));
+    }
+    .data-privacy-card h2 { margin: 0 0 5px; font-size: 12px; }
+    .data-privacy-card p { margin: 0 0 12px; color: var(--secondary); font-size: 9px; line-height: 1.5; }
+    .reset-data-btn {
+      width: 100%;
+      min-height: 42px;
+      color: var(--danger);
+      border: 1px solid color-mix(in srgb, var(--danger) 34%, transparent);
+      border-radius: 13px;
+      background: var(--danger-soft);
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 850;
+    }
+    .confirmation-backdrop {
+      position: absolute;
+      z-index: 30;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(24, 29, 25, .48);
+      backdrop-filter: blur(4px);
+    }
+    .confirmation-backdrop.open { display: grid; animation: fadeIn .18s ease both; }
+    .confirmation-dialog {
+      width: 100%;
+      max-width: 330px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      animation: dialogIn .22s var(--ease) both;
+    }
+    .confirmation-dialog h2 { margin: 0 0 8px; font-family: Georgia, serif; font-size: 20px; }
+    .confirmation-dialog p { margin: 0 0 12px; color: var(--secondary); font-size: 10px; line-height: 1.55; }
+    .confirmation-dialog ul { margin: 0 0 14px; padding-left: 18px; color: var(--secondary); font-size: 9px; line-height: 1.55; }
+    .confirmation-input {
+      width: 100%;
+      height: 43px;
+      margin-bottom: 12px;
+      padding: 0 12px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: var(--input);
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+    .confirmation-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .confirmation-actions button {
+      min-height: 42px;
+      border-radius: 13px;
+      cursor: pointer;
+      font-size: 9px;
+      font-weight: 850;
+    }
+    .cancel-confirm { color: var(--text); border: 1px solid var(--border); background: var(--input); }
+    .danger-confirm { color: #fff; border: 1px solid var(--danger); background: var(--danger); }
+    .danger-confirm:hover { background: var(--danger-dark); }
+    .danger-confirm:disabled { opacity: .42; cursor: default; }
+    .onboarding-screen {
+      position: absolute;
+      z-index: 70;
+      inset: 44px 0 0;
+      display: none;
+      overflow: auto;
+      padding: 27px 22px 34px;
+      background:
+        radial-gradient(circle at 82% 6%, rgba(244, 232, 215, .75), transparent 180px),
+        linear-gradient(180deg, rgba(220, 233, 225, .52), rgba(247, 245, 239, 0) 250px),
+        var(--bg);
+      scrollbar-width: none;
+    }
+    .onboarding-screen::-webkit-scrollbar { display: none; }
+    .onboarding-screen.open { display: block; animation: fadeUp .34s var(--ease) both; }
+    html[data-onboarding="pending"] .app { visibility: hidden; }
+    html[data-onboarding="pending"] .onboarding-screen { display: block; }
+    .onboarding-content { width: min(100%, 330px); margin: 0 auto; }
+    .onboarding-mark {
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 20px;
+      color: var(--primary);
+      border: 1px solid rgba(66, 107, 90, .17);
+      border-radius: 21px;
+      background: var(--sage-light);
+      box-shadow: 0 10px 24px rgba(49, 58, 52, .08);
+    }
+    .onboarding-mark svg { width: 31px; height: 31px; }
+    .onboarding-eyebrow {
+      margin: 0 0 5px;
+      color: var(--secondary);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .onboarding-screen h1 { margin-bottom: 9px; font-size: 28px; }
+    .onboarding-intro {
+      margin: 0 0 22px;
+      color: var(--secondary);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+    .onboarding-field { margin-bottom: 17px; }
+    .onboarding-label-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .onboarding-label-row label,
+    .onboarding-label-row strong { font-size: 10px; font-weight: 850; }
+    .onboarding-label-row span { color: var(--secondary); font-size: 8.5px; font-weight: 700; }
+    .onboarding-name-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 13px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      outline: none;
+      background: var(--input);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .onboarding-name-input:focus {
+      border-color: rgba(66, 107, 90, .62);
+      box-shadow: 0 0 0 3px rgba(66, 107, 90, .1);
+    }
+    .onboarding-name-input[aria-invalid="true"] { border-color: var(--danger); }
+    .onboarding-error {
+      min-height: 15px;
+      margin: 6px 2px 0;
+      color: var(--danger);
+      font-size: 8.5px;
+      line-height: 1.4;
+    }
+    .onboarding-avatar-options {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 7px;
+    }
+    .onboarding-avatar {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--input);
+      cursor: pointer;
+      font-size: 20px;
+      transition: .2s var(--ease);
+    }
+    .onboarding-avatar[aria-checked="true"] {
+      border-color: rgba(66, 107, 90, .42);
+      background: var(--sage-soft);
+      box-shadow: inset 0 0 0 1px rgba(66, 107, 90, .12);
+    }
+    .onboarding-avatar:focus-visible {
+      outline: 3px solid rgba(66, 107, 90, .18);
+      outline-offset: 2px;
+    }
+    .onboarding-privacy {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 3px 0 18px;
+      padding: 12px;
+      color: var(--secondary);
+      border-radius: 15px;
+      background: var(--sage-soft);
+      font-size: 9px;
+      line-height: 1.5;
+    }
+    .onboarding-privacy svg { width: 16px; height: 16px; flex: 0 0 auto; color: var(--primary); }
+    .onboarding-continue {
+      width: 100%;
+      min-height: 47px;
+      color: var(--on-primary);
+      border: 0;
+      border-radius: 15px;
+      background: var(--primary-fill);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .onboarding-continue:disabled {
+      color: #8b918c;
+      background: var(--muted-surface);
+      cursor: default;
+    }
+    .onboarding-theme-note {
+      display: block;
+      margin-top: 9px;
+      color: var(--secondary);
+      font-size: 8px;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .demo-onboarding-path {
+      margin-top: 20px;
+      padding-top: 17px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .demo-onboarding-path span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--secondary);
+      font-size: 8.5px;
+      line-height: 1.45;
+    }
+    .demo-onboarding-btn {
+      min-height: 38px;
+      padding: 0 13px;
+      color: var(--primary);
+      border: 1px solid rgba(66, 107, 90, .24);
+      border-radius: 12px;
+      background: var(--sage-soft);
+      cursor: pointer;
+      font-size: 8.5px;
+      font-weight: 850;
+    }
     .picker-backdrop {
       position: absolute;
       z-index: 3;
@@ -2018,7 +2326,41 @@
     html[data-theme="dark"] .appearance-option:focus-visible {
       outline-color: rgba(155, 200, 176, .34);
     }
-    html[data-theme="dark"] .archive-btn { border-color: rgba(224, 160, 154, .34); }
+    html[data-theme="dark"] .archive-btn {
+      color: var(--warm);
+      border-color: #654f34;
+      background: var(--warm-soft);
+    }
+    html[data-theme="dark"] .data-privacy-card,
+    html[data-theme="dark"] .confirmation-dialog,
+    html[data-theme="dark"] .archived-row {
+      border-color: var(--border);
+      background: var(--surface);
+    }
+    html[data-theme="dark"] .confirmation-backdrop { background: rgba(5, 8, 6, .68); }
+    html[data-theme="dark"] .onboarding-screen {
+      background:
+        radial-gradient(circle at 82% 6%, rgba(102, 75, 45, .28), transparent 180px),
+        linear-gradient(180deg, rgba(50, 77, 63, .38), rgba(21, 26, 23, 0) 250px),
+        var(--bg);
+    }
+    html[data-theme="dark"] .onboarding-mark {
+      border-color: var(--border);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .24);
+    }
+    html[data-theme="dark"] .onboarding-name-input,
+    html[data-theme="dark"] .onboarding-avatar {
+      color: var(--text);
+      border-color: var(--border);
+      background: var(--input);
+    }
+    html[data-theme="dark"] .onboarding-avatar[aria-checked="true"] {
+      border-color: #4b6d5b;
+      background: var(--sage-soft);
+    }
+    html[data-theme="dark"] .onboarding-avatar:focus-visible {
+      outline-color: rgba(155, 200, 176, .34);
+    }
 
     .empty-mode .today-state { display: none; }
     .empty-mode .empty-state { display: block; }
@@ -2092,9 +2434,10 @@
   <main class="stage">
     <div class="showcase">
       <div class="prototype-label">Interactive design prototype · Not the Android app</div>
-      <div class="mode-switch" aria-label="Preview state">
-        <button class="mode-btn active" data-choice="today-primary" onclick="setMode('today', this)">Today</button>
-        <button class="mode-btn" data-choice="first-day-empty" onclick="setMode('empty', this)">First day</button>
+      <div class="mode-switch" id="prototypeViewSwitch" aria-label="Prototype-only preview controls">
+        <button class="mode-btn active" data-choice="today-primary" onclick="setMode('today', this)">Current data</button>
+        <button class="mode-btn" data-choice="first-day-empty" onclick="setMode('empty', this)">Empty state</button>
+        <button class="mode-btn" data-choice="load-sample-demo" onclick="loadDesignDemo(this)">Sample demo</button>
       </div>
 
       <section class="phone-frame" aria-label="Steady Android Today screen concept">
@@ -2119,7 +2462,7 @@
                       24°
                     </span>
                   </div>
-                  <h1>Good morning, Kartik</h1>
+                  <h1>Good morning, <span id="greetingName">Kartik</span></h1>
                 </div>
                 <button class="travel-btn" id="travelButton" aria-label="Travel or pause routines" title="Travel or pause routines" onclick="openTravelSheet()">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -2144,7 +2487,7 @@
                       </button>
                       <div class="metric" title="Current streak">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
-                        <span><b>12</b> days</span>
+                        <span><b id="streakDays">12</b> days</span>
                       </div>
                     </div>
                   </div>
@@ -2267,7 +2610,7 @@
                     </div>
                   </div>
                   <label class="field-label" for="profileName">Display name</label>
-                  <input class="profile-input" id="profileName" value="Kartik" maxlength="24" />
+                  <input class="profile-input" id="profileName" value="Kartik" maxlength="24" placeholder="Your name" />
                   <div class="offline-note">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
                     <span>Your profile and habits stay on this device. Steady does not create an online account or upload this information.</span>
@@ -2298,12 +2641,17 @@
                 </section>
                 <div class="settings-list">
                   <div class="settings-row"><span>Reminders</span><span>On</span></div>
-                  <div class="settings-row"><span>Manage habits</span><span>5 active</span></div>
+                  <button class="settings-row" type="button" onclick="openManageFromSettings()"><span>Manage habits</span><span id="settingsHabitCount">5 active</span></button>
                   <button class="settings-row" type="button" onclick="sendFeedback()">
                     <span>Send feedback</span>
                     <span>ceo@monklabs.ai ↗</span>
                   </button>
                 </div>
+                <section class="data-privacy-card" aria-labelledby="dataPrivacyTitle">
+                  <h2 id="dataPrivacyTitle">Data and privacy</h2>
+                  <p>All prototype data is stored in this browser. Resetting erases it and restarts first-launch onboarding.</p>
+                  <button class="reset-data-btn" type="button" onclick="openResetStepOne()">Reset all data</button>
+                </section>
               </section>
             </div>
 
@@ -2418,9 +2766,9 @@
             </div>
           </div>
 
-          <section class="manage-habits" id="manageHabits" aria-hidden="true" aria-label="Manage habits">
+          <section class="manage-habits" id="manageHabits" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Manage habits">
             <header class="manage-appbar">
-              <button class="editor-nav-btn" type="button" onclick="closeManageHabits()" aria-label="Back to add or manage habits">
+              <button class="editor-nav-btn" id="manageBackButton" type="button" onclick="closeManageHabits()" aria-label="Back to add or manage habits">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                 Back
               </button>
@@ -2434,10 +2782,10 @@
                   <h3>Your rhythm</h3>
                   <p>Choose a habit to adjust its details.</p>
                 </div>
-                <span class="capacity-pill">5 of 7 active</span>
+                <span class="capacity-pill" id="manageCapacity">5 of 7 active</span>
               </div>
 
-              <div class="manage-list">
+              <div class="manage-list" id="manageList">
                 <button class="manage-row" id="manageRow-exercise" type="button" data-choice="edit-exercise" onclick="editHabit('exercise')">
                   <span class="manage-icon sage">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8v8M18 8v8M3.5 10v4M20.5 10v4M6 12h12"/></svg>
@@ -2484,14 +2832,14 @@
                 <span>Habits follow this order on Today. Reordering can be added later without changing how you edit.</span>
               </div>
 
-              <button class="archived-entry" type="button" onclick="showToast('Archived habits are kept safely on this device.')">
-                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16v13H4zM3 4h18v3H3zM9 11h6"/></svg>Archived habits</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
-              </button>
+              <section class="archived-section" id="archivedSection" aria-labelledby="archivedTitle">
+                <div class="archived-title"><strong id="archivedTitle">Archived</strong><span>Does not use an active slot</span></div>
+                <div class="archived-list" id="archivedList"></div>
+              </section>
             </div>
           </section>
 
-          <section class="habit-editor" id="habitEditor" aria-hidden="true" aria-label="Add or edit habit">
+          <section class="habit-editor" id="habitEditor" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Add or edit habit">
             <header class="editor-appbar">
               <button class="editor-nav-btn" type="button" onclick="closeHabitEditor()" aria-label="Cancel and go back">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
@@ -2615,7 +2963,10 @@
                 <span>Habit details and completion history stay on this device. Steady has no account or backend. MVP supports up to 7 active habits — 5 of 7 are currently in use.</span>
               </div>
 
-              <button class="archive-btn" type="button" onclick="archiveHabit()">Archive habit</button>
+              <div class="habit-management-actions">
+                <button class="archive-btn" type="button" onclick="archiveHabit()">Archive habit</button>
+                <button class="delete-btn" type="button" onclick="openDeleteHabitDialog()">Delete habit permanently</button>
+              </div>
             </div>
 
             <div class="picker-backdrop" id="pickerBackdrop" onclick="pickerBackdropClose(event)">
@@ -2642,6 +2993,92 @@
                 </div>
               </div>
             </div>
+          </section>
+
+          <div class="confirmation-backdrop" id="deleteHabitBackdrop" aria-hidden="true">
+            <div class="confirmation-dialog" role="alertdialog" aria-modal="true" aria-labelledby="deleteHabitTitle" aria-describedby="deleteHabitCopy">
+              <h2 id="deleteHabitTitle">Delete this habit?</h2>
+              <p id="deleteHabitCopy"></p>
+              <div class="confirmation-actions">
+                <button class="cancel-confirm" id="cancelDeleteHabit" type="button" onclick="closeDeleteHabitDialog()">Keep habit</button>
+                <button class="danger-confirm" type="button" onclick="confirmDeleteHabit()">Delete permanently</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="confirmation-backdrop" id="resetBackdrop" aria-hidden="true">
+            <div class="confirmation-dialog" role="alertdialog" aria-modal="true" aria-labelledby="resetTitle" aria-describedby="resetCopy">
+              <h2 id="resetTitle">Reset all data?</h2>
+              <div id="resetStepOne">
+                <p id="resetCopy">This erases all prototype data in this browser and cannot be undone.</p>
+                <ul>
+                  <li>Habits, archives, completions, progress, and streaks</li>
+                  <li>Steady Coins and Streak Shields</li>
+                  <li>Your local profile, onboarding completion, and appearance preference</li>
+                </ul>
+                <div class="confirmation-actions">
+                  <button class="cancel-confirm" id="cancelReset" type="button" onclick="closeResetDialog()">Cancel</button>
+                  <button class="danger-confirm" type="button" onclick="openResetStepTwo()">Continue</button>
+                </div>
+              </div>
+              <div id="resetStepTwo" hidden>
+                <p>Type <strong>RESET</strong> to confirm permanent deletion and return to first-launch onboarding.</p>
+                <label class="field-label" for="resetConfirmationInput">Confirmation</label>
+                <input class="confirmation-input" id="resetConfirmationInput" autocomplete="off" spellcheck="false" oninput="updateResetConfirmation()" />
+                <div class="confirmation-actions">
+                  <button class="cancel-confirm" type="button" onclick="openResetStepOne()">Back</button>
+                  <button class="danger-confirm" id="confirmResetButton" type="button" onclick="confirmResetAllData()" disabled>Reset everything</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section class="onboarding-screen" id="onboardingScreen" aria-hidden="true" aria-labelledby="onboardingTitle">
+            <form class="onboarding-content" id="onboardingForm" novalidate>
+              <div class="onboarding-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>
+              </div>
+              <p class="onboarding-eyebrow">A small beginning</p>
+              <h1 id="onboardingTitle">Welcome to Steady</h1>
+              <p class="onboarding-intro">Give your quiet daily space a name. You will begin with an empty Today list and add only the habits that fit.</p>
+
+              <div class="onboarding-field">
+                <div class="onboarding-label-row">
+                  <label for="onboardingName">Display name</label>
+                  <span>Required</span>
+                </div>
+                <input class="onboarding-name-input" id="onboardingName" name="displayName" maxlength="24" autocomplete="name" placeholder="What should Steady call you?" required aria-describedby="onboardingNameHelp onboardingNameError" aria-invalid="false" />
+                <span class="onboarding-theme-note" id="onboardingNameHelp">Used only for your greeting in Steady.</span>
+                <p class="onboarding-error" id="onboardingNameError" role="alert"></p>
+              </div>
+
+              <div class="onboarding-field">
+                <div class="onboarding-label-row">
+                  <strong id="onboardingIconLabel">Profile icon</strong>
+                  <span>Optional · calm default selected</span>
+                </div>
+                <div class="onboarding-avatar-options" role="radiogroup" aria-labelledby="onboardingIconLabel">
+                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="true" tabindex="0" data-avatar-index="0" aria-label="Leaf, default profile icon" onclick="chooseOnboardingAvatar(this)">🌿</button>
+                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="1" aria-label="Mountain profile icon" onclick="chooseOnboardingAvatar(this)">⛰️</button>
+                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="2" aria-label="Moon profile icon" onclick="chooseOnboardingAvatar(this)">🌙</button>
+                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="3" aria-label="Sun profile icon" onclick="chooseOnboardingAvatar(this)">☀️</button>
+                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="4" aria-label="Lotus profile icon" onclick="chooseOnboardingAvatar(this)">🪷</button>
+                </div>
+              </div>
+
+              <div class="onboarding-privacy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <span>Your name and icon stay on this device. This is a local profile, not an account, and Steady does not upload it.</span>
+              </div>
+
+              <button class="onboarding-continue" id="onboardingContinue" type="submit" disabled>Continue to Today</button>
+              <span class="onboarding-theme-note">Appearance follows your current System setting. You can choose Light or Dark later in Settings.</span>
+
+              <div class="demo-onboarding-path">
+                <span><strong>Prototype only:</strong> load sample habits and rewards to review the filled-state design without changing the confirmed first-launch behavior.</span>
+                <button class="demo-onboarding-btn" type="button" onclick="loadDesignDemo()">Load sample design demo</button>
+              </div>
+            </form>
           </section>
         </div>
       </section>
@@ -2674,7 +3111,14 @@
     const goalNoteInput = document.getElementById('goalNoteInput');
     const previewIcon = document.getElementById('previewIcon');
     const pickerBackdrop = document.getElementById('pickerBackdrop');
+    const onboardingScreen = document.getElementById('onboardingScreen');
+    const onboardingName = document.getElementById('onboardingName');
+    const onboardingContinue = document.getElementById('onboardingContinue');
     const APPEARANCE_KEY = 'steadyAppearance';
+    const DATA_KEY = 'steadyPrototypeDataV2';
+    const INITIALIZED_KEY = 'steadyPrototypeInitializedV2';
+    const ONBOARDING_KEY = 'steadyOnboardingCompleteV1';
+    const MAX_ACTIVE_HABITS = 7;
     const systemAppearance = window.matchMedia('(prefers-color-scheme: dark)');
     const iconSvgs = {
       drop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2S6.5 9.4 6.5 14a5.5 5.5 0 0 0 11 0C17.5 9.4 12 3.2 12 3.2Z"/><path d="M9.4 15.2a2.8 2.8 0 0 0 2.6 1.9"/></svg>',
@@ -2684,18 +3128,20 @@
       protein: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4Z"/><path d="M9 14v2.5A2.5 2.5 0 0 0 11.5 19h1a2.5 2.5 0 0 0 2.5-2.5V14M8 4V2M16 4V2"/></svg>',
       leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>'
     };
-    const habits = {
-      exercise: { name: 'Exercise', goalNote: '30 minutes', icon: 'dumbbell', color: 'sage', days: 'weekdays', scheduleMode: 'time', time: '07:30', cue: 'After waking', cueReminderTime: '07:30', reminder: true },
-      protein: { name: 'Protein', goalNote: '125 g protein', icon: 'protein', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '12:00', reminder: true },
-      water: { name: 'Water', goalNote: '2.5 L water', icon: 'drop', color: 'blue', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '10:00', reminder: true },
-      supplements: { name: 'Supplements', goalNote: '', icon: 'bottle', color: 'lilac', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'After breakfast', cueReminderTime: '08:30', reminder: true },
-      steps: { name: 'Walk', goalNote: '10,000 steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false }
+    const demoHabits = {
+      exercise: { name: 'Exercise', goalNote: '30 minutes', icon: 'dumbbell', color: 'sage', days: 'weekdays', scheduleMode: 'time', time: '07:30', cue: 'After waking', cueReminderTime: '07:30', reminder: true, archived: false, completed: true },
+      protein: { name: 'Protein', goalNote: '125 g protein', icon: 'protein', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '12:00', reminder: true, archived: false, completed: true },
+      water: { name: 'Water', goalNote: '2.5 L water', icon: 'drop', color: 'blue', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '10:00', reminder: true, archived: false, completed: false },
+      supplements: { name: 'Supplements', goalNote: '', icon: 'bottle', color: 'lilac', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'After breakfast', cueReminderTime: '08:30', reminder: true, archived: false, completed: true },
+      steps: { name: 'Walk', goalNote: '10,000 steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false, archived: false, completed: false }
     };
+    let habits = {};
     const avatarOptions = ['🌿', '⛰️', '🌙', '☀️', '🪷'];
     const STREAK_SHIELD_PRICE = 40;
     let avatarIndex = 0;
     let coinBalance = 82;
     let shieldInventory = 0;
+    let streakDays = 12;
     let focusBeforeShop = null;
     let toastTimer;
     let celebrationTimer;
@@ -2707,14 +3153,237 @@
     let selectedColor = 'neutral';
     let manualIconChoice = false;
     let appearancePreference = document.documentElement.dataset.appearance || 'system';
+    let focusBeforeDialog = null;
+    let onboardingComplete = false;
 
-    habitList.querySelectorAll('.habit-row.complete').forEach(row => {
-      row.setAttribute('aria-disabled', 'true');
-      habitList.appendChild(row);
-    });
+    function cloneDemoHabits() {
+      return JSON.parse(JSON.stringify(demoHabits));
+    }
+
+    function loadPrototypeData() {
+      let saved = null;
+      try {
+        if (localStorage.getItem(INITIALIZED_KEY) === 'true') {
+          saved = JSON.parse(localStorage.getItem(DATA_KEY) || 'null');
+        }
+      } catch {}
+
+      if (!saved) {
+        habits = {};
+        coinBalance = 0;
+        shieldInventory = 0;
+        streakDays = 0;
+        avatarIndex = 0;
+        document.getElementById('profileName').value = '';
+        onboardingComplete = false;
+        return;
+      }
+
+      habits = saved.habits && typeof saved.habits === 'object' ? saved.habits : {};
+      coinBalance = Number.isFinite(saved.coinBalance) ? saved.coinBalance : 0;
+      shieldInventory = Number.isFinite(saved.shieldInventory) ? saved.shieldInventory : 0;
+      streakDays = Number.isFinite(saved.streakDays) ? saved.streakDays : 0;
+      avatarIndex = Number.isInteger(saved.avatarIndex) ? saved.avatarIndex : 0;
+      document.getElementById('profileName').value = saved.profileName || '';
+      try {
+        onboardingComplete = localStorage.getItem(ONBOARDING_KEY) === 'true';
+        if (!onboardingComplete && saved.profileName?.trim()) {
+          onboardingComplete = true;
+          localStorage.setItem(ONBOARDING_KEY, 'true');
+        }
+      } catch {
+        onboardingComplete = Boolean(saved.profileName?.trim());
+      }
+    }
+
+    function persistPrototypeData() {
+      const profileName = document.getElementById('profileName')?.value || '';
+      try {
+        localStorage.setItem(INITIALIZED_KEY, 'true');
+        localStorage.setItem(DATA_KEY, JSON.stringify({
+          habits, coinBalance, shieldInventory, streakDays, avatarIndex, profileName
+        }));
+        if (onboardingComplete) {
+          localStorage.setItem(ONBOARDING_KEY, 'true');
+        } else {
+          localStorage.removeItem(ONBOARDING_KEY);
+        }
+      } catch {}
+    }
+
+    function activeHabitEntries() {
+      return Object.entries(habits).filter(([, habit]) => !habit.archived);
+    }
+
+    function archivedHabitEntries() {
+      return Object.entries(habits).filter(([, habit]) => habit.archived);
+    }
 
     function toggleSelect(element) {
       element.classList.toggle('selected');
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      })[character]);
+    }
+
+    function createTodayRow(key, habit) {
+      const completeClass = habit.completed ? ' complete' : '';
+      return `
+        <button class="habit-row${completeClass}" id="todayRow-${key}" type="button"
+          aria-pressed="${habit.completed ? 'true' : 'false'}"
+          ${habit.completed ? 'aria-disabled="true"' : ''}
+          onclick="toggleHabit(this)" data-habit-key="${key}">
+          <span class="habit-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
+          <span class="habit-copy">
+            <span class="habit-title">${escapeHtml(habit.name)}</span>
+            <span class="habit-subtitle">${escapeHtml(habitSubtitle(habit.goalNote, habit.scheduleMode, habit.time, habit.cue))}</span>
+          </span>
+          <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg></span>
+        </button>`;
+    }
+
+    function createManageRow(key, habit) {
+      const daysCopy = habit.days === 'weekdays' ? 'Weekdays' : 'Every day';
+      const scheduleCopy = scheduleLabel(habit.scheduleMode, habit.time, habit.cue);
+      return `
+        <button class="manage-row" id="manageRow-${key}" type="button" onclick="editHabit('${key}')">
+          <span class="manage-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
+          <span class="manage-copy">
+            <strong>${escapeHtml(habit.name)}</strong>
+            <span>${escapeHtml(`${daysCopy} · ${scheduleCopy} · Reminder ${habit.reminder ? 'on' : 'off'}`)}</span>
+            <small>Active</small>
+          </span>
+          <span class="manage-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span>
+        </button>`;
+    }
+
+    function createArchivedRow(key, habit) {
+      return `
+        <div class="archived-row">
+          <span class="manage-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
+          <span class="manage-copy"><strong>${escapeHtml(habit.name)}</strong><span>Archived · kept on this device</span></span>
+          <span class="archived-actions">
+            <button class="small-action" type="button" onclick="restoreHabit('${key}')">Restore</button>
+            <button class="small-action danger" type="button" onclick="openDeleteHabitDialog('${key}')">Delete</button>
+          </span>
+        </div>`;
+    }
+
+    function renderPrototypeState() {
+      const active = activeHabitEntries();
+      const archived = archivedHabitEntries();
+      const orderedActive = [...active.filter(([, habit]) => !habit.completed), ...active.filter(([, habit]) => habit.completed)];
+
+      habitList.innerHTML = orderedActive.map(([key, habit]) => createTodayRow(key, habit)).join('');
+      document.getElementById('manageList').innerHTML = active.map(([key, habit]) => createManageRow(key, habit)).join('');
+      document.getElementById('archivedList').innerHTML = archived.map(([key, habit]) => createArchivedRow(key, habit)).join('');
+      document.getElementById('archivedSection').classList.toggle('has-items', archived.length > 0);
+
+      const capacityText = `${active.length} of ${MAX_ACTIVE_HABITS} active`;
+      document.getElementById('manageCapacity').textContent = capacityText;
+      document.querySelector('.habit-limit').textContent = `${active.length} / ${MAX_ACTIVE_HABITS} active`;
+      document.getElementById('settingsHabitCount').textContent = `${active.length} active`;
+      document.querySelector('.device-note span').textContent =
+        `Habit details and completion history stay on this device. Steady has no account or backend. MVP supports up to ${MAX_ACTIVE_HABITS} active habits — ${active.length} of ${MAX_ACTIVE_HABITS} are currently in use.`;
+
+      const profileName = document.getElementById('profileName').value.trim();
+      document.getElementById('greetingName').textContent = profileName || 'there';
+      document.getElementById('profileAvatar').textContent = avatarOptions[avatarIndex] || avatarOptions[0];
+      document.getElementById('streakDays').textContent = streakDays;
+      phone.classList.toggle('empty-mode', active.length === 0);
+      updateProgress({ celebrate: false });
+      updateShopState();
+    }
+
+    function syncOnboardingAvatarOptions() {
+      document.querySelectorAll('.onboarding-avatar').forEach(option => {
+        const selected = Number(option.dataset.avatarIndex) === avatarIndex;
+        option.setAttribute('aria-checked', String(selected));
+        option.tabIndex = selected ? 0 : -1;
+      });
+    }
+
+    function updateOnboardingNameValidation({ showError = false } = {}) {
+      const valid = onboardingName.value.trim().length > 0;
+      onboardingContinue.disabled = !valid;
+      onboardingName.setAttribute('aria-invalid', String(showError && !valid));
+      document.getElementById('onboardingNameError').textContent =
+        showError && !valid ? 'Enter a display name to continue.' : '';
+      return valid;
+    }
+
+    function chooseOnboardingAvatar(option) {
+      avatarIndex = Number(option.dataset.avatarIndex) || 0;
+      syncOnboardingAvatarOptions();
+    }
+
+    function showOnboarding() {
+      closeAllOverlays();
+      document.documentElement.dataset.onboarding = 'pending';
+      onboardingName.value = '';
+      avatarIndex = 0;
+      syncOnboardingAvatarOptions();
+      updateOnboardingNameValidation();
+      onboardingScreen.classList.add('open');
+      onboardingScreen.setAttribute('aria-hidden', 'false');
+      document.querySelector('.app').inert = true;
+      document.querySelector('.app').setAttribute('aria-hidden', 'true');
+      document.getElementById('prototypeViewSwitch').inert = true;
+      document.querySelector('.feedback-panel').inert = true;
+      window.setTimeout(() => onboardingName.focus(), 100);
+    }
+
+    function closeOnboarding() {
+      document.documentElement.dataset.onboarding = 'complete';
+      onboardingScreen.classList.remove('open');
+      onboardingScreen.setAttribute('aria-hidden', 'true');
+      document.querySelector('.app').inert = false;
+      document.querySelector('.app').removeAttribute('aria-hidden');
+      document.getElementById('prototypeViewSwitch').inert = false;
+      document.querySelector('.feedback-panel').inert = false;
+    }
+
+    function completeOnboarding() {
+      if (!updateOnboardingNameValidation({ showError: true })) {
+        onboardingName.focus();
+        return;
+      }
+
+      habits = {};
+      coinBalance = 0;
+      shieldInventory = 0;
+      streakDays = 0;
+      dayCelebrated = false;
+      document.getElementById('profileName').value = onboardingName.value.trim();
+      onboardingComplete = true;
+      persistPrototypeData();
+      closeOnboarding();
+      returnToToday();
+      renderPrototypeState();
+      document.querySelectorAll('.mode-btn').forEach((button, index) => button.classList.toggle('active', index === 0));
+      window.setTimeout(() => document.querySelector('.primary-cta').focus(), 100);
+    }
+
+    function loadDesignDemo(button = null) {
+      habits = cloneDemoHabits();
+      coinBalance = 82;
+      shieldInventory = 0;
+      streakDays = 12;
+      avatarIndex = 0;
+      dayCelebrated = false;
+      onboardingComplete = true;
+      document.getElementById('profileName').value = 'Kartik';
+      persistPrototypeData();
+      closeOnboarding();
+      returnToToday();
+      renderPrototypeState();
+      document.querySelectorAll('.mode-btn').forEach(modeButton => modeButton.classList.toggle('active', modeButton === button));
+      if (!button) document.querySelectorAll('.mode-btn').forEach((modeButton, index) => modeButton.classList.toggle('active', index === 2));
+      showToast('Prototype sample data loaded.');
+      window.setTimeout(() => document.getElementById('coinsButton').focus(), 100);
     }
 
     function setMode(mode, button) {
@@ -2736,7 +3405,10 @@
       row.classList.add('just-toggled');
       row.setAttribute('aria-pressed', 'true');
       row.setAttribute('aria-disabled', 'true');
-      updateProgress();
+      const key = row.dataset.habitKey;
+      if (key && habits[key]) habits[key].completed = true;
+      persistPrototypeData();
+      updateProgress({ celebrate: true });
       window.setTimeout(() => reorderHabit(row), 180);
 
       const title = row.querySelector('.habit-title').textContent;
@@ -2766,12 +3438,12 @@
       });
     }
 
-    function updateProgress() {
+    function updateProgress({ celebrate = false } = {}) {
       const habits = [...document.querySelectorAll('.habit-row')];
       const complete = habits.filter(row => row.classList.contains('complete')).length;
       const total = habits.length;
       document.getElementById('progressText').textContent = `${complete} of ${total} complete`;
-      document.getElementById('progressFill').style.width = `${(complete / total) * 100}%`;
+      document.getElementById('progressFill').style.width = `${total ? (complete / total) * 100 : 0}%`;
 
       const messages = {
         0: 'A clear page. Start when you’re ready.',
@@ -2781,9 +3453,12 @@
         4: 'Nearly there, without the rush.',
         5: 'Everything you planned is complete.'
       };
-      document.getElementById('progressMessage').textContent = messages[complete];
+      document.getElementById('progressMessage').textContent =
+        total === 0 ? 'Add a small practice when you’re ready.' :
+        complete === total ? 'Everything you planned is complete.' :
+        messages[Math.min(complete, 4)] || 'A steady day is taking shape.';
 
-      if (complete === total && !dayCelebrated) {
+      if (celebrate && total > 0 && complete === total && !dayCelebrated) {
         dayCelebrated = true;
         showDayCelebration();
       }
@@ -2853,6 +3528,7 @@
       if (shieldInventory > 0 || coinBalance < STREAK_SHIELD_PRICE) return;
       coinBalance -= STREAK_SHIELD_PRICE;
       shieldInventory = 1;
+      persistPrototypeData();
       updateShopState();
       showToast('Streak Shield added to your inventory.');
     }
@@ -2884,7 +3560,11 @@
     function resolveMissedDay(useShield) {
       if (useShield && shieldInventory > 0) {
         shieldInventory -= 1;
+        persistPrototypeData();
         closeMissedDayPrompt();
+        streakDays = 0;
+        persistPrototypeData();
+        renderPrototypeState();
         updateShopState();
         showToast('Shield used. Your 12-day streak continues.');
         return;
@@ -2908,13 +3588,17 @@
           <span>Set travel dates<small>Keep only the habits that still fit</small></span>
         </button>`;
       backdrop.classList.add('open');
+      window.setTimeout(() => sheetOptions.querySelector('button')?.focus(), 80);
     }
 
     function openAddSheet() {
+      const activeCount = activeHabitEntries().length;
       sheetTitle.textContent = 'Grow your rhythm';
-      sheetCopy.textContent = 'Add something small, or make a quiet adjustment to what’s already here.';
+      sheetCopy.textContent = activeCount >= MAX_ACTIVE_HABITS
+        ? `Your ${MAX_ACTIVE_HABITS} active habit slots are in use. Archive one to make space; archived habits stay available to restore.`
+        : 'Add something small, or make a quiet adjustment to what’s already here.';
       sheetOptions.innerHTML = `
-        <button class="sheet-option" data-choice="create-habit" onclick="openHabitEditor('add')">
+        <button class="sheet-option" data-choice="create-habit" onclick="openHabitEditor('add')" ${activeCount >= MAX_ACTIVE_HABITS ? 'disabled aria-disabled="true"' : ''}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
           <span>Create a new habit<small>Choose a name, icon, and gentle schedule</small></span>
         </button>
@@ -2923,6 +3607,7 @@
           <span>Manage existing habits<small>Choose a habit to edit, archive, or review</small></span>
         </button>`;
       backdrop.classList.add('open');
+      window.setTimeout(() => sheetOptions.querySelector('button:not(:disabled)')?.focus(), 80);
     }
 
     function backdropClose(event) {
@@ -2961,12 +3646,16 @@
       manageHabits.classList.add('open');
       manageHabits.setAttribute('aria-hidden', 'false');
       document.getElementById('manageScroll').scrollTop = 0;
+      window.setTimeout(() => document.getElementById('manageBackButton').focus(), 80);
     }
 
     function closeManageHabits({ reopenSheet = true } = {}) {
       manageHabits.classList.remove('open');
       manageHabits.setAttribute('aria-hidden', 'true');
-      if (reopenSheet) openAddSheet();
+      if (reopenSheet) {
+        openAddSheet();
+        window.setTimeout(() => sheetOptions.querySelector('button:not(:disabled)')?.focus(), 80);
+      }
     }
 
     function editHabit(key) {
@@ -2978,7 +3667,14 @@
 
     function openHabitEditor(mode, habitKey = null) {
       backdrop.classList.remove('open');
-      if (mode === 'add') editingHabitKey = null;
+      if (mode === 'add') {
+        if (activeHabitEntries().length >= MAX_ACTIVE_HABITS) {
+          showToast(`You can keep up to ${MAX_ACTIVE_HABITS} active habits. Archive one to add another.`);
+          openManageHabits();
+          return;
+        }
+        editingHabitKey = null;
+      }
       setEditorMode(mode);
       if (mode === 'edit') prefillHabit(habitKey || editingHabitKey || 'exercise');
       habitEditor.classList.add('open');
@@ -2994,6 +3690,7 @@
       if (editorMode === 'edit') {
         manageHabits.classList.add('open');
         manageHabits.setAttribute('aria-hidden', 'false');
+        window.setTimeout(() => document.getElementById('manageBackButton').focus(), 0);
       }
     }
 
@@ -3142,6 +3839,7 @@
 
     function openIconPicker() {
       pickerBackdrop.classList.add('open');
+      window.setTimeout(() => pickerBackdrop.querySelector('.picker-choice')?.focus(), 80);
     }
 
     function chooseIcon(button) {
@@ -3150,10 +3848,14 @@
       document.getElementById('suggestionNote').querySelector('span').textContent =
         'Personalized by you — typing will no longer change this choice.';
       pickerBackdrop.classList.remove('open');
+      previewIcon.focus();
     }
 
     function pickerBackdropClose(event) {
-      if (event.target === pickerBackdrop) pickerBackdrop.classList.remove('open');
+      if (event.target === pickerBackdrop) {
+        pickerBackdrop.classList.remove('open');
+        previewIcon.focus();
+      }
     }
 
     function returnToToday() {
@@ -3166,27 +3868,38 @@
     function saveHabit() {
       const name = habitNameInput.value.trim();
       if (!name) return;
+      const habitData = {
+        name,
+        goalNote: goalNoteInput.value.trim(),
+        icon: selectedIcon,
+        color: selectedColor,
+        days: selectedDays().length === 7 ? 'everyday' : 'weekdays',
+        scheduleMode,
+        time: document.getElementById('preferredTime').value,
+        cue: document.getElementById('routineCue').value,
+        cueReminderTime: document.getElementById('cueReminderTime').value,
+        reminder: document.getElementById('reminderToggle').classList.contains('on')
+      };
       if (editorMode === 'edit') {
         if (editingHabitKey && habits[editingHabitKey]) {
           habits[editingHabitKey] = {
             ...habits[editingHabitKey],
-            name,
-            goalNote: goalNoteInput.value.trim(),
-            icon: selectedIcon,
-            color: selectedColor,
-            days: selectedDays().length === 7 ? 'everyday' : 'weekdays',
-            scheduleMode,
-            time: document.getElementById('preferredTime').value,
-            cue: document.getElementById('routineCue').value,
-            cueReminderTime: document.getElementById('cueReminderTime').value,
-            reminder: document.getElementById('reminderToggle').classList.contains('on')
+            ...habitData
           };
-          updateManageRow(editingHabitKey);
-          updateTodayRow(editingHabitKey);
         }
+        persistPrototypeData();
+        renderPrototypeState();
         closeHabitEditor();
         showToast(`${name} updated on this device.`);
       } else {
+        if (activeHabitEntries().length >= MAX_ACTIVE_HABITS) {
+          showToast(`Your ${MAX_ACTIVE_HABITS} active habit slots are in use. Archive one to make space.`);
+          return;
+        }
+        const key = `habit-${Date.now().toString(36)}`;
+        habits[key] = { ...habitData, archived: false, completed: false };
+        persistPrototypeData();
+        renderPrototypeState();
         closeHabitEditor();
         returnToToday();
         showToast(`${name} added to your rhythm.`);
@@ -3225,8 +3938,143 @@
 
     function archiveHabit() {
       const name = habitNameInput.value.trim() || 'Habit';
+      if (!editingHabitKey || !habits[editingHabitKey]) return;
+      habits[editingHabitKey].archived = true;
+      persistPrototypeData();
+      renderPrototypeState();
       closeHabitEditor();
       showToast(`${name} archived. You can restore it later.`);
+    }
+
+    function restoreHabit(key) {
+      const habit = habits[key];
+      if (!habit) return;
+      if (activeHabitEntries().length >= MAX_ACTIVE_HABITS) {
+        showToast(`Restore needs an active slot. Archive another habit first.`);
+        return;
+      }
+      habit.archived = false;
+      persistPrototypeData();
+      renderPrototypeState();
+      showToast(`${habit.name} restored to Today.`);
+    }
+
+    function openDeleteHabitDialog(key = editingHabitKey) {
+      if (!key || !habits[key]) return;
+      editingHabitKey = key;
+      focusBeforeDialog = document.activeElement;
+      const habit = habits[key];
+      document.getElementById('deleteHabitCopy').textContent =
+        `“${habit.name}” and its prototype completion history will be permanently removed. This cannot be undone.`;
+      const dialog = document.getElementById('deleteHabitBackdrop');
+      dialog.classList.add('open');
+      dialog.setAttribute('aria-hidden', 'false');
+      window.setTimeout(() => document.getElementById('cancelDeleteHabit').focus(), 80);
+    }
+
+    function closeDeleteHabitDialog() {
+      const dialog = document.getElementById('deleteHabitBackdrop');
+      dialog.classList.remove('open');
+      dialog.setAttribute('aria-hidden', 'true');
+      const target = focusBeforeDialog && document.contains(focusBeforeDialog) ? focusBeforeDialog : null;
+      if (target) window.setTimeout(() => target.focus(), 0);
+    }
+
+    function confirmDeleteHabit() {
+      const habit = habits[editingHabitKey];
+      if (!habit) return;
+      const name = habit.name;
+      const wasArchived = habit.archived;
+      delete habits[editingHabitKey];
+      focusBeforeDialog = null;
+      closeDeleteHabitDialog();
+      habitEditor.classList.remove('open');
+      habitEditor.setAttribute('aria-hidden', 'true');
+      persistPrototypeData();
+      renderPrototypeState();
+      if (!wasArchived) {
+        manageHabits.classList.add('open');
+        manageHabits.setAttribute('aria-hidden', 'false');
+      }
+      showToast(`${name} permanently deleted.`);
+      window.setTimeout(() => document.getElementById('manageBackButton').focus(), 80);
+    }
+
+    function openManageFromSettings() {
+      phone.classList.remove('destination-settings');
+      document.querySelectorAll('.nav-item').forEach((item, index) => item.classList.toggle('active', index === 0));
+      openManageHabits();
+    }
+
+    function openResetStepOne() {
+      const dialog = document.getElementById('resetBackdrop');
+      if (!dialog.classList.contains('open')) focusBeforeDialog = document.activeElement;
+      document.getElementById('resetStepOne').hidden = false;
+      document.getElementById('resetStepTwo').hidden = true;
+      document.getElementById('resetConfirmationInput').value = '';
+      updateResetConfirmation();
+      dialog.classList.add('open');
+      dialog.setAttribute('aria-hidden', 'false');
+      window.setTimeout(() => document.getElementById('cancelReset').focus(), 80);
+    }
+
+    function openResetStepTwo() {
+      document.getElementById('resetStepOne').hidden = true;
+      document.getElementById('resetStepTwo').hidden = false;
+      window.setTimeout(() => document.getElementById('resetConfirmationInput').focus(), 0);
+    }
+
+    function updateResetConfirmation() {
+      document.getElementById('confirmResetButton').disabled =
+        document.getElementById('resetConfirmationInput').value !== 'RESET';
+    }
+
+    function closeResetDialog() {
+      const dialog = document.getElementById('resetBackdrop');
+      dialog.classList.remove('open');
+      dialog.setAttribute('aria-hidden', 'true');
+      const target = focusBeforeDialog && document.contains(focusBeforeDialog) ? focusBeforeDialog : null;
+      if (target) window.setTimeout(() => target.focus(), 0);
+    }
+
+    function closeAllOverlays() {
+      [backdrop, missedDayBackdrop, pickerBackdrop, document.getElementById('deleteHabitBackdrop'), document.getElementById('resetBackdrop')]
+        .forEach(element => {
+          element.classList.remove('open');
+          element.setAttribute?.('aria-hidden', 'true');
+        });
+      [coinShop, manageHabits, habitEditor].forEach(element => {
+        element.classList.remove('open');
+        element.setAttribute('aria-hidden', 'true');
+      });
+      dayCelebration.classList.remove('show');
+    }
+
+    function confirmResetAllData() {
+      if (document.getElementById('resetConfirmationInput').value !== 'RESET') return;
+      habits = {};
+      coinBalance = 0;
+      shieldInventory = 0;
+      streakDays = 0;
+      avatarIndex = 0;
+      dayCelebrated = false;
+      document.getElementById('profileName').value = '';
+      try {
+        localStorage.removeItem(APPEARANCE_KEY);
+        localStorage.removeItem(DATA_KEY);
+        localStorage.removeItem(INITIALIZED_KEY);
+        localStorage.removeItem(ONBOARDING_KEY);
+      } catch {}
+      onboardingComplete = false;
+      appearancePreference = 'system';
+      applyAppearance('system');
+      persistPrototypeData();
+      closeAllOverlays();
+      returnToToday();
+      document.getElementById('travelButton').classList.remove('active');
+      renderPrototypeState();
+      document.querySelectorAll('.mode-btn').forEach((button, index) => button.classList.toggle('active', index === 0));
+      showOnboarding();
     }
 
     function applyAppearance(preference, { persist = false, announce = false } = {}) {
@@ -3270,6 +4118,7 @@
     function cycleAvatar() {
       avatarIndex = (avatarIndex + 1) % avatarOptions.length;
       document.getElementById('profileAvatar').textContent = avatarOptions[avatarIndex];
+      persistPrototypeData();
       showToast('Profile icon saved on this device.');
     }
 
@@ -3302,8 +4151,18 @@
 
     document.addEventListener('keydown', event => {
       if (event.key === 'Tab') {
-        if (missedDayBackdrop.classList.contains('open')) {
+        if (onboardingScreen.classList.contains('open')) {
+          trapFocus(onboardingScreen, event);
+        } else if (document.getElementById('resetBackdrop').classList.contains('open')) {
+          trapFocus(document.getElementById('resetBackdrop'), event);
+        } else if (document.getElementById('deleteHabitBackdrop').classList.contains('open')) {
+          trapFocus(document.getElementById('deleteHabitBackdrop'), event);
+        } else if (missedDayBackdrop.classList.contains('open')) {
           trapFocus(missedDayBackdrop, event);
+        } else if (habitEditor.classList.contains('open')) {
+          trapFocus(habitEditor, event);
+        } else if (manageHabits.classList.contains('open')) {
+          trapFocus(manageHabits, event);
         } else if (coinShop.classList.contains('open')) {
           trapFocus(coinShop, event);
         }
@@ -3311,7 +4170,13 @@
       }
 
       if (event.key !== 'Escape') return;
-      if (missedDayBackdrop.classList.contains('open')) {
+      if (onboardingScreen.classList.contains('open')) {
+        event.preventDefault();
+      } else if (document.getElementById('resetBackdrop').classList.contains('open')) {
+        closeResetDialog();
+      } else if (document.getElementById('deleteHabitBackdrop').classList.contains('open')) {
+        closeDeleteHabitDialog();
+      } else if (missedDayBackdrop.classList.contains('open')) {
         closeMissedDayPrompt();
       } else if (pickerBackdrop.classList.contains('open')) {
         pickerBackdrop.classList.remove('open');
@@ -3336,6 +4201,22 @@
         setAppearance(next.id.replace('appearance-', ''));
       });
     });
+    document.querySelectorAll('.onboarding-avatar').forEach((option, index, options) => {
+      option.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        const direction = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1;
+        const next = options[(index + direction + options.length) % options.length];
+        next.focus();
+        chooseOnboardingAvatar(next);
+      });
+    });
+    onboardingName.addEventListener('input', () => updateOnboardingNameValidation());
+    onboardingName.addEventListener('blur', () => updateOnboardingNameValidation({ showError: true }));
+    document.getElementById('onboardingForm').addEventListener('submit', event => {
+      event.preventDefault();
+      completeOnboarding();
+    });
     if (systemAppearance.addEventListener) {
       systemAppearance.addEventListener('change', handleSystemAppearanceChange);
     } else {
@@ -3344,10 +4225,17 @@
     window.addEventListener('storage', event => {
       if (event.key === APPEARANCE_KEY) applyAppearance(event.newValue || 'system');
     });
+    document.getElementById('profileName').addEventListener('input', () => {
+      document.getElementById('greetingName').textContent =
+        document.getElementById('profileName').value.trim() || 'there';
+      persistPrototypeData();
+    });
 
+    loadPrototypeData();
     setPreviewIcon('leaf', 'neutral');
     applyAppearance(appearancePreference);
-    updateShopState();
+    renderPrototypeState();
+    if (!onboardingComplete) showOnboarding();
   </script>
 </body>
 </html>

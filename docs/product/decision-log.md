@@ -20,12 +20,14 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-013 | Confirmed | Reminder times can be suggested from local completion history. | Suggestions require user acceptance and support opt-out. |
 | P-014 | Confirmed | Travel and temporary pauses are supported. | Paused habits do not send reminders. |
 | P-015 | Confirmed | Insights is a Coming soon page in the MVP. | Functional analytics and insight reports are deferred. |
-| P-016 | Confirmed | Settings allows the user to edit a local display name and profile icon. | The profile is not an account and never requires network access. |
+| P-016 | Confirmed | First launch requires a non-empty local display name; profile icon selection is optional and has a calm default. | The profile stays on-device, is not an account, and never requires network access. Completion opens empty Today with Add your first habit. |
 | P-017 | Confirmed | The MVP has no Steady backend and keeps core product data on-device. | Optional external APIs may provide contextual data such as weather, but must not receive profile, habit, completion, streak, or coin data. |
 | P-018 | Confirmed | Optional weather appears as an icon and temperature beside the Today date. | It is cached, failure-safe, and must not become a dashboard card. |
 | P-019 | Confirmed | Settings includes user-initiated email feedback to `ceo@monklabs.ai`. | Open the device email app with subject `Steady feedback`; Steady does not send feedback through a backend. |
 | P-020 | Confirmed | Tapping the Steady Coins balance opens a shop containing a one-day Streak Shield. | A shield protects exactly one missed day and is never consumed automatically. |
 | P-021 | Confirmed | After a missed day, an owned shield is offered on the next app open. | The user chooses Use shield or Let streak end; use calm, non-judgmental copy. |
+| P-022 | Confirmed | Archive and Delete are distinct habit-management actions. | Archive is reversible, removes the habit from Today, and frees an active slot. Restore returns it when a slot is available. Delete permanently removes the named habit and its local history after explicit confirmation. |
+| P-023 | Confirmed | Settings includes Reset all data with a two-step explicit confirmation. | Reset erases active and archived habits, profile, onboarding completion, completion/progress, streaks, Steady Coins, Streak Shields, and appearance preference. It closes open UI, selects System default, and immediately reopens first-launch onboarding without restoring demo habits. |
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |
@@ -35,6 +37,9 @@ entry when a decision changes and preserve the previous direction in its notes.
 | D-007 | Confirmed | Completing every scheduled habit triggers one brief whole-day celebration. | The animation is restrained, appears once for the day, shows earned Steady Coins, and respects reduced motion. |
 | D-008 | Confirmed | Empty-state Add your first habit opens the creation form directly. | Show the Add/manage choice only when at least one habit exists. |
 | D-009 | Confirmed | Settings offers System default, Light, and Dark appearance choices. | System default follows device appearance and reacts while selected; explicit Light or Dark persists locally. All screens and states use intentional Steady palettes with accessible contrast. This does not imply arbitrary Material dynamic color. |
+| D-010 | Confirmed | First-launch onboarding is a focused screen before Today. | Name is required, icon is optional/defaultable, privacy copy says local profile—not an account—and completion leads to empty Today. The prototype's sample-data entry is explicitly labeled prototype-only. |
+| D-010 | Confirmed | Destructive actions use restrained, readable red danger styling; reversible Archive does not. | Archive uses neutral/warm styling. Permanent Delete and Reset confirmations use red only for the destructive control and related warning context. |
+| W-001 | Prototype only | The interactive web prototype persists its mutable demonstration state in browser `localStorage`. | This enables add/edit/archive/restore/delete/reset review across reloads. An explicit initialization marker seeds demo data only for a new visitor; a completed reset remains empty. This is simulation scaffolding, not Android persistence architecture. |
 | A-001 | Confirmed | The repository remains limited to `app` and `core:designsystem` during design exploration. | Add modules only after a real vertical slice establishes a boundary. |
 
 ## Open decisions
