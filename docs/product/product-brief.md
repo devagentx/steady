@@ -44,6 +44,7 @@ their daily progress without creating an account.
 - Binary habit completion
 - Streaks
 - Steady Coins as personal motivation
+- Steady Coins shop with a one-day Streak Shield
 - Local profile with a display name and selectable icon
 - User-initiated email feedback to `ceo@monklabs.ai`
 - Insights destination presented as Coming soon
@@ -68,6 +69,9 @@ their daily progress without creating an account.
 ## Business direction
 
 The MVP is free and allows up to seven non-archived habits.
+
+Steady Coins may be spent on an in-app one-day Streak Shield. Coins and shop
+items remain motivational only and have no monetary or redeemable value.
 
 A possible post-MVP model is:
 

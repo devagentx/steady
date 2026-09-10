@@ -40,6 +40,11 @@ reduced-motion fallback.
 Steady Coins and streaks provide encouragement but remain secondary. Avoid
 confetti, slot-machine motion, aggressive badges, urgency, or loss-framed copy.
 
+The Coins balance may open a small shop. Its primary MVP item is a one-day
+Streak Shield. Buying and using a shield must feel like a calm recovery option,
+not a pressure mechanic. Never consume a shield automatically; after a missed
+day, ask whether the user wants to use it or let the streak end.
+
 ### Every state explains itself
 
 Users should understand why an action is unavailable, why a habit moved, how
@@ -151,6 +156,9 @@ Habit creation and editing use the same focused full-screen composition:
 
 The form should feel like shaping one small practice, not configuring a complex
 automation.
+
+When no habits exist, Add your first habit opens this form directly. Do not show
+a management choice that has no valid management action.
 
 As the user types a name, a local keyword map may suggest an icon and color.
 This behavior must be immediate, deterministic, and understandable. Tapping the

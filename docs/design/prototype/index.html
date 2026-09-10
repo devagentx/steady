@@ -283,6 +283,27 @@
     }
     .metric b { color: var(--text); font-size: 12px; }
     .metric svg { width: 13px; height: 13px; color: var(--warm); }
+    button.metric {
+      margin: -5px;
+      padding: 5px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      cursor: pointer;
+      transition: .2s var(--ease);
+    }
+    button.metric:hover,
+    button.metric:focus-visible {
+      color: #76572f;
+      outline: none;
+      background: rgba(244, 232, 215, .78);
+    }
+    button.metric:active { transform: scale(.97); }
+    .metric-affordance {
+      width: 9px !important;
+      height: 9px !important;
+      color: #9a8f7f !important;
+    }
 
     .progress-track {
       height: 7px;
@@ -797,6 +818,272 @@
     }
     .day-celebration.show .celebration-particle {
       animation: celebrationParticle 1.4s var(--particle-delay, 0s) var(--ease) both;
+    }
+
+    .shop-page {
+      position: absolute;
+      z-index: 19;
+      inset: 44px 0 0;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 82% 8%, rgba(244, 232, 215, .9), transparent 190px),
+        linear-gradient(180deg, rgba(220, 233, 225, .48), rgba(247, 245, 239, 0) 250px),
+        var(--bg);
+    }
+    .shop-page.open { display: flex; animation: editorIn .32s var(--ease) both; }
+    .shop-appbar {
+      min-height: 57px;
+      display: grid;
+      grid-template-columns: 70px 1fr 70px;
+      align-items: center;
+      padding: 4px 13px 5px;
+      border-bottom: 1px solid rgba(230, 227, 218, .82);
+      background: rgba(247, 245, 239, .88);
+      backdrop-filter: blur(18px);
+    }
+    .shop-title {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .shop-scroll {
+      flex: 1;
+      overflow: auto;
+      padding: 20px 18px 34px;
+      scrollbar-width: none;
+    }
+    .shop-scroll::-webkit-scrollbar { display: none; }
+    .shop-hero {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .coin-emblem {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 10px;
+      color: #8a6035;
+      border: 1px solid rgba(201, 154, 98, .26);
+      border-radius: 21px;
+      background: linear-gradient(145deg, #fbf1e2, #eed7b8);
+      box-shadow: 0 10px 24px rgba(138, 96, 53, .13);
+    }
+    .coin-emblem svg { width: 29px; height: 29px; }
+    .shop-balance {
+      margin: 0 0 3px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+    .shop-balance span { color: #8a6035; }
+    .shop-hero p {
+      margin: 0 auto;
+      max-width: 280px;
+      color: var(--secondary);
+      font-size: 9.5px;
+      line-height: 1.5;
+    }
+    .shop-item {
+      overflow: hidden;
+      margin-bottom: 12px;
+      border: 1px solid rgba(66, 107, 90, .15);
+      border-radius: 23px;
+      background: rgba(255, 252, 245, .94);
+      box-shadow: 0 12px 32px rgba(49, 58, 52, .07);
+    }
+    .shop-item-main { padding: 17px 16px 15px; }
+    .shop-item-top {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 12px;
+    }
+    .shield-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      border-radius: 16px;
+      background: var(--sage-soft);
+    }
+    .shield-icon svg { width: 25px; height: 25px; }
+    .shop-item-copy strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .shop-item-copy span {
+      display: block;
+      color: var(--secondary);
+      font-size: 8.5px;
+      line-height: 1.4;
+    }
+    .inventory-pill {
+      padding: 6px 8px;
+      color: var(--primary);
+      border: 1px solid rgba(66, 107, 90, .14);
+      border-radius: 999px;
+      background: var(--sage-soft);
+      font-size: 8px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .inventory-pill.empty {
+      color: var(--secondary);
+      border-color: var(--border);
+      background: #f1f0ea;
+    }
+    .shield-explanation {
+      margin: 0 0 13px;
+      color: var(--secondary);
+      font-size: 9.5px;
+      line-height: 1.55;
+    }
+    .shop-buy-btn {
+      width: 100%;
+      min-height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      color: white;
+      border: 0;
+      border-radius: 14px;
+      background: var(--primary);
+      box-shadow: 0 8px 18px rgba(66, 107, 90, .18);
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 850;
+      transition: .2s var(--ease);
+    }
+    .shop-buy-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .shop-buy-btn:active { transform: scale(.99); }
+    .shop-buy-btn:disabled {
+      color: #8b918c;
+      background: #e8e7df;
+      box-shadow: none;
+      cursor: default;
+      transform: none;
+    }
+    .shop-buy-btn svg { width: 15px; height: 15px; }
+    .price-note {
+      padding: 10px 14px;
+      color: #806743;
+      border-top: 1px solid rgba(201, 154, 98, .17);
+      background: rgba(244, 232, 215, .55);
+      font-size: 8px;
+      line-height: 1.45;
+    }
+    .shop-demo {
+      padding: 14px;
+      border: 1px dashed rgba(66, 107, 90, .22);
+      border-radius: 18px;
+      background: rgba(237, 243, 239, .58);
+    }
+    .shop-demo strong { display: block; margin-bottom: 4px; font-size: 10px; }
+    .shop-demo p { margin: 0 0 10px; color: var(--secondary); font-size: 8.5px; line-height: 1.45; }
+    .demo-btn {
+      min-height: 34px;
+      padding: 0 12px;
+      color: var(--primary);
+      border: 1px solid rgba(66, 107, 90, .2);
+      border-radius: 11px;
+      background: #fffefa;
+      cursor: pointer;
+      font-size: 8.5px;
+      font-weight: 850;
+    }
+    .shop-legal {
+      margin: 13px 4px 0;
+      color: var(--secondary);
+      font-size: 7.8px;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .missed-day-backdrop {
+      position: absolute;
+      z-index: 55;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: rgba(29, 34, 30, .34);
+      backdrop-filter: blur(5px);
+    }
+    .missed-day-backdrop.open { display: grid; animation: fadeIn .2s ease both; }
+    .missed-day-dialog {
+      width: min(100%, 310px);
+      padding: 25px 22px 20px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, .7);
+      border-radius: 27px;
+      background: var(--surface);
+      box-shadow: 0 24px 60px rgba(31, 37, 33, .22);
+      animation: dialogIn .3s var(--ease) both;
+    }
+    .missed-shield {
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 14px;
+      color: var(--primary);
+      border-radius: 22px;
+      background: var(--sage-soft);
+    }
+    .missed-shield svg { width: 31px; height: 31px; }
+    .missed-day-dialog h2 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+    .missed-day-dialog p {
+      margin: 0 0 17px;
+      color: var(--secondary);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+    .missed-day-actions { display: grid; gap: 8px; }
+    .shield-use-btn,
+    .shield-decline-btn {
+      min-height: 43px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 850;
+    }
+    .shield-use-btn {
+      color: white;
+      border: 0;
+      background: var(--primary);
+    }
+    .shield-use-btn:disabled {
+      color: #8b918c;
+      background: #e8e7df;
+      cursor: default;
+    }
+    .shield-decline-btn {
+      color: var(--secondary);
+      border: 1px solid var(--border);
+      background: transparent;
+    }
+    .missed-day-note {
+      display: block;
+      margin-top: 12px;
+      color: #878d88;
+      font-size: 7.5px;
+      line-height: 1.4;
     }
 
     .sheet-backdrop {
@@ -1417,6 +1704,7 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     @keyframes editorIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes dialogIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes toast {
       0% { opacity: 0; transform: translate(-50%, 8px); }
       12%, 82% { opacity: 1; transform: translate(-50%, 0); }
@@ -1519,10 +1807,11 @@
                       <span id="progressMessage">A steady day is taking shape.</span>
                     </div>
                     <div class="quiet-metrics">
-                      <div class="metric" title="Steady Coins">
+                      <button class="metric" id="coinsButton" type="button" title="Open Steady Coins shop" aria-label="82 Steady Coins. Open shop." onclick="openCoinShop()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><path d="M9 9.2c.8-.7 1.8-1.1 3-1.1 1.7 0 3 .8 3 2 0 2.9-6 1-6 4 0 1.2 1.3 2 3 2 1.2 0 2.3-.4 3-1.1M12 6.4v11.2"/></svg>
-                        <span><b>82</b> coins</span>
-                      </div>
+                        <span><b id="todayCoinBalance">82</b> coins</span>
+                        <svg class="metric-affordance" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                      </button>
                       <div class="metric" title="Current streak">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
                         <span><b>12</b> days</span>
@@ -1615,7 +1904,7 @@
                 <div class="empty-illustration"><span class="empty-stem"></span></div>
                 <h2>Begin gently</h2>
                 <p>Your day is open. Add one small practice you’d like to return to — no streaks or pressure needed.</p>
-                <button class="primary-cta" data-choice="empty-add-first-habit" onclick="openAddSheet()">Add your first habit</button>
+                <button class="primary-cta" data-choice="empty-add-first-habit" onclick="openHabitEditor('add')">Add your first habit</button>
                 <span class="empty-note">You can change your rhythm anytime.</span>
               </section>
 
@@ -1699,6 +1988,71 @@
                 <h2>A steady day, complete.</h2>
                 <p>You showed up for everything you planned today. Take a moment and enjoy it.</p>
                 <span class="celebration-coins">+5 Steady Coins</span>
+              </div>
+            </div>
+
+            <section class="shop-page" id="coinShop" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shopTitle">
+              <header class="shop-appbar">
+                <button class="editor-nav-btn" id="shopBackButton" type="button" onclick="closeCoinShop()" aria-label="Back to Today">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                  Back
+                </button>
+                <h2 class="shop-title" id="shopTitle">Steady Coins</h2>
+                <span aria-hidden="true"></span>
+              </header>
+
+              <div class="shop-scroll" id="shopScroll">
+                <div class="shop-hero">
+                  <div class="coin-emblem" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M9 9.2c.8-.7 1.8-1.1 3-1.1 1.7 0 3 .8 3 2 0 2.9-6 1-6 4 0 1.2 1.3 2 3 2 1.2 0 2.3-.4 3-1.1M12 6.4v11.2"/></svg>
+                  </div>
+                  <h3 class="shop-balance"><span id="shopCoinBalance">82</span> Coins</h3>
+                  <p>Earned by returning to your habits. Spend them on gentle, in-app support.</p>
+                </div>
+
+                <article class="shop-item" aria-labelledby="shieldItemTitle">
+                  <div class="shop-item-main">
+                    <div class="shop-item-top">
+                      <div class="shield-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 2.8 7.9 7 10 4.2-2.1 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                      </div>
+                      <div class="shop-item-copy">
+                        <strong id="shieldItemTitle">One-day Streak Shield</strong>
+                        <span>Protects exactly one missed day</span>
+                      </div>
+                      <span class="inventory-pill empty" id="shieldInventory">0 owned</span>
+                    </div>
+                    <p class="shield-explanation">If you miss a day, Steady will ask on your next app open whether you want to use the shield. It is never used automatically.</p>
+                    <button class="shop-buy-btn" id="buyShieldButton" type="button" onclick="buyStreakShield()">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><path d="M9 9.2c.8-.7 1.8-1.1 3-1.1 1.7 0 3 .8 3 2 0 2.9-6 1-6 4 0 1.2 1.3 2 3 2 1.2 0 2.3-.4 3-1.1M12 6.4v11.2"/></svg>
+                      Get for <span id="shieldPrice">40</span> Coins
+                    </button>
+                  </div>
+                  <div class="price-note">Prototype price only. The final Coins economy is not confirmed and can be tuned later.</div>
+                </article>
+
+                <section class="shop-demo" aria-labelledby="demoTitle">
+                  <strong id="demoTitle">Preview the next-open prompt</strong>
+                  <p>Simulate opening Steady after a missed day to review the choice before it appears in the product.</p>
+                  <button class="demo-btn" type="button" onclick="openMissedDayPrompt()">Preview missed-day prompt</button>
+                </section>
+
+                <p class="shop-legal">MVP Steady Coins are non-redeemable, have no cash value, and cannot be exchanged for real-world goods or money.</p>
+              </div>
+            </section>
+
+            <div class="missed-day-backdrop" id="missedDayBackdrop" aria-hidden="true">
+              <div class="missed-day-dialog" role="dialog" aria-modal="true" aria-labelledby="missedDayTitle" aria-describedby="missedDayCopy">
+                <div class="missed-shield" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 2.8 7.9 7 10 4.2-2.1 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h2 id="missedDayTitle">Keep your streak?</h2>
+                <p id="missedDayCopy">Yesterday did not go as planned. You have a Streak Shield available, and you can choose whether to use it for that one missed day.</p>
+                <div class="missed-day-actions">
+                  <button class="shield-use-btn" id="useShieldButton" type="button" onclick="resolveMissedDay(true)">Use shield</button>
+                  <button class="shield-decline-btn" id="declineShieldButton" type="button" onclick="resolveMissedDay(false)">Let streak end</button>
+                </div>
+                <span class="missed-day-note" id="missedDayInventoryNote">Using it leaves 0 shields in your inventory.</span>
               </div>
             </div>
 
@@ -1948,6 +2302,8 @@
     const sheetOptions = document.getElementById('sheetOptions');
     const habitList = document.getElementById('habitList');
     const dayCelebration = document.getElementById('dayCelebration');
+    const coinShop = document.getElementById('coinShop');
+    const missedDayBackdrop = document.getElementById('missedDayBackdrop');
     const manageHabits = document.getElementById('manageHabits');
     const habitEditor = document.getElementById('habitEditor');
     const habitNameInput = document.getElementById('habitNameInput');
@@ -1969,7 +2325,11 @@
       steps: { name: '10K steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false }
     };
     const avatarOptions = ['🌿', '⛰️', '🌙', '☀️', '🪷'];
+    const STREAK_SHIELD_PRICE = 40;
     let avatarIndex = 0;
+    let coinBalance = 82;
+    let shieldInventory = 0;
+    let focusBeforeShop = null;
     let toastTimer;
     let celebrationTimer;
     let dayCelebrated = false;
@@ -2078,6 +2438,93 @@
       void toast.offsetWidth;
       toast.classList.add('show');
       toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    function openCoinShop() {
+      focusBeforeShop = document.activeElement;
+      coinShop.classList.add('open');
+      coinShop.setAttribute('aria-hidden', 'false');
+      document.getElementById('shopScroll').scrollTop = 0;
+      updateShopState();
+      window.setTimeout(() => document.getElementById('shopBackButton').focus(), 180);
+    }
+
+    function closeCoinShop() {
+      closeMissedDayPrompt();
+      coinShop.classList.remove('open');
+      coinShop.setAttribute('aria-hidden', 'true');
+      const returnTarget = focusBeforeShop && document.contains(focusBeforeShop)
+        ? focusBeforeShop
+        : document.getElementById('coinsButton');
+      window.setTimeout(() => returnTarget.focus(), 0);
+    }
+
+    function updateShopState() {
+      document.getElementById('todayCoinBalance').textContent = coinBalance;
+      document.getElementById('shopCoinBalance').textContent = coinBalance;
+      document.getElementById('coinsButton').setAttribute('aria-label', `${coinBalance} Steady Coins. Open shop.`);
+
+      const inventory = document.getElementById('shieldInventory');
+      inventory.textContent = `${shieldInventory} owned`;
+      inventory.classList.toggle('empty', shieldInventory === 0);
+
+      const buyButton = document.getElementById('buyShieldButton');
+      buyButton.disabled = shieldInventory > 0 || coinBalance < STREAK_SHIELD_PRICE;
+      if (shieldInventory > 0) {
+        buyButton.textContent = 'Shield ready in inventory';
+      } else if (coinBalance < STREAK_SHIELD_PRICE) {
+        buyButton.textContent = `Need ${STREAK_SHIELD_PRICE - coinBalance} more Coins`;
+      } else {
+        buyButton.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><path d="M9 9.2c.8-.7 1.8-1.1 3-1.1 1.7 0 3 .8 3 2 0 2.9-6 1-6 4 0 1.2 1.3 2 3 2 1.2 0 2.3-.4 3-1.1M12 6.4v11.2"/></svg>
+          Get for <span id="shieldPrice">${STREAK_SHIELD_PRICE}</span> Coins`;
+      }
+    }
+
+    function buyStreakShield() {
+      if (shieldInventory > 0 || coinBalance < STREAK_SHIELD_PRICE) return;
+      coinBalance -= STREAK_SHIELD_PRICE;
+      shieldInventory = 1;
+      updateShopState();
+      showToast('Streak Shield added to your inventory.');
+    }
+
+    function openMissedDayPrompt() {
+      missedDayBackdrop.classList.add('open');
+      missedDayBackdrop.setAttribute('aria-hidden', 'false');
+
+      const hasShield = shieldInventory > 0;
+      const useButton = document.getElementById('useShieldButton');
+      useButton.disabled = !hasShield;
+      document.getElementById('missedDayCopy').textContent = hasShield
+        ? 'Yesterday did not go as planned. You have a Streak Shield available, and you can choose whether to use it for that one missed day.'
+        : 'Yesterday did not go as planned. There is no Streak Shield in your inventory, so your streak can end here without judgment.';
+      document.getElementById('missedDayInventoryNote').textContent = hasShield
+        ? `Using it leaves ${shieldInventory - 1} shields in your inventory.`
+        : 'Return to the shop to obtain a one-day shield for a future missed day.';
+      window.setTimeout(() => (hasShield ? useButton : document.getElementById('declineShieldButton')).focus(), 120);
+    }
+
+    function closeMissedDayPrompt() {
+      missedDayBackdrop.classList.remove('open');
+      missedDayBackdrop.setAttribute('aria-hidden', 'true');
+      if (coinShop.classList.contains('open')) {
+        window.setTimeout(() => document.querySelector('.demo-btn').focus(), 0);
+      }
+    }
+
+    function resolveMissedDay(useShield) {
+      if (useShield && shieldInventory > 0) {
+        shieldInventory -= 1;
+        closeMissedDayPrompt();
+        updateShopState();
+        showToast('Shield used. Your 12-day streak continues.');
+        return;
+      }
+
+      closeMissedDayPrompt();
+      updateShopState();
+      showToast('Streak ended. You can begin again gently today.');
     }
 
     function openTravelSheet() {
@@ -2393,20 +2840,48 @@
       document.querySelector('.scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function trapFocus(container, event) {
+      const focusable = [...container.querySelectorAll('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])')];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
     document.addEventListener('keydown', event => {
+      if (event.key === 'Tab') {
+        if (missedDayBackdrop.classList.contains('open')) {
+          trapFocus(missedDayBackdrop, event);
+        } else if (coinShop.classList.contains('open')) {
+          trapFocus(coinShop, event);
+        }
+        return;
+      }
+
       if (event.key !== 'Escape') return;
-      if (pickerBackdrop.classList.contains('open')) {
+      if (missedDayBackdrop.classList.contains('open')) {
+        closeMissedDayPrompt();
+      } else if (pickerBackdrop.classList.contains('open')) {
         pickerBackdrop.classList.remove('open');
       } else if (habitEditor.classList.contains('open')) {
         closeHabitEditor();
       } else if (manageHabits.classList.contains('open')) {
         closeManageHabits();
+      } else if (coinShop.classList.contains('open')) {
+        closeCoinShop();
       } else {
         backdrop.classList.remove('open');
       }
     });
 
     setPreviewIcon('leaf', 'neutral');
+    updateShopState();
   </script>
 </body>
 </html>

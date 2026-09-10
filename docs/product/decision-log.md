@@ -24,6 +24,8 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-017 | Confirmed | The MVP has no Steady backend and keeps core product data on-device. | Optional external APIs may provide contextual data such as weather, but must not receive profile, habit, completion, streak, or coin data. |
 | P-018 | Confirmed | Optional weather appears as an icon and temperature beside the Today date. | It is cached, failure-safe, and must not become a dashboard card. |
 | P-019 | Confirmed | Settings includes user-initiated email feedback to `ceo@monklabs.ai`. | Open the device email app with subject `Steady feedback`; Steady does not send feedback through a backend. |
+| P-020 | Confirmed | Tapping the Steady Coins balance opens a shop containing a one-day Streak Shield. | A shield protects exactly one missed day and is never consumed automatically. |
+| P-021 | Confirmed | After a missed day, an owned shield is offered on the next app open. | The user chooses Use shield or Let streak end; use calm, non-judgmental copy. |
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |
@@ -31,11 +33,13 @@ entry when a decision changes and preserve the previous direction in its notes.
 | D-005 | Confirmed | Habit names locally suggest an icon and color while the user types. | Tapping the icon opens manual selection; a manual choice overrides future automatic suggestions. |
 | D-006 | Confirmed | A habit schedule uses either an exact time or a routine cue. | Initial cues include Anytime, After waking, After breakfast, After lunch, After dinner, and Before bed; Steady does not infer when those events occur. |
 | D-007 | Confirmed | Completing every scheduled habit triggers one brief whole-day celebration. | The animation is restrained, appears once for the day, shows earned Steady Coins, and respects reduced motion. |
+| D-008 | Confirmed | Empty-state Add your first habit opens the creation form directly. | Show the Add/manage choice only when at least one habit exists. |
 | A-001 | Confirmed | The repository remains limited to `app` and `core:designsystem` during design exploration. | Add modules only after a real vertical slice establishes a boundary. |
 
 ## Open decisions
 
 - Exact Steady Coins earning amount and whether streaks affect awards
+- Final Streak Shield price and inventory limits
 - Accidental completion protection for one-way completion
 - Pause-day consistency formula
 - Final typography and dark theme
