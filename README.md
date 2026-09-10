@@ -6,26 +6,16 @@ transparent scoring, weekly insights, and locally learned reminder suggestions.
 
 ## Technology
 
-- Kotlin and coroutines
+- Kotlin
 - Jetpack Compose with Material 3
-- Room and DataStore
-- WorkManager
-- Hilt and KSP
-- Multi-module, offline-first architecture
 
 ## Modules
 
-- `app` — application entry point and navigation host
-- `core:model` — shared product models
-- `core:database` — Room database and DAOs
-- `core:data` — repository implementations
-- `core:domain` — business rules and use cases
+- `app` — minimal application shell
 - `core:designsystem` — theme and reusable Compose components
-- `core:notifications` — reminders and background work
-- `feature:today` — daily checklist
-- `feature:habits` — habit management
-- `feature:insights` — consistency and weekly insights
-- `feature:settings` — preferences and data controls
+
+Feature and data modules will be introduced only when the product design and
+first vertical slice establish a real boundary for them.
 
 ## Local setup
 

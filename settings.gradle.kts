@@ -25,13 +25,4 @@ dependencyResolutionManagement {
 rootProject.name = "Steady"
 
 include(":app")
-include(":core:model")
-include(":core:database")
-include(":core:data")
-include(":core:domain")
 include(":core:designsystem")
-include(":core:notifications")
-include(":feature:today")
-include(":feature:habits")
-include(":feature:insights")
-include(":feature:settings")
