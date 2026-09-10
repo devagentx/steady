@@ -23,6 +23,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-016 | Confirmed | Settings allows the user to edit a local display name and profile icon. | The profile is not an account and never requires network access. |
 | P-017 | Confirmed | The MVP has no Steady backend and keeps core product data on-device. | Optional external APIs may provide contextual data such as weather, but must not receive profile, habit, completion, streak, or coin data. |
 | P-018 | Confirmed | Optional weather appears as an icon and temperature beside the Today date. | It is cached, failure-safe, and must not become a dashboard card. |
+| P-019 | Confirmed | Settings includes user-initiated email feedback to `ceo@monklabs.ai`. | Open the device email app with subject `Steady feedback`; Steady does not send feedback through a backend. |
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |

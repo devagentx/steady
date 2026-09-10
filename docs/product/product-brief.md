@@ -45,6 +45,7 @@ their daily progress without creating an account.
 - Streaks
 - Steady Coins as personal motivation
 - Local profile with a display name and selectable icon
+- User-initiated email feedback to `ceo@monklabs.ai`
 - Insights destination presented as Coming soon
 - Temporary habit or routine pause
 - Travel-mode support
@@ -84,6 +85,8 @@ data migration, and user value have been decided.
 - External services may be used for optional contextual data such as weather.
 - External requests must not include profile names, habits, completions, streaks,
   or coin balances.
+- Feedback is sent only when the user explicitly opens their email application;
+  Steady does not transmit it through an application backend.
 - Location must be optional, permission-based, and no more precise than the
   feature requires.
 - Date, time, weekday, and timezone should come from the device without a
