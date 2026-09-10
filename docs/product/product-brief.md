@@ -32,7 +32,7 @@ The initial user prefers:
 
 A user can create a recurring routine, receive a fresh checklist each day,
 complete habits with one tap, temporarily pause their routine, and review
-consistency without creating an account.
+their daily progress without creating an account.
 
 ## MVP scope
 
@@ -42,12 +42,15 @@ consistency without creating an account.
 - Unlimited archived habits
 - Daily checklist generated from the routine
 - Binary habit completion
-- Streaks and weekly insights
+- Streaks
 - Steady Coins as personal motivation
+- Local profile with a display name and selectable icon
+- Insights destination presented as Coming soon
 - Temporary habit or routine pause
 - Travel-mode support
 - Local reminder timing suggestions based on completion history
-- On-device storage with no required sign-in
+- On-device product data with no required sign-in or Steady backend
+- Optional external API calls for contextual information such as weather
 
 ## Explicitly out of scope
 
@@ -58,6 +61,7 @@ consistency without creating an account.
 - Health Connect or wearable integrations
 - Native quantity logging for water, protein, or steps
 - A paid plan in the MVP
+- Functional analytics or insight reports in the initial MVP
 
 ## Business direction
 
@@ -74,6 +78,13 @@ data migration, and user value have been decided.
 ## Privacy position
 
 - Habit and completion data stays on-device in the MVP.
+- Profile name and icon stay on-device and do not represent an online account.
+- Steady has no first-party application backend in the MVP.
+- External services may be used for optional contextual data such as weather.
+- External requests must not include profile names, habits, completions, streaks,
+  or coin balances.
+- Location must be optional, permission-based, and no more precise than the
+  feature requires.
 - Reminder learning is performed locally.
 - Habit names must not be included in telemetry or crash reports.
 - Notification content should eventually support a privacy-sensitive mode.
@@ -85,4 +96,3 @@ data migration, and user value have been decided.
 The MVP succeeds when users can understand today's routine immediately,
 complete it with minimal interaction, and return because the experience feels
 helpful rather than demanding.
-

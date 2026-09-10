@@ -19,9 +19,14 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-012 | Confirmed | Users choose the completion threshold required to maintain their streak. | Threshold selection UX is not designed yet. |
 | P-013 | Confirmed | Reminder times can be suggested from local completion history. | Suggestions require user acceptance and support opt-out. |
 | P-014 | Confirmed | Travel and temporary pauses are supported. | Paused habits do not send reminders. |
+| P-015 | Confirmed | Insights is a Coming soon page in the MVP. | Functional analytics and insight reports are deferred. |
+| P-016 | Confirmed | Settings allows the user to edit a local display name and profile icon. | The profile is not an account and never requires network access. |
+| P-017 | Confirmed | The MVP has no Steady backend and keeps core product data on-device. | Optional external APIs may provide contextual data such as weather, but must not receive profile, habit, completion, streak, or coin data. |
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |
+| D-004 | Confirmed | Adding and editing a habit uses a focused full-screen form with a live row preview. | The form includes name, icon/color, active days, preferred time, and reminder toggle. |
+| D-005 | Confirmed | Habit names locally suggest an icon and color while the user types. | Tapping the icon opens manual selection; a manual choice overrides future automatic suggestions. |
 | A-001 | Confirmed | The repository remains limited to `app` and `core:designsystem` during design exploration. | Add modules only after a real vertical slice establishes a boundary. |
 
 ## Open decisions
@@ -31,7 +36,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 - Pause-day consistency formula
 - Final typography and dark theme
 - Habit creation and editing flow
-- Insights screen hierarchy
+- Future Insights screen hierarchy and metrics
 - Premium pricing and downgrade behavior
 - Whether future redeemable rewards use a separate verified currency
-
+- Which contextual API features belong in the MVP and their permission model

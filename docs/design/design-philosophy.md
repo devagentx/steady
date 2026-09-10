@@ -114,11 +114,38 @@ becoming the largest element.
 The initial model uses three destinations:
 
 - Today
-- Insights
+- Insights — a Coming soon destination in the MVP
 - Settings
 
 Habit creation and management open from Today rather than occupying a permanent
 navigation destination.
+
+Settings provides a small local profile editor for display name and icon. It
+must clearly state that this information stays on the device and does not create
+an online account. The app may use optional external services for contextual
+information, but those services must remain visually and technically separate
+from the user's private habit data.
+
+## Add and edit habit form
+
+Habit creation and editing use the same focused full-screen composition:
+
+1. Top app bar with cancel/back and save
+2. Live habit-row preview
+3. Habit name
+4. Icon and color selection
+5. Active-day schedule
+6. Preferred time
+7. Reminder toggle
+8. Archive action when editing
+
+The form should feel like shaping one small practice, not configuring a complex
+automation.
+
+As the user types a name, a local keyword map may suggest an icon and color.
+This behavior must be immediate, deterministic, and understandable. Tapping the
+icon opens a manual icon-and-color selector. Once the user makes a manual
+choice, that choice must remain stable even if the name changes.
 
 ## Product voice
 
@@ -141,4 +168,3 @@ Do not introduce:
 - Red punishment states for missed habits
 - Premium upsells in the middle of daily completion
 - Hidden limits or unexplained locked actions
-
