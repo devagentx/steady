@@ -26,6 +26,13 @@ opting into arbitrary Material dynamic color.
 The interactive prototype is deployed through GitHub Pages for design review.
 It is a visual specification, not a web version of the production Android app.
 
+## Current status
+
+The product behavior and visual direction are documented and represented in the
+interactive prototype. The Android application is still a minimal runnable
+shell; the prototype screens and local product data have not yet been
+implemented in Compose.
+
 ## Technology
 
 - Kotlin

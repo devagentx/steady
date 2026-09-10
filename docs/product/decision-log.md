@@ -44,7 +44,6 @@ entry when a decision changes and preserve the previous direction in its notes.
 - Accidental completion protection for one-way completion
 - Pause-day consistency formula
 - Final typography
-- Habit creation and editing flow
 - Future Insights screen hierarchy and metrics
 - Premium pricing and downgrade behavior
 - Whether future redeemable rewards use a separate verified currency

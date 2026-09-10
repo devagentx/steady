@@ -3,6 +3,17 @@
 This file is the starting point for any AI agent or contributor working on
 Steady.
 
+## 60-second orientation
+
+- **Product:** local-first Android habit tracker with a calm daily checklist.
+- **Production stack:** Kotlin, Jetpack Compose, Material 3, JDK 17.
+- **Current code:** a runnable Android shell, not the designed product.
+- **Visual specification:** `docs/design/prototype/index.html`.
+- **Behavioral authority:** confirmed entries in
+  `docs/product/decision-log.md`.
+- **Current phase:** design is established; implementation should proceed in
+  small vertical slices without speculative architecture.
+
 ## Read before changing code
 
 Read these documents in order:
@@ -17,17 +28,46 @@ Read these documents in order:
 Confirmed entries in the decision log override older prose or prototypes.
 If two documents disagree, stop and resolve the conflict before coding.
 
-## Current project phase
+## Source-of-truth hierarchy
 
-Steady is in product and visual design exploration. The repository intentionally
-contains only:
+1. Confirmed entries in `docs/product/decision-log.md`
+2. Product boundaries in `docs/product/product-brief.md`
+3. Reusable visual rules in `docs/design/design-philosophy.md`
+4. Interactive intent in `docs/design/prototype/index.html`
+5. Production Android code
+
+The prototype demonstrates intended behavior but does not silently create a
+product decision. Record new decisions before treating them as requirements.
+
+## Current implementation state
+
+The Android app currently renders only a minimal `Steady` screen. Product
+screens, persistence, reminders, weather, Coins, and Streak Shields are not yet
+implemented in Android.
+
+The repository intentionally contains only:
 
 - `app` for the minimal runnable Android shell
 - `core:designsystem` for shared visual foundations
 
+`core:designsystem/.../Theme.kt` is placeholder code. Its colors and enabled
+Material dynamic color are not approved Steady behavior; replace them with
+intentional semantic light/dark tokens when implementing the first UI slice.
+
 Do not create feature, data, domain, database, or notification modules until a
 real vertical slice establishes their responsibilities. New modules require a
 clear ownership boundary and an approved product need.
+
+## Where to make changes
+
+| Task | Start here |
+|---|---|
+| Product behavior | `docs/product/decision-log.md` and `docs/product/product-brief.md` |
+| Visual or interaction change | `docs/design/design-philosophy.md` and the browser prototype |
+| Android application UI | `app/src/main/java/ai/monkmind/steady/` |
+| Theme or reusable Compose UI | `core/designsystem/` |
+| Dependencies and SDK versions | `gradle/libs.versions.toml` and module build files |
+| CI or prototype publishing | `.github/workflows/` |
 
 ## Product guardrails
 
@@ -77,6 +117,8 @@ clear ownership boundary and an approved product need.
 - Update the decision log when a product rule changes.
 - Update the design philosophy when a reusable visual rule changes.
 - Update the prototype when a confirmed visual or interaction behavior changes.
+- Update `AGENTS.md` when architecture, source-of-truth ownership, commands, or
+  implementation status changes.
 - Keep temporary mockups and exploration artifacts out of production source
   unless they are intentionally promoted into `docs/design/`.
 
