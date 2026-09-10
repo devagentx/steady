@@ -51,6 +51,7 @@ their daily progress without creating an account.
 - Local reminder timing suggestions based on completion history
 - On-device product data with no required sign-in or Steady backend
 - Optional external API calls for contextual information such as weather
+- Optional cached weather icon and temperature beside the Today date
 
 ## Explicitly out of scope
 
@@ -85,6 +86,12 @@ data migration, and user value have been decided.
   or coin balances.
 - Location must be optional, permission-based, and no more precise than the
   feature requires.
+- Date, time, weekday, and timezone should come from the device without a
+  network request.
+- A no-key weather service may be used for the non-commercial MVP, subject to
+  its attribution, rate-limit, availability, and licensing requirements.
+- Weather must be cached and treated as optional so the core app remains useful
+  without network access.
 - Reminder learning is performed locally.
 - Habit names must not be included in telemetry or crash reports.
 - Notification content should eventually support a privacy-sensitive mode.

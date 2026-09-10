@@ -10,7 +10,9 @@ Read these documents in order:
 1. [`docs/product/product-brief.md`](docs/product/product-brief.md)
 2. [`docs/design/design-philosophy.md`](docs/design/design-philosophy.md)
 3. [`docs/product/decision-log.md`](docs/product/decision-log.md)
-4. The README and the build files relevant to the change
+4. [`docs/design/prototype/index.html`](docs/design/prototype/index.html) for
+   any UI or interaction task
+5. The README and the build files relevant to the change
 
 Confirmed entries in the decision log override older prose or prototypes.
 If two documents disagree, stop and resolve the conflict before coding.
@@ -47,6 +49,10 @@ clear ownership boundary and an approved product need.
 - Completed habits are struck through, greyed out, locked for the day, and
   moved below incomplete habits.
 - Accessibility and reduced-motion behavior are requirements, not polish.
+- Treat `docs/design/prototype/index.html` as the interactive visual reference.
+  Open it in a browser before changing Android UI.
+- Do not copy HTML/CSS directly into Compose. Recreate the documented intent
+  using Android-native components and patterns.
 
 ## Development workflow
 
@@ -59,6 +65,7 @@ clear ownership boundary and an approved product need.
 - Prefer a working vertical slice over speculative abstractions.
 - Update the decision log when a product rule changes.
 - Update the design philosophy when a reusable visual rule changes.
+- Update the prototype when a confirmed visual or interaction behavior changes.
 - Keep temporary mockups and exploration artifacts out of production source
   unless they are intentionally promoted into `docs/design/`.
 
@@ -68,7 +75,7 @@ Before finishing a change:
 
 1. Confirm the behavior matches the decision log.
 2. Confirm UI changes match the design philosophy.
-3. Update affected documentation.
-4. Run the smallest relevant build, test, and lint tasks.
-5. Leave no unexplained architecture or product decisions in code alone.
-
+3. Compare UI changes with the interactive prototype.
+4. Update affected documentation and prototype behavior.
+5. Run the smallest relevant build, test, and lint tasks.
+6. Leave no unexplained architecture or product decisions in code alone.

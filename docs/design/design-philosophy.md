@@ -29,6 +29,12 @@ Completing a habit should reduce visual noise. The item becomes grey, receives a
 strikethrough, locks for the day, and moves below incomplete habits. The
 remaining actions become easier to scan.
 
+Completing the final scheduled habit is the exception to the otherwise quiet
+feedback: show one brief whole-day celebration using restrained sage and
+warm-gold motion. It should feel earned and elegant rather than explosive, show
+the Steady Coins awarded, occur only once for that day, and provide a
+reduced-motion fallback.
+
 ### Rewards stay quiet
 
 Steady Coins and streaks provide encouragement but remain secondary. Avoid
@@ -97,6 +103,10 @@ These values are provisional until the design is finalized.
 Steady Coins and streaks appear inside or near the progress summary without
 becoming the largest element.
 
+Optional weather may appear as a small icon and temperature beside the date.
+It must disappear gracefully when unavailable rather than reserving an empty
+card or error state.
+
 ## Habit row behavior
 
 - The entire row is a completion target.
@@ -135,7 +145,7 @@ Habit creation and editing use the same focused full-screen composition:
 3. Habit name
 4. Icon and color selection
 5. Active-day schedule
-6. Preferred time
+6. Exact time or routine cue
 7. Reminder toggle
 8. Archive action when editing
 
@@ -147,6 +157,11 @@ This behavior must be immediate, deterministic, and understandable. Tapping the
 icon opens a manual icon-and-color selector. Once the user makes a manual
 choice, that choice must remain stable even if the name changes.
 
+Scheduling should support either an exact clock time or a familiar routine cue
+such as After waking, After breakfast, After lunch, After dinner, Before bed, or
+Anytime. A cue describes the user's intention; the app must not imply that it
+can detect when the real-world event occurred.
+
 ## Product voice
 
 Use concise, calm language:
@@ -156,6 +171,8 @@ Use concise, calm language:
 - Avoid: "You failed."
 - Avoid: "Don't lose your streak!"
 - Avoid exaggerated praise for routine actions.
+- Coming soon pages should describe user value, not internal release plans or
+  prioritization decisions.
 
 ## Anti-patterns
 

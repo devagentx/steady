@@ -11,8 +11,12 @@ Coming soon.
 
 - [Product brief](docs/product/product-brief.md)
 - [Design philosophy](docs/design/design-philosophy.md)
+- [Interactive design prototype](docs/design/prototype/index.html)
 - [Product decision log](docs/product/decision-log.md)
 - [AI agent and contributor guide](AGENTS.md)
+
+The interactive prototype is deployed through GitHub Pages for design review.
+It is a visual specification, not a web version of the production Android app.
 
 ## Technology
 

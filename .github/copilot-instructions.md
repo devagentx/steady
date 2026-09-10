@@ -4,6 +4,12 @@ Read `AGENTS.md`, `docs/product/product-brief.md`,
 `docs/design/design-philosophy.md`, and `docs/product/decision-log.md` before
 making changes.
 
+For every UI or interaction task, also open
+`docs/design/prototype/index.html` in a browser. It is the interactive visual
+reference, not production web code. Recreate its intent with Android-native
+Jetpack Compose patterns and keep it synchronized when confirmed behavior
+changes.
+
 The project is currently in design exploration. Keep the repository limited to
 the `app` and `core:designsystem` modules until an approved vertical slice
 creates a real need for another module. Do not add speculative architecture or
