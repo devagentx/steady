@@ -12,7 +12,7 @@ Open [`index.html`](index.html) in a browser to explore:
 - Mutable add/edit behavior reflected immediately on Today and Manage Habits
 - Reversible archive/restore and separate permanent habit deletion
 - Two-step Reset all data flow that reopens first-launch onboarding
-- First-launch onboarding with required local name and optional/default icon
+- Minimal first-launch onboarding with a required local name
 - Exact-time and routine-cue scheduling
 - Local profile settings
 - Persisted System default, Light, and Dark appearance choices
@@ -76,8 +76,8 @@ while System is selected, and applies the resolved Steady palette to every
 screen, overlay, editor, and state before first paint.
 
 On a fresh browser state, onboarding appears before Today and cannot continue
-without a trimmed display name. The selected or default icon, name, and
-onboarding completion persist locally. Completion opens empty Today. Reset all
+without a trimmed display name. A default icon is assigned automatically; the
+name and onboarding completion persist locally. Completion opens empty Today. Reset all
 data clears onboarding state and reopens it immediately. To keep the prototype
 useful for broad design review, sample habits are available only through
 controls explicitly labeled **Prototype only** or **Sample demo**.

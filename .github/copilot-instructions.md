@@ -48,11 +48,12 @@ The browser prototype simulates these rules with `localStorage`; that storage
 implementation is not Android production architecture.
 
 Fresh launch and Reset all data show onboarding before Today. Require a
-non-empty local display name; icon selection is optional with a calm default.
-State clearly that the profile stays on-device and is not an account. Persist
-completion, name, and icon locally, then open empty Today with Add your first
-habit and no seeded demo habits. Any prototype sample-data path must be
-explicitly labeled prototype-only.
+non-empty local display name. Keep the screen to a concise local-profile
+description, name field, and Continue action. Assign the calm default icon
+automatically and offer icon changes later in Settings. Persist completion and
+name locally, then open empty Today with Add your first habit and no seeded demo
+habits. Any prototype sample-data path must be outside onboarding and explicitly
+labeled prototype-only.
 
 Use Kotlin, Jetpack Compose, Material 3, JDK 17, and the checked-in Gradle
 wrapper. Add libraries only when the same change uses them. Update the decision

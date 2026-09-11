@@ -95,6 +95,17 @@
     }
 
     * { box-sizing: border-box; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
 
     body {
       margin: 0;
@@ -1959,28 +1970,7 @@
     html[data-onboarding="pending"] .app { visibility: hidden; }
     html[data-onboarding="pending"] .onboarding-screen { display: block; }
     .onboarding-content { width: min(100%, 330px); margin: 0 auto; }
-    .onboarding-mark {
-      width: 62px;
-      height: 62px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 20px;
-      color: var(--primary);
-      border: 1px solid rgba(66, 107, 90, .17);
-      border-radius: 21px;
-      background: var(--sage-light);
-      box-shadow: 0 10px 24px rgba(49, 58, 52, .08);
-    }
-    .onboarding-mark svg { width: 31px; height: 31px; }
-    .onboarding-eyebrow {
-      margin: 0 0 5px;
-      color: var(--secondary);
-      font-size: 9px;
-      font-weight: 850;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-    .onboarding-screen h1 { margin-bottom: 9px; font-size: 28px; }
+    .onboarding-screen h1 { margin: 28px 0 9px; font-size: 28px; }
     .onboarding-intro {
       margin: 0 0 22px;
       color: var(--secondary);
@@ -2022,46 +2012,6 @@
       font-size: 8.5px;
       line-height: 1.4;
     }
-    .onboarding-avatar-options {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 7px;
-    }
-    .onboarding-avatar {
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-      padding: 0;
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      background: var(--input);
-      cursor: pointer;
-      font-size: 20px;
-      transition: .2s var(--ease);
-    }
-    .onboarding-avatar[aria-checked="true"] {
-      border-color: rgba(66, 107, 90, .42);
-      background: var(--sage-soft);
-      box-shadow: inset 0 0 0 1px rgba(66, 107, 90, .12);
-    }
-    .onboarding-avatar:focus-visible {
-      outline: 3px solid rgba(66, 107, 90, .18);
-      outline-offset: 2px;
-    }
-    .onboarding-privacy {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      margin: 3px 0 18px;
-      padding: 12px;
-      color: var(--secondary);
-      border-radius: 15px;
-      background: var(--sage-soft);
-      font-size: 9px;
-      line-height: 1.5;
-    }
-    .onboarding-privacy svg { width: 16px; height: 16px; flex: 0 0 auto; color: var(--primary); }
     .onboarding-continue {
       width: 100%;
       min-height: 47px;
@@ -2077,38 +2027,6 @@
       color: #8b918c;
       background: var(--muted-surface);
       cursor: default;
-    }
-    .onboarding-theme-note {
-      display: block;
-      margin-top: 9px;
-      color: var(--secondary);
-      font-size: 8px;
-      line-height: 1.4;
-      text-align: center;
-    }
-    .demo-onboarding-path {
-      margin-top: 20px;
-      padding-top: 17px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .demo-onboarding-path span {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--secondary);
-      font-size: 8.5px;
-      line-height: 1.45;
-    }
-    .demo-onboarding-btn {
-      min-height: 38px;
-      padding: 0 13px;
-      color: var(--primary);
-      border: 1px solid rgba(66, 107, 90, .24);
-      border-radius: 12px;
-      background: var(--sage-soft);
-      cursor: pointer;
-      font-size: 8.5px;
-      font-weight: 850;
     }
     .picker-backdrop {
       position: absolute;
@@ -2385,22 +2303,10 @@
         linear-gradient(180deg, rgba(50, 77, 63, .38), rgba(21, 26, 23, 0) 250px),
         var(--bg);
     }
-    html[data-theme="dark"] .onboarding-mark {
-      border-color: var(--border);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, .24);
-    }
-    html[data-theme="dark"] .onboarding-name-input,
-    html[data-theme="dark"] .onboarding-avatar {
+    html[data-theme="dark"] .onboarding-name-input {
       color: var(--text);
       border-color: var(--border);
       background: var(--input);
-    }
-    html[data-theme="dark"] .onboarding-avatar[aria-checked="true"] {
-      border-color: #4b6d5b;
-      background: var(--sage-soft);
-    }
-    html[data-theme="dark"] .onboarding-avatar:focus-visible {
-      outline-color: rgba(155, 200, 176, .34);
     }
 
     .empty-mode .today-state { display: none; }
@@ -3089,49 +2995,20 @@
 
           <section class="onboarding-screen" id="onboardingScreen" aria-hidden="true" aria-labelledby="onboardingTitle">
             <form class="onboarding-content" id="onboardingForm" novalidate>
-              <div class="onboarding-mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>
-              </div>
-              <p class="onboarding-eyebrow">A small beginning</p>
               <h1 id="onboardingTitle">Welcome to Steady</h1>
-              <p class="onboarding-intro">Give your quiet daily space a name. You will begin with an empty Today list and add only the habits that fit.</p>
+              <p class="onboarding-intro">What should Steady call you? Your name stays on this device and is only used for your greeting. This is not an account.</p>
 
               <div class="onboarding-field">
                 <div class="onboarding-label-row">
                   <label for="onboardingName">Display name</label>
                   <span>Required</span>
                 </div>
-                <input class="onboarding-name-input" id="onboardingName" name="displayName" maxlength="24" autocomplete="name" placeholder="What should Steady call you?" required aria-describedby="onboardingNameHelp onboardingNameError" aria-invalid="false" />
-                <span class="onboarding-theme-note" id="onboardingNameHelp">Used only for your greeting in Steady.</span>
+                <input class="onboarding-name-input" id="onboardingName" name="displayName" maxlength="24" autocomplete="name" placeholder="Your name" required aria-describedby="onboardingNameHelp onboardingNameError" aria-invalid="false" />
+                <span class="sr-only" id="onboardingNameHelp">Your name stays on this device and is used only for your greeting.</span>
                 <p class="onboarding-error" id="onboardingNameError" role="alert"></p>
               </div>
 
-              <div class="onboarding-field">
-                <div class="onboarding-label-row">
-                  <strong id="onboardingIconLabel">Profile icon</strong>
-                  <span>Optional · calm default selected</span>
-                </div>
-                <div class="onboarding-avatar-options" role="radiogroup" aria-labelledby="onboardingIconLabel">
-                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="true" tabindex="0" data-avatar-index="0" aria-label="Leaf, default profile icon" onclick="chooseOnboardingAvatar(this)">🌿</button>
-                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="1" aria-label="Mountain profile icon" onclick="chooseOnboardingAvatar(this)">⛰️</button>
-                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="2" aria-label="Moon profile icon" onclick="chooseOnboardingAvatar(this)">🌙</button>
-                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="3" aria-label="Sun profile icon" onclick="chooseOnboardingAvatar(this)">☀️</button>
-                  <button class="onboarding-avatar" type="button" role="radio" aria-checked="false" tabindex="-1" data-avatar-index="4" aria-label="Lotus profile icon" onclick="chooseOnboardingAvatar(this)">🪷</button>
-                </div>
-              </div>
-
-              <div class="onboarding-privacy">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                <span>Your name and icon stay on this device. This is a local profile, not an account, and Steady does not upload it.</span>
-              </div>
-
               <button class="onboarding-continue" id="onboardingContinue" type="submit" disabled>Continue to Today</button>
-              <span class="onboarding-theme-note">Appearance follows your current System setting. You can choose Light or Dark later in Settings.</span>
-
-              <div class="demo-onboarding-path">
-                <span><strong>Prototype only:</strong> load sample habits and rewards to review the filled-state design without changing the confirmed first-launch behavior.</span>
-                <button class="demo-onboarding-btn" type="button" onclick="loadDesignDemo()">Load sample design demo</button>
-              </div>
             </form>
           </section>
         </div>
@@ -3357,14 +3234,6 @@
       updateShopState();
     }
 
-    function syncOnboardingAvatarOptions() {
-      document.querySelectorAll('.onboarding-avatar').forEach(option => {
-        const selected = Number(option.dataset.avatarIndex) === avatarIndex;
-        option.setAttribute('aria-checked', String(selected));
-        option.tabIndex = selected ? 0 : -1;
-      });
-    }
-
     function updateOnboardingNameValidation({ showError = false } = {}) {
       const valid = onboardingName.value.trim().length > 0;
       onboardingContinue.disabled = !valid;
@@ -3374,17 +3243,11 @@
       return valid;
     }
 
-    function chooseOnboardingAvatar(option) {
-      avatarIndex = Number(option.dataset.avatarIndex) || 0;
-      syncOnboardingAvatarOptions();
-    }
-
     function showOnboarding() {
       closeAllOverlays();
       document.documentElement.dataset.onboarding = 'pending';
       onboardingName.value = '';
       avatarIndex = 0;
-      syncOnboardingAvatarOptions();
       updateOnboardingNameValidation();
       onboardingScreen.classList.add('open');
       onboardingScreen.setAttribute('aria-hidden', 'false');
@@ -4258,16 +4121,6 @@
         const next = options[(index + direction + options.length) % options.length];
         next.focus();
         setAppearance(next.id.replace('appearance-', ''));
-      });
-    });
-    document.querySelectorAll('.onboarding-avatar').forEach((option, index, options) => {
-      option.addEventListener('keydown', event => {
-        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
-        event.preventDefault();
-        const direction = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1;
-        const next = options[(index + direction + options.length) % options.length];
-        next.focus();
-        chooseOnboardingAvatar(next);
       });
     });
     onboardingName.addEventListener('input', () => updateOnboardingNameValidation());

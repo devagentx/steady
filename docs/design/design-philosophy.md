@@ -192,22 +192,21 @@ from the user's private habit data.
 
 On a true fresh launch, show one focused onboarding screen before Today:
 
-1. Calm welcome and concise explanation
+1. Calm welcome with a concise on-device profile explanation
 2. Required display-name field
-3. Optional profile-icon choices with a calm default already selected
-4. Clear on-device privacy statement: this is not an account
-5. Continue action enabled only for a non-empty trimmed name
+3. Continue action enabled only for a non-empty trimmed name
 
 Support keyboard submission, visible validation, programmatic initial focus,
-accessible field/radio labels, and restrained or removed motion according to
-the system preference. The screen uses the resolved System, Light, or Dark
-Steady palette.
+an accessible field label, and restrained or removed motion according to the
+system preference. The screen uses the resolved System, Light, or Dark Steady
+palette.
 
-After success, persist onboarding completion, name, and icon locally and move
-to the empty Today state with the direct Add your first habit action. Do not
+After success, persist onboarding completion and name locally, assign the calm
+default icon, and move to the empty Today state with the direct Add your first
+habit action. Icon customization remains available later in Settings. Do not
 seed sample habits. A design prototype may provide a separate, explicitly
-labeled prototype-only sample-data action; it must not silently represent
-production first-launch behavior.
+labeled prototype-only sample-data action outside onboarding; it must not
+silently represent production first-launch behavior.
 
 ## Add and edit habit form
 

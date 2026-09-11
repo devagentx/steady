@@ -89,9 +89,10 @@ clear ownership boundary and an approved product need.
   product data and preferences and reopens first-launch onboarding using System
   default appearance.
 - A true first launch requires a non-empty local display name before Today.
-  Profile icon selection is optional and has a calm default. Explain that the
-  profile stays on-device and is not an account; completion opens empty Today
-  with Add your first habit and must not seed demo habits.
+  Keep onboarding minimal: concise local-profile description, name field, and
+  Continue. Assign the default icon automatically and leave customization to
+  Settings. Completion opens empty Today with Add your first habit and must not
+  seed demo habits.
 - Prototype sample data must be entered through an explicitly labeled
   prototype-only control, never a silent production-behavior bypass.
 

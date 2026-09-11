@@ -43,9 +43,10 @@ Delete. Reset all data erases habits, profile, completion/progress, streaks,
 Steady Coins, Streak Shields, appearance, and onboarding completion, then
 reopens first-launch onboarding using System default appearance.
 
-First launch requires a non-empty local display name, offers an optional profile
-icon with a calm default, explains that the profile is on-device and not an
-account, and then opens an empty Today list with Add your first habit.
+First launch uses a minimal screen with a short local-profile description, a
+required display name, and Continue. Steady assigns a calm default profile icon
+that can be changed later in Settings, then opens an empty Today list with Add
+your first habit.
 
 ## Technology
 

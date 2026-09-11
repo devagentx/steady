@@ -119,12 +119,12 @@ data migration, and user value have been decided.
 
 - A true fresh launch shows focused onboarding before Today.
 - A non-empty display name is required to continue.
-- Profile icon selection is optional. Steady provides a calm default icon and
-  allows the user to choose another during onboarding.
+- Steady assigns a calm default profile icon automatically. The user can change
+  it later in Settings rather than during onboarding.
 - The screen clearly explains that the profile stays on the device, is not an
   account, and is not uploaded.
-- Successful onboarding persists completion, name, and selected/default icon
-  locally, then opens the empty Today state with Add your first habit.
+- Successful onboarding persists completion and name locally, assigns the
+  default icon, then opens the empty Today state with Add your first habit.
 - Fresh launch and Reset all data never seed or restore example habits.
 - The web prototype may expose an explicitly labeled prototype-only sample-data
   path for design review; Android production behavior must not bypass onboarding.
