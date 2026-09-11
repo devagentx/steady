@@ -56,3 +56,12 @@ explicitly labeled prototype-only.
 Use Kotlin, Jetpack Compose, Material 3, JDK 17, and the checked-in Gradle
 wrapper. Add libraries only when the same change uses them. Update the decision
 log whenever product behavior changes.
+
+Every code change must leave its touched area simpler, clearer, or more
+maintainable than before. Prefer direct implementations, descriptive names,
+small responsibilities, reuse of established patterns, and removal of
+task-related duplication or dead code. Do not add speculative abstractions,
+layers, configuration, or dependencies for hypothetical future needs. Keep
+cleanup within the requested scope rather than performing unrelated broad
+refactors. When new complexity is truly required, isolate it behind the
+smallest clear boundary and explain why a simpler solution is insufficient.

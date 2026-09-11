@@ -126,6 +126,17 @@ clear ownership boundary and an approved product need.
 - Build: `./gradlew :app:assembleDebug`
 - Unit tests: `./gradlew testDebugUnitTest`
 - Lint: `./gradlew lintDebug`
+- Leave every touched area simpler, clearer, or more maintainable than before.
+  Prefer direct code, descriptive names, small responsibilities, and existing
+  patterns over new layers or abstractions.
+- Do not use this rule to justify unrelated repository-wide refactoring. Improve
+  code within the task's scope and preserve behavior outside it.
+- Remove duplication, dead paths, obsolete comments, and unnecessary
+  indirection encountered in the touched path when doing so is safe and
+  directly related to the change.
+- A change must not add complexity merely to anticipate possible future needs.
+  If the requirement genuinely needs additional complexity, isolate it to the
+  smallest boundary and document why the simpler approach is insufficient.
 - Keep changes small and aligned with one confirmed product decision.
 - Add dependencies only when code in the same change uses them.
 - Prefer a working vertical slice over speculative abstractions.
@@ -147,3 +158,5 @@ Before finishing a change:
 4. Update affected documentation and prototype behavior.
 5. Run the smallest relevant build, test, and lint tasks.
 6. Leave no unexplained architecture or product decisions in code alone.
+7. Confirm the touched code is simpler or at least no more complex, with no
+   speculative abstraction or avoidable duplication introduced.

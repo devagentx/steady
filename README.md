@@ -59,6 +59,16 @@ account, and then opens an empty Today list with Add your first habit.
 Feature and data modules will be introduced only when the product design and
 first vertical slice establish a real boundary for them.
 
+## Contribution principle
+
+Every contribution should leave the code it touches simpler, clearer, or more
+maintainable. Prefer direct solutions and existing patterns over speculative
+abstractions. Keep improvements within the task's scope; do not turn this
+principle into unrelated large refactors. If a requirement genuinely adds
+complexity, isolate it and explain why the simpler option is insufficient.
+
+See [`AGENTS.md`](AGENTS.md) for the complete contributor and AI-agent workflow.
+
 ## Local setup
 
 1. Install Android Studio and Android SDK 37.
