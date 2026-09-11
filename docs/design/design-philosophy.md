@@ -196,6 +196,10 @@ On a true fresh launch, show one focused onboarding screen before Today:
 2. Required display-name field
 3. Continue action enabled only for a non-empty trimmed name
 
+The screen may use one restrained branded illustration or mark and a short
+eyebrow to feel intentional. Do not add secondary setup choices, information
+cards, theme explanations, or prototype controls to onboarding.
+
 Support keyboard submission, visible validation, programmatic initial focus,
 an accessible field label, and restrained or removed motion according to the
 system preference. The screen uses the resolved System, Light, or Dark Steady

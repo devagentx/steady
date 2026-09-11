@@ -1970,7 +1970,29 @@
     html[data-onboarding="pending"] .app { visibility: hidden; }
     html[data-onboarding="pending"] .onboarding-screen { display: block; }
     .onboarding-content { width: min(100%, 330px); margin: 0 auto; }
-    .onboarding-screen h1 { margin: 28px 0 9px; font-size: 28px; }
+    .onboarding-mark {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      margin: 22px 0 18px;
+      color: var(--primary);
+      border: 1px solid rgba(66, 107, 90, .17);
+      border-radius: 20px;
+      background: var(--sage-light);
+      box-shadow: 0 10px 24px rgba(49, 58, 52, .08);
+      transform: rotate(-3deg);
+    }
+    .onboarding-mark svg { width: 29px; height: 29px; transform: rotate(3deg); }
+    .onboarding-eyebrow {
+      margin: 0 0 5px;
+      color: var(--primary);
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .onboarding-screen h1 { margin: 0 0 9px; font-size: 28px; }
     .onboarding-intro {
       margin: 0 0 22px;
       color: var(--secondary);
@@ -2302,6 +2324,10 @@
         radial-gradient(circle at 82% 6%, rgba(102, 75, 45, .28), transparent 180px),
         linear-gradient(180deg, rgba(50, 77, 63, .38), rgba(21, 26, 23, 0) 250px),
         var(--bg);
+    }
+    html[data-theme="dark"] .onboarding-mark {
+      border-color: var(--border);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, .24);
     }
     html[data-theme="dark"] .onboarding-name-input {
       color: var(--text);
@@ -2995,8 +3021,12 @@
 
           <section class="onboarding-screen" id="onboardingScreen" aria-hidden="true" aria-labelledby="onboardingTitle">
             <form class="onboarding-content" id="onboardingForm" novalidate>
+              <div class="onboarding-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>
+              </div>
+              <p class="onboarding-eyebrow">A small beginning</p>
               <h1 id="onboardingTitle">Welcome to Steady</h1>
-              <p class="onboarding-intro">What should Steady call you? Your name stays on this device and is only used for your greeting. This is not an account.</p>
+              <p class="onboarding-intro">A calm space for the routines you want to return to. Your name stays on this device. What should Steady call you?</p>
 
               <div class="onboarding-field">
                 <div class="onboarding-label-row">
