@@ -142,6 +142,18 @@
       gap: 18px;
     }
 
+    .svg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .steady-mark .mark-bg { fill: var(--mark-bg, var(--bg)); }
+    .steady-mark .mark-halo { fill: var(--mark-halo, var(--sage-light)); }
+    .steady-mark .mark-leaf { fill: var(--mark-leaf, var(--primary)); }
+    .steady-mark .mark-vein {
+      fill: none;
+      stroke: var(--mark-vein, var(--sage-light));
+      stroke-width: 58;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .prototype-label {
       margin-bottom: -8px;
       color: rgba(73, 82, 76, .72);
@@ -1971,19 +1983,19 @@
     html[data-onboarding="pending"] .onboarding-screen { display: block; }
     .onboarding-content { width: min(100%, 330px); margin: 0 auto; }
     .onboarding-mark {
-      width: 58px;
-      height: 58px;
-      display: grid;
-      place-items: center;
+      width: 72px;
+      height: 72px;
       margin: 22px 0 18px;
-      color: var(--primary);
-      border: 1px solid rgba(66, 107, 90, .17);
-      border-radius: 20px;
-      background: var(--sage-light);
-      box-shadow: 0 10px 24px rgba(49, 58, 52, .08);
       transform: rotate(-3deg);
     }
-    .onboarding-mark svg { width: 29px; height: 29px; transform: rotate(3deg); }
+    .onboarding-mark svg {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 22px;
+      box-shadow: 0 10px 24px rgba(49, 58, 52, .1);
+      transform: rotate(3deg);
+    }
     .onboarding-eyebrow {
       margin: 0 0 5px;
       color: var(--primary);
@@ -2100,6 +2112,66 @@
     .picker-swatch.warm { color: #9a6a38; background: var(--warm-soft); }
     .picker-swatch.neutral { color: #69716b; background: #eeeee9; }
 
+    .brand-preview {
+      width: min(100%, 520px);
+      padding: 18px;
+      border: 1px solid rgba(66, 107, 90, .13);
+      border-radius: 22px;
+      background: rgba(255, 252, 245, .72);
+      box-shadow: 0 12px 34px rgba(49, 58, 52, .07);
+      backdrop-filter: blur(16px);
+    }
+    .brand-preview-header { margin-bottom: 14px; }
+    .brand-preview-header span {
+      display: block;
+      margin-bottom: 4px;
+      color: #426b5a;
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .brand-preview-header h2 { margin: 0 0 5px; font-family: Georgia, serif; font-size: 20px; }
+    .brand-preview-header p { margin: 0; color: #69716b; font-size: 10px; line-height: 1.5; }
+    .brand-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .brand-sample {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid rgba(66, 107, 90, .12);
+      border-radius: 17px;
+    }
+    .brand-sample.light {
+      --mark-bg: #f7f5ef;
+      --mark-halo: #dce9e1;
+      --mark-leaf: #426b5a;
+      --mark-vein: #dce9e1;
+      color: #202521;
+      background: #fffcf5;
+    }
+    .brand-sample.dark {
+      --mark-bg: #151a17;
+      --mark-halo: #24352d;
+      --mark-leaf: #9bc8b0;
+      --mark-vein: #24352d;
+      color: #f1eee6;
+      background: #1e2521;
+    }
+    .brand-sample-top { display: flex; align-items: center; gap: 11px; }
+    .brand-sample-icon { width: 62px; height: 62px; flex: 0 0 auto; overflow: hidden; border-radius: 18px; }
+    .brand-sample-icon svg { width: 100%; height: 100%; display: block; }
+    .brand-sample strong { display: block; margin-bottom: 3px; font-size: 11px; }
+    .brand-sample small { display: block; color: currentColor; opacity: .65; font-size: 8.5px; line-height: 1.4; }
+    .mask-row { display: flex; align-items: center; gap: 8px; margin-top: 11px; }
+    .mask-preview { width: 32px; height: 32px; overflow: hidden; background: var(--mark-bg); }
+    .mask-preview svg { width: 100%; height: 100%; display: block; }
+    .mask-preview.circle { border-radius: 50%; }
+    .mask-preview.rounded { border-radius: 9px; }
+    .mask-preview.squircle { border-radius: 38% / 32%; }
+
     .interaction-hint {
       color: rgba(73, 82, 76, .66);
       font-size: 10px;
@@ -2143,11 +2215,14 @@
     html[data-theme="dark"] .prototype-label,
     html[data-theme="dark"] .interaction-hint { color: #9ca69f; }
     html[data-theme="dark"] .mode-switch,
-    html[data-theme="dark"] .feedback-panel details {
+    html[data-theme="dark"] .feedback-panel details,
+    html[data-theme="dark"] .brand-preview {
       border-color: var(--border);
       background: rgba(30, 37, 33, .82);
       box-shadow: 0 8px 24px rgba(0, 0, 0, .24);
     }
+    html[data-theme="dark"] .brand-preview-header span { color: var(--primary); }
+    html[data-theme="dark"] .brand-preview-header p { color: var(--secondary); }
     html[data-theme="dark"] .mode-btn.active,
     html[data-theme="dark"] .primary-cta,
     html[data-theme="dark"] .shop-buy-btn,
@@ -2325,8 +2400,7 @@
         linear-gradient(180deg, rgba(50, 77, 63, .38), rgba(21, 26, 23, 0) 250px),
         var(--bg);
     }
-    html[data-theme="dark"] .onboarding-mark {
-      border-color: var(--border);
+    html[data-theme="dark"] .onboarding-mark svg {
       box-shadow: 0 10px 24px rgba(0, 0, 0, .24);
     }
     html[data-theme="dark"] .onboarding-name-input {
@@ -2396,6 +2470,7 @@
     @media (max-width: 420px) {
       .stage { padding-inline: 8px; }
       .phone-frame { width: calc(100vw - 16px); }
+      .brand-preview-grid { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2404,6 +2479,14 @@
   </style>
 </head>
 <body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="steadyBrandMark" viewBox="0 0 1080 1080">
+      <rect class="mark-bg" width="1080" height="1080"></rect>
+      <circle class="mark-halo" cx="540" cy="540" r="344"></circle>
+      <path class="mark-leaf" d="M306 615C320 456 427 322 690 271C758 258 806 257 818 258C798 430 740 587 635 705C557 793 452 839 369 792C314 761 289 696 306 615Z"></path>
+      <path class="mark-vein" d="M350 655C405 708 456 740 505 750C571 651 646 541 751 385"></path>
+    </symbol>
+  </svg>
   <main class="stage">
     <div class="showcase">
       <div class="prototype-label">Interactive design prototype · Not the Android app</div>
@@ -3022,7 +3105,7 @@
           <section class="onboarding-screen" id="onboardingScreen" aria-hidden="true" aria-labelledby="onboardingTitle">
             <form class="onboarding-content" id="onboardingForm" novalidate>
               <div class="onboarding-mark" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>
+                <svg class="steady-mark" viewBox="0 0 1080 1080"><use href="#steadyBrandMark"></use></svg>
               </div>
               <p class="onboarding-eyebrow">A small beginning</p>
               <h1 id="onboardingTitle">Welcome to Steady</h1>
@@ -3045,6 +3128,42 @@
       </section>
 
       <div class="interaction-hint">Tap a habit to complete it · Tap the calendar to pause · Switch states above</div>
+
+      <section class="brand-preview" aria-labelledby="brandPreviewTitle">
+        <div class="brand-preview-header">
+          <span>App icon direction</span>
+          <h2 id="brandPreviewTitle">A leaf that quietly becomes a check</h2>
+          <p>The broad silhouette reads at launcher size; the central vein carries the idea of calm, repeatable progress.</p>
+        </div>
+        <div class="brand-preview-grid">
+          <article class="brand-sample light">
+            <div class="brand-sample-top">
+              <div class="brand-sample-icon">
+                <svg class="steady-mark" viewBox="0 0 1080 1080" aria-label="Steady icon in the light palette" role="img"><use href="#steadyBrandMark"></use></svg>
+              </div>
+              <div><strong>Warm light</strong><small>Deep sage on a soft neutral field</small></div>
+            </div>
+            <div class="mask-row" aria-label="Light icon mask previews">
+              <span class="mask-preview circle"><svg class="steady-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#steadyBrandMark"></use></svg></span>
+              <span class="mask-preview rounded"><svg class="steady-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#steadyBrandMark"></use></svg></span>
+              <span class="mask-preview squircle"><svg class="steady-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#steadyBrandMark"></use></svg></span>
+            </div>
+          </article>
+          <article class="brand-sample dark">
+            <div class="brand-sample-top">
+              <div class="brand-sample-icon">
+                <svg class="steady-mark" viewBox="0 0 1080 1080" aria-label="Steady icon in the dark palette" role="img"><use href="#steadyBrandMark"></use></svg>
+              </div>
+              <div><strong>Quiet dark</strong><small>Light sage held by green-black</small></div>
+            </div>
+            <div class="mask-row" aria-label="Dark icon mask previews">
+              <span class="mask-preview circle"><svg class="steady-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#steadyBrandMark"></use></svg></span>
+              <span class="mask-preview rounded"><svg class="steady-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#steadyBrandMark"></use></svg></span>
+              <span class="mask-preview squircle"><svg class="steady-mark" viewBox="0 0 1080 1080" aria-hidden="true"><use href="#steadyBrandMark"></use></svg></span>
+            </div>
+          </article>
+        </div>
+      </section>
 
       <div class="feedback-panel">
         <details>

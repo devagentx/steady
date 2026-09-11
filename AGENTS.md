@@ -64,6 +64,7 @@ clear ownership boundary and an approved product need.
 |---|---|
 | Product behavior | `docs/product/decision-log.md` and `docs/product/product-brief.md` |
 | Visual or interaction change | `docs/design/design-philosophy.md` and the browser prototype |
+| App icon or brand mark | `docs/design/branding/steady-app-icon.svg` and `docs/design/branding/README.md` |
 | Android application UI | `app/src/main/java/ai/monkmind/steady/` |
 | Theme or reusable Compose UI | `core/designsystem/` |
 | Dependencies and SDK versions | `gradle/libs.versions.toml` and module build files |
@@ -116,6 +117,10 @@ clear ownership boundary and an approved product need.
   semantic light/dark tokens. Do not infer approval for Material dynamic color.
 - Treat `docs/design/prototype/index.html` as the interactive visual reference.
   Open it in a browser before changing Android UI.
+- Treat `docs/design/branding/steady-app-icon.svg` as the canonical Steady mark
+  until Android launcher resources are implemented. Derive future adaptive
+  foreground/background and monochrome assets from it; do not redraw or replace
+  it in production code without updating the confirmed design decision.
 - The prototype uses browser `localStorage` to simulate mutable local data,
   including add/edit/archive/restore/delete/reset flows. That persistence
   mechanism is prototype-only; preserve the confirmed behavior when Android

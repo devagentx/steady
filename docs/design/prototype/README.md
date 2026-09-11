@@ -13,6 +13,8 @@ Open [`index.html`](index.html) in a browser to explore:
 - Reversible archive/restore and separate permanent habit deletion
 - Two-step Reset all data flow that reopens first-launch onboarding
 - Minimal first-launch onboarding with a required local name
+- The canonical growing-leaf/check brand mark in onboarding plus external
+  light, dark, and adaptive-mask previews
 - Exact-time and routine-cue scheduling
 - Local profile settings
 - Persisted System default, Light, and Dark appearance choices
@@ -33,6 +35,11 @@ The sources of truth are:
 2. `docs/design/design-philosophy.md` for reusable design rules
 3. This prototype for interactive visual intent
 4. Jetpack Compose for the production implementation
+
+Brand geometry is owned by
+[`../branding/steady-app-icon.svg`](../branding/steady-app-icon.svg). The
+prototype mirrors that source for theme-aware previews; update the canonical
+SVG first if the mark changes.
 
 If these disagree, resolve the documentation conflict before changing Android
 code.
@@ -76,11 +83,13 @@ while System is selected, and applies the resolved Steady palette to every
 screen, overlay, editor, and state before first paint.
 
 On a fresh browser state, onboarding appears before Today and cannot continue
-without a trimmed display name. A default icon is assigned automatically; the
-name and onboarding completion persist locally. Completion opens empty Today. Reset all
-data clears onboarding state and reopens it immediately. To keep the prototype
-useful for broad design review, sample habits are available only through
-controls explicitly labeled **Prototype only** or **Sample demo**.
+without a trimmed display name. It preserves the balanced composition of one
+brand mark, a small eyebrow, a short description, the name field, and Continue
+only. A default profile icon is assigned automatically; the name and onboarding
+completion persist locally. Completion opens empty Today. Reset all data clears
+onboarding state and reopens it immediately. To keep the prototype useful for
+broad design review, sample habits are available only through controls
+explicitly labeled **Prototype only** or **Sample demo**.
 
 The public GitHub Pages deployment is intended for design review and portfolio
 demonstration.

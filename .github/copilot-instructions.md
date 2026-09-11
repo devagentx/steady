@@ -10,6 +10,12 @@ reference, not production web code. Recreate its intent with Android-native
 Jetpack Compose patterns and keep it synchronized when confirmed behavior
 changes.
 
+For app-icon or brand-mark work, use
+`docs/design/branding/steady-app-icon.svg` as the canonical source until
+Android adaptive launcher resources are implemented. Preserve its growing-leaf
+first, subtle-checkmark second reading, intentional light/dark palette, and
+adaptive safe-area geometry rather than redrawing it from memory.
+
 The project is currently in design exploration. Keep the repository limited to
 the `app` and `core:designsystem` modules until an approved vertical slice
 creates a real need for another module. Do not add speculative architecture or

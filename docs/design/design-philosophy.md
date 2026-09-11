@@ -66,6 +66,21 @@ the system reduced-motion preference.
 
 ## Visual language
 
+### Brand mark
+
+Steady's app mark is a broad, upward-growing leaf whose single central vein
+forms a subtle checkmark. It should read as nature and return first, progress
+second: calm consistency rather than fitness intensity, financial growth, or
+corporate task completion.
+
+Use the repository-owned
+[`branding/steady-app-icon.svg`](branding/steady-app-icon.svg) as the canonical
+geometry and color source until Android adaptive launcher resources are
+implemented. Keep the silhouette simple at small sizes, preserve its generous
+central safe area under common launcher masks, and do not add text, gradients,
+fine detail, or decorative leaf veins. Dark presentation uses the same geometry
+with the intentional dark palette, not an inverted or newly drawn mark.
+
 ### Working palette
 
 These values are provisional until the design is finalized.
