@@ -17,7 +17,8 @@ Open [`index.html`](index.html) in a browser to explore:
 - Local profile settings
 - Persisted System default, Light, and Dark appearance choices
 - Steady Coins shop, Streak Shield purchase, and missed-day decision
-- Insights Coming soon state
+- Insights current-streak spotlight, gentle motivation, and More insights
+  coming soon state
 - Travel and pause interactions
 
 ## Purpose

@@ -169,11 +169,18 @@ card or error state.
 The initial model uses three destinations:
 
 - Today
-- Insights — a Coming soon destination in the MVP
+- Insights — current streak and calm encouragement, followed by a compact
+  preview that deeper insights are Coming soon
 - Settings
 
 Habit creation and management open from Today rather than occupying a permanent
 navigation destination.
+
+Insights should provide one useful truth immediately: the user's current
+streak. Pair it with brief, non-pressuring encouragement. Keep the remaining
+Coming soon content compact and describe future user value such as strongest
+days and growing patterns. Do not simulate detailed analytics that the MVP does
+not yet calculate.
 
 Settings provides a small local profile editor for display name and icon. It
 must clearly state that this information stays on the device and does not create

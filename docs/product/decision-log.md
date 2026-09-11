@@ -19,7 +19,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-012 | Confirmed | Users choose the completion threshold required to maintain their streak. | Threshold selection UX is not designed yet. |
 | P-013 | Confirmed | Reminder times can be suggested from local completion history. | Suggestions require user acceptance and support opt-out. |
 | P-014 | Confirmed | Travel and temporary pauses are supported. | Paused habits do not send reminders. |
-| P-015 | Confirmed | Insights is a Coming soon page in the MVP. | Functional analytics and insight reports are deferred. |
+| P-015 | Confirmed | Insights shows the user's current streak and a calm motivational message while deeper insights remain Coming soon. | Functional analytics and detailed insight reports are deferred. The screen must still provide immediate value without becoming a dense dashboard. |
 | P-016 | Confirmed | First launch requires a non-empty local display name; profile icon selection is optional and has a calm default. | The profile stays on-device, is not an account, and never requires network access. Completion opens empty Today with Add your first habit. |
 | P-017 | Confirmed | The MVP has no Steady backend and keeps core product data on-device. | Optional external APIs may provide contextual data such as weather, but must not receive profile, habit, completion, streak, or coin data. |
 | P-018 | Confirmed | Optional weather appears as an icon and temperature beside the Today date. | It is cached, failure-safe, and must not become a dashboard card. |
@@ -38,7 +38,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | D-008 | Confirmed | Empty-state Add your first habit opens the creation form directly. | Show the Add/manage choice only when at least one habit exists. |
 | D-009 | Confirmed | Settings offers System default, Light, and Dark appearance choices. | System default follows device appearance and reacts while selected; explicit Light or Dark persists locally. All screens and states use intentional Steady palettes with accessible contrast. This does not imply arbitrary Material dynamic color. |
 | D-010 | Confirmed | First-launch onboarding is a focused screen before Today. | Name is required, icon is optional/defaultable, privacy copy says local profile—not an account—and completion leads to empty Today. The prototype's sample-data entry is explicitly labeled prototype-only. |
-| D-010 | Confirmed | Destructive actions use restrained, readable red danger styling; reversible Archive does not. | Archive uses neutral/warm styling. Permanent Delete and Reset confirmations use red only for the destructive control and related warning context. |
+| D-011 | Confirmed | Destructive actions use restrained, readable red danger styling; reversible Archive does not. | Archive uses neutral/warm styling. Permanent Delete and Reset confirmations use red only for the destructive control and related warning context. |
 | W-001 | Prototype only | The interactive web prototype persists its mutable demonstration state in browser `localStorage`. | This enables add/edit/archive/restore/delete/reset review across reloads. An explicit initialization marker seeds demo data only for a new visitor; a completed reset remains empty. This is simulation scaffolding, not Android persistence architecture. |
 | A-001 | Confirmed | The repository remains limited to `app` and `core:designsystem` during design exploration. | Add modules only after a real vertical slice establishes a boundary. |
 

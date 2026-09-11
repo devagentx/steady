@@ -52,7 +52,8 @@ their daily progress without creating an account.
 - First-launch onboarding requiring a local display name
 - Appearance setting with System default, Light, and Dark choices
 - User-initiated email feedback to `ceo@monklabs.ai`
-- Insights destination presented as Coming soon
+- Insights destination showing the current streak and gentle motivation, with
+  deeper insight reports presented as Coming soon
 - Temporary habit or routine pause
 - Travel-mode support
 - Local reminder timing suggestions based on completion history

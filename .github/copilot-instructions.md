@@ -32,8 +32,9 @@ motivation. Coins may buy a one-day Streak Shield, but the shield is never
 consumed automatically; after a missed day, the user chooses whether to use it
 or let the streak end. Profile, habit, completion, streak, coin, and shield data
 must stay on-device. Optional external APIs may provide contextual information
-such as weather, but must not receive private product data. Insights is a
-Coming soon page; Settings supports a local display name and profile icon.
+such as weather, but must not receive private product data. Insights shows the
+current streak and calm motivation while deeper reports remain Coming soon;
+Settings supports a local display name and profile icon.
 Future subscriptions and real-world rewards are not MVP scope.
 
 Habit management has two distinct confirmed actions: Archive is reversible,

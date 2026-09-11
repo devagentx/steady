@@ -72,6 +72,8 @@ clear ownership boundary and an approved product need.
 ## Product guardrails
 
 - Keep the daily checklist as the primary experience.
+- Keep Insights lightweight: show the current streak and calm encouragement,
+  then describe deeper patterns as Coming soon without inventing analytics.
 - The MVP is offline-first and does not require an account.
 - Steady Coins are motivational only in the MVP and have no redeemable value.
 - Steady Coins may buy a one-day Streak Shield. A shield protects one missed

@@ -628,26 +628,67 @@
       margin-bottom: 22px;
     }
     .page-heading .eyebrow { margin-bottom: 4px; }
+    .insights-content {
+      display: grid;
+      gap: 14px;
+    }
+    .streak-spotlight {
+      padding: 21px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--surface);
+    }
+    .streak-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 12px;
+      color: var(--secondary);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .streak-label svg { width: 16px; height: 16px; color: var(--warm); }
+    .streak-value {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .streak-value strong {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .streak-value span { color: var(--secondary); font-size: 13px; font-weight: 750; }
+    .streak-motivation {
+      margin: 0;
+      color: var(--secondary);
+      font-size: 11px;
+      line-height: 1.6;
+    }
     .coming-soon {
-      min-height: 455px;
+      min-height: 280px;
       display: grid;
       place-items: center;
       align-content: center;
-      padding: 30px 18px 70px;
+      padding: 26px 18px 42px;
       text-align: center;
     }
     .coming-icon {
-      width: 104px;
-      height: 104px;
+      width: 78px;
+      height: 78px;
       display: grid;
       place-items: center;
-      margin-bottom: 22px;
+      margin-bottom: 17px;
       color: var(--primary);
       border-radius: 34px;
       background: var(--sage-light);
       transform: rotate(-3deg);
     }
-    .coming-icon svg { width: 46px; height: 46px; transform: rotate(3deg); }
+    .coming-icon svg { width: 36px; height: 36px; transform: rotate(3deg); }
     .coming-badge {
       display: inline-flex;
       margin-bottom: 10px;
@@ -663,7 +704,7 @@
     .coming-soon h2 {
       margin: 0 0 9px;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 25px;
+      font-size: 23px;
       font-weight: 600;
     }
     .coming-soon p {
@@ -2586,13 +2627,26 @@
                   <p class="eyebrow">Your progress</p>
                   <h1>Insights</h1>
                 </div>
-                <div class="coming-soon">
-                  <div class="coming-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 19V11M10 19V6M16 19v-9M22 19H2"/><path d="m4 8 5-4 5 3 6-5"/></svg>
+                <div class="insights-content">
+                  <article class="streak-spotlight" aria-labelledby="insightsStreakLabel">
+                    <div class="streak-label" id="insightsStreakLabel">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
+                      Current streak
+                    </div>
+                    <div class="streak-value">
+                      <strong id="insightsStreakDays">12</strong>
+                      <span id="insightsStreakUnit">days steady</span>
+                    </div>
+                    <p class="streak-motivation" id="insightsMotivation">You keep returning to what matters. Let today be one more gentle step.</p>
+                  </article>
+                  <div class="coming-soon">
+                    <div class="coming-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 19V11M10 19V6M16 19v-9M22 19H2"/><path d="m4 8 5-4 5 3 6-5"/></svg>
+                    </div>
+                    <span class="coming-badge">More insights coming soon</span>
+                    <h2>Your rhythm, understood</h2>
+                    <p>Soon you’ll see your strongest days, growing patterns, and the habits that may need a little more support.</p>
                   </div>
-                  <span class="coming-badge">Coming soon</span>
-                  <h2>Your rhythm, understood</h2>
-                  <p>See the patterns behind your routine — your strongest days, growing streaks, and the habits that may need a little more support.</p>
                 </div>
               </section>
 
@@ -3293,6 +3347,11 @@
       document.getElementById('greetingName').textContent = profileName || 'there';
       document.getElementById('profileAvatar').textContent = avatarOptions[avatarIndex] || avatarOptions[0];
       document.getElementById('streakDays').textContent = streakDays;
+      document.getElementById('insightsStreakDays').textContent = streakDays;
+      document.getElementById('insightsStreakUnit').textContent = streakDays === 1 ? 'day steady' : 'days steady';
+      document.getElementById('insightsMotivation').textContent = streakDays > 0
+        ? 'You keep returning to what matters. Let today be one more gentle step.'
+        : 'Your streak begins with one completed day. Start gently and build from there.';
       phone.classList.toggle('empty-mode', active.length === 0);
       updateProgress({ celebrate: false });
       updateShopState();

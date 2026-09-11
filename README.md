@@ -5,7 +5,8 @@ It helps people build consistency through a focused daily checklist, streaks,
 Steady Coins, a Coins shop with a one-day Streak Shield, and locally learned
 reminder suggestions. The MVP keeps core data on-device without a Steady
 backend; optional external APIs may provide contextual information such as
-weather. Insights is initially presented as Coming soon.
+weather. Insights shows the current streak and gentle motivation while deeper
+patterns remain Coming soon.
 
 Each habit may also carry an optional short Goal or note, shown only as
 contextual text. It does not introduce quantity tracking: daily completion
