@@ -45,6 +45,13 @@ current streak and calm motivation while deeper reports remain Coming soon;
 Settings supports a local display name and profile icon.
 Future subscriptions and real-world rewards are not MVP scope.
 
+Design Android data boundaries for portability without prematurely
+implementing sync. Room entities must not become application-wide domain models
+or future API contracts. Use stable identifiers, explicit date/time and
+deletion semantics, repository boundaries, and tested mappings between domain
+and persistence representations. Add separate network DTOs only when an actual
+opt-in cloud-sync feature is implemented.
+
 Habit management has two distinct confirmed actions: Archive is reversible,
 uses neutral/warm presentation, and frees an active slot; Delete is permanent,
 uses restrained red danger styling, and requires an explicit confirmation that

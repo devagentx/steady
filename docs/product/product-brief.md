@@ -75,12 +75,28 @@ their daily progress without creating an account.
 
 ## Business direction
 
-The MVP is free and allows up to seven non-archived habits.
+Steady will remain free while product adoption and retention are being
+validated. The current application must not contain habit paywalls,
+subscriptions, or Pro entitlements. It allows up to seven non-archived habits
+under the current MVP rule.
 
 Steady Coins may be spent on an in-app one-day Streak Shield. Coins and shop
 items remain motivational only and have no monetary or redeemable value.
 
-The intended post-MVP freemium model is:
+If Steady demonstrates meaningful adoption, a future company may introduce a
+Free and Pro business model. The preferred migration path is to retain the
+existing Android application ID, signing identity, Play listing, and local
+database, then transfer ownership of the Play application to the company.
+Keeping the same application avoids forcing users to install a replacement app
+or manually migrate private on-device data.
+
+Only if legal, branding, or product constraints require a separate future app,
+Steady must provide an explicit user-controlled migration path before that app
+launches. Android application sandboxes and platform backup do not allow a new
+application ID to directly read or automatically restore the old app's private
+database.
+
+The possible post-adoption freemium model remains:
 
 - Free tier: up to five active habits, with the core Today experience,
   streaks, basic weekly summaries, reminders, travel/pause behavior, local
@@ -108,6 +124,12 @@ The Free experience must remain a genuinely useful local habit tracker.
 Premium should sell additional scale, convenience, continuity, and insight
 rather than basic access to the user's data.
 
+Free and Steady Plus use the same visual system, interaction quality,
+accessibility standards, performance expectations, and calm product voice.
+The Free tier must not contain advertisements, intentionally degraded design,
+excessive upgrade prompts, or artificial friction. Paywalls gate clearly
+identified Premium capabilities; they do not gate polish or basic usability.
+
 ## Post-MVP account and sync direction
 
 Steady may later offer an optional email-based account for cross-device backup
@@ -133,6 +155,48 @@ modification, deletion, local-date, and timezone semantics so a future sync
 system can be introduced without rewriting product history. This preparation
 must not justify speculative backend modules or unused sync abstractions in the
 MVP.
+
+Android persistence and business logic must not make Room entities the
+application-wide data contract. Domain models remain independent of Room, data
+access is owned behind repository boundaries, and future network transfer
+objects may be added separately when sync becomes real. Mapping between these
+representations should be explicit and tested. This allows records to be
+serialized for backup or cloud transport without coupling the server contract
+to the current local schema.
+
+## Data portability and future app migration
+
+Before Steady depends on significant user history, it should support a
+user-initiated export and restore format that is independent of the Room
+database schema. This is useful for personal backup even if a second app is
+never created.
+
+The portable format should:
+
+- Have a documented format name and explicit schema version.
+- Use stable record identifiers rather than Room row IDs.
+- Preserve profile, habits, schedules, archived state, completions, pauses,
+  streak inputs, Coins, Shields, preferences, local dates, timestamps, and
+  relevant timezone information.
+- Include an integrity checksum and enough metadata to detect malformed,
+  partial, duplicate, or unsupported imports.
+- Be created and selected through Android's system document picker so Steady
+  does not require broad file-storage permission.
+- Offer optional user-protected encryption before the format is used for
+  sensitive cloud storage or app-to-app migration.
+- Validate an import and show a summary before changing local data.
+- Define whether restore replaces or merges data; it must never silently
+  overwrite existing history.
+- Remain backward-readable by future versions through explicit migrations and
+  test fixtures.
+- Share its documented field semantics with any future cloud-sync contract
+  while remaining independent of both Room entities and server implementation
+  details.
+
+A future replacement application would import this portable file only after
+the user explicitly exports it from Steady and selects it in the new app.
+Server-assisted migration may later simplify the flow for opted-in accounts,
+but must not be the only way users can recover or move their data.
 
 ## Privacy position
 

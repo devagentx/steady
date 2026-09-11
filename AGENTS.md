@@ -58,6 +58,15 @@ Do not create feature, data, domain, database, or notification modules until a
 real vertical slice establishes their responsibilities. New modules require a
 clear ownership boundary and an approved product need.
 
+When persistence is introduced by a real vertical slice, do not expose Room
+entities as application-wide models or future wire contracts. Keep domain
+models independent, place data access behind the smallest useful repository
+boundary, and use explicit tested mappings. Persist stable IDs and the
+confirmed timestamp, deletion, local-date, and timezone semantics needed for
+portable backup and eventual opt-in sync. Do not add network DTOs, sync engines,
+backend modules, or conflict-resolution abstractions until a real sync feature
+requires them.
+
 ## Where to make changes
 
 | Task | Start here |

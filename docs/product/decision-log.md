@@ -14,7 +14,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-007 | Confirmed | The motivational reward is called Steady Coins. | MVP coins have no monetary or redeemable value. |
 | P-008 | Confirmed | A habit/date can award coins only once. | Balance must derive from deterministic earning transactions rather than a freely editable total. |
 | P-009 | Confirmed | The MVP is free and supports up to seven non-archived habits. | Paused habits still consume a slot; archived habits are unlimited. |
-| P-010 | Future | The intended freemium model allows five active habits on Free and unlimited active habits on Steady Plus. | Archived habits are unlimited and do not count toward the limit. Premium should sell scale, convenience, continuity, and deeper insight rather than basic access to user data. Do not implement during MVP. |
+| P-010 | Future | Steady remains free while adoption and retention are validated; a Free/Pro model may be reconsidered only after meaningful adoption. | The current app has no subscription or Pro entitlement. A possible later model allows five active habits on Free and unlimited active habits on Pro, but must not be implemented during MVP. |
 | P-011 | Confirmed | Paused days preserve streaks but reduce consistency. | The exact reduction formula remains undecided. |
 | P-012 | Confirmed | Users choose the completion threshold required to maintain their streak. | Threshold selection UX is not designed yet. |
 | P-013 | Confirmed | Reminder times can be suggested from local completion history. | Suggestions require user acceptance and support opt-out. |
@@ -32,6 +32,10 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-025 | Future | Steady may offer an optional email-based account for backup and cross-device synchronization while remaining local-first. | Users can continue without an account. First upload requires informed opt-in. A later account adopts existing local history, and users can disable sync, export data, sign out without deleting the local copy, and separately delete server-side account data. |
 | P-026 | Future | Cancelling Steady Plus never removes or hides habit history. | If the account exceeds the Free active-habit limit, existing habits remain readable, but the user must archive habits before creating or restoring another active habit. Exact cloud retention and read-only behavior must be decided before launch. |
 | P-027 | Confirmed | MVP records should use stable identifiers and explicit timestamp, deletion, local-date, and timezone semantics where relevant. | This is limited preparation for future migration and sync. It does not authorize speculative backend modules, authentication, sync engines, or unused abstractions during the MVP. |
+| P-028 | Confirmed | Free and Steady Plus share the same premium-quality visual design, usability, accessibility, performance, and product voice. | Paywalls gate clearly identified Premium capabilities, not polish. Free must not be intentionally degraded with advertisements, visual clutter, artificial friction, or excessive upgrade prompts. |
+| P-029 | Confirmed | The preferred future commercialization path preserves the existing Android application ID, signing identity, Play listing, and local data. | If a company is formed, transfer the existing Play application rather than requiring users to move to a fresh app. A new application ID cannot directly access the old app's private database or inherit its Android backup. |
+| P-030 | Confirmed | Steady should provide a versioned, user-controlled export and restore format before user history becomes difficult to move. | The format is independent of Room, uses stable IDs, preserves all meaningful product data and date/time semantics, validates before import, uses the Android system document picker, and defines safe replace/merge behavior. It supports personal backup as well as any unavoidable future app migration. |
+| P-031 | Confirmed | Android domain models and repository contracts remain independent of Room entities and any future network DTOs. | Use explicit, tested mapping at persistence and network boundaries. Stable IDs and documented timestamp, deletion, local-date, and timezone semantics make records portable without treating the Room schema as a future API contract or adding unused sync infrastructure. |
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |
@@ -61,6 +65,8 @@ entry when a decision changes and preserve the previous direction in its notes.
 - Cloud retention and access behavior after a Steady Plus subscription ends
 - Future sync conflict-resolution rules and the precise boundary between
   backup processing and optional server-side insight processing
+- Portable backup encryption and recovery UX
+- Whether restore replaces all local data or supports a reviewed merge
 - Whether future redeemable rewards use a separate verified currency
 - Which contextual API features belong in the MVP and their permission model
 - Whether Open-Meteo is adopted for MVP weather, where attribution appears, and whether location uses coarse permission or manual city selection
