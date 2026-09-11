@@ -49,8 +49,8 @@ required display name, and Continue. Steady assigns a calm default profile icon
 that can be changed later in Settings, then opens an empty Today list with Add
 your first habit.
 
-Steady's canonical app mark is a growing leaf with a subtle checkmark vein,
-using deep sage and light sage on a warm neutral field with a deliberate dark
+Steady's canonical app mark is a small line-art sapling with a subtle checkmark
+near its base, using sage on a warm neutral field with a deliberate dark
 counterpart. The editable source is
 [`docs/design/branding/steady-app-icon.svg`](docs/design/branding/steady-app-icon.svg);
 Android launcher resources have not been derived or added yet.

@@ -12,7 +12,7 @@ changes.
 
 For app-icon or brand-mark work, use
 `docs/design/branding/steady-app-icon.svg` as the canonical source until
-Android adaptive launcher resources are implemented. Preserve its growing-leaf
+Android adaptive launcher resources are implemented. Preserve its small-sapling
 first, subtle-checkmark second reading, intentional light/dark palette, and
 adaptive safe-area geometry rather than redrawing it from memory.
 

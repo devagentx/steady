@@ -13,7 +13,7 @@ Open [`index.html`](index.html) in a browser to explore:
 - Reversible archive/restore and separate permanent habit deletion
 - Two-step Reset all data flow that reopens first-launch onboarding
 - Minimal first-launch onboarding with a required local name
-- The canonical growing-leaf/check brand mark in onboarding plus external
+- The canonical sapling/check brand mark in onboarding plus external
   light, dark, and adaptive-mask previews
 - Exact-time and routine-cue scheduling
 - Local profile settings

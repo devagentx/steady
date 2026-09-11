@@ -5,20 +5,20 @@ Steady's app mark until Android launcher resources are implemented.
 
 ## Concept
 
-The mark reads first as one growing leaf and second as a quiet checkmark. The
-leaf communicates daily return and gradual growth; its single broad vein bends
-into a check to suggest progress without the urgency of a task-management,
-finance, or fitness badge.
+The mark is a small line-art sapling with two open leaves and a quiet checkmark
+near its base. The sapling communicates a routine taking root through daily
+return; the secondary check suggests progress without the urgency of a
+task-management, finance, or fitness badge.
 
 ## Geometry
 
 - The master is a `1080 × 1080` SVG with no text, gradients, filters, or small
   decorative details.
-- A broad asymmetric leaf leans upward and right. Its rounded, open silhouette
-  avoids the common symmetrical stock-leaf shape.
-- The light central vein is one heavy, round-ended path. Its short descending
-  entry and longer rising stem create the secondary checkmark reading.
-- The essential leaf and vein stay inside the central adaptive-icon safe area.
+- Two open leaf contours meet a simple central stem. Rounded line endings keep
+  the mark quiet and human rather than technical.
+- A small check sits near the base and visually connects with the stem without
+  becoming the primary reading.
+- The essential sapling and check stay inside the central adaptive-icon safe area.
   The circular halo is supportive and may be cropped without harming
   recognition.
 
@@ -44,7 +44,7 @@ on SVG media queries.
 
 - Background layer: a full-bleed solid warm neutral (`#F7F5EF` light,
   `#151A17` dark).
-- Foreground layer: derive the halo, leaf, and vein from this SVG without
+- Foreground layer: derive the halo, sapling, and check from this SVG without
   changing their relative geometry. Keep the leaf/check inside the adaptive
   icon's central safe zone so it survives circle, rounded-square, squircle, and
   vendor masks.
@@ -55,7 +55,6 @@ on SVG media queries.
 
 ## Monochrome
 
-For a future Android themed icon, use the leaf silhouette and vein relationship
-as a single-color mask: render the leaf as the solid shape and the vein as
-negative space. The halo and warm background are omitted. Test the cutout at
-small sizes before shipping because the vein must remain visibly open.
+For a future Android themed icon, use the sapling and check strokes as a
+single-color mask. The halo and warm background are omitted. Test the stroke
+weight at small sizes before shipping so both leaves and the check remain open.

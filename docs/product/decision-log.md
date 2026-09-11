@@ -14,7 +14,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-007 | Confirmed | The motivational reward is called Steady Coins. | MVP coins have no monetary or redeemable value. |
 | P-008 | Confirmed | A habit/date can award coins only once. | Balance must derive from deterministic earning transactions rather than a freely editable total. |
 | P-009 | Confirmed | The MVP is free and supports up to seven non-archived habits. | Paused habits still consume a slot; archived habits are unlimited. |
-| P-010 | Future | A possible subscription model allows four habits on Free and ten on Premium. | Do not implement during MVP. |
+| P-010 | Future | The intended freemium model allows five active habits on Free and unlimited active habits on Steady Plus. | Archived habits are unlimited and do not count toward the limit. Premium should sell scale, convenience, continuity, and deeper insight rather than basic access to user data. Do not implement during MVP. |
 | P-011 | Confirmed | Paused days preserve streaks but reduce consistency. | The exact reduction formula remains undecided. |
 | P-012 | Confirmed | Users choose the completion threshold required to maintain their streak. | Threshold selection UX is not designed yet. |
 | P-013 | Confirmed | Reminder times can be suggested from local completion history. | Suggestions require user acceptance and support opt-out. |
@@ -28,6 +28,10 @@ entry when a decision changes and preserve the previous direction in its notes.
 | P-021 | Confirmed | After a missed day, an owned shield is offered on the next app open. | The user chooses Use shield or Let streak end; use calm, non-judgmental copy. |
 | P-022 | Confirmed | Archive and Delete are distinct habit-management actions. | Archive is reversible, removes the habit from Today, and frees an active slot. Restore returns it when a slot is available. Delete permanently removes the named habit and its local history after explicit confirmation. |
 | P-023 | Confirmed | Settings includes Reset all data with a two-step explicit confirmation. | Reset erases active and archived habits, profile, onboarding completion, completion/progress, streaks, Steady Coins, Streak Shields, and appearance preference. It closes open UI, selects System default, and immediately reopens first-launch onboarding without restoring demo habits. |
+| P-024 | Future | Indicative Steady Plus pricing in India is ₹49–₹79 monthly or ₹399–₹599 annually, with final regional pricing supplied by Google Play Billing. | Pricing remains subject to validation against store fees, taxes, backend costs, and willingness to pay. An early-supporter lifetime purchase may be explored before recurring cloud costs become material. |
+| P-025 | Future | Steady may offer an optional email-based account for backup and cross-device synchronization while remaining local-first. | Users can continue without an account. First upload requires informed opt-in. A later account adopts existing local history, and users can disable sync, export data, sign out without deleting the local copy, and separately delete server-side account data. |
+| P-026 | Future | Cancelling Steady Plus never removes or hides habit history. | If the account exceeds the Free active-habit limit, existing habits remain readable, but the user must archive habits before creating or restoring another active habit. Exact cloud retention and read-only behavior must be decided before launch. |
+| P-027 | Confirmed | MVP records should use stable identifiers and explicit timestamp, deletion, local-date, and timezone semantics where relevant. | This is limited preparation for future migration and sync. It does not authorize speculative backend modules, authentication, sync engines, or unused abstractions during the MVP. |
 | D-001 | Confirmed | The visual direction is warm, calm, and premium. | Deep sage green anchors a soft neutral palette. |
 | D-002 | Confirmed | Habit rows are comfortable rounded rows with icons and large completion controls. | Avoid compact checkbox lists and dense grids. |
 | D-003 | Confirmed | Completion motion should be restrained and structural. | Respect reduced-motion settings. |
@@ -39,7 +43,7 @@ entry when a decision changes and preserve the previous direction in its notes.
 | D-009 | Confirmed | Settings offers System default, Light, and Dark appearance choices. | System default follows device appearance and reacts while selected; explicit Light or Dark persists locally. All screens and states use intentional Steady palettes with accessible contrast. This does not imply arbitrary Material dynamic color. |
 | D-010 | Confirmed | First-launch onboarding is a minimal focused screen before Today. | Show only a concise local-profile description, required name field, and Continue action. Completion leads to empty Today; sample data remains outside onboarding as a clearly labeled prototype control. |
 | D-011 | Confirmed | Destructive actions use restrained, readable red danger styling; reversible Archive does not. | Archive uses neutral/warm styling. Permanent Delete and Reset confirmations use red only for the destructive control and related warning context. |
-| D-012 | Confirmed | The Steady app mark is a growing leaf whose central vein forms a subtle checkmark. | The leaf reads first and the check second, expressing calm progress and daily return. Use `docs/design/branding/steady-app-icon.svg` as the canonical source until Android adaptive foreground/background and monochrome launcher resources are implemented. Preserve the deep-sage/light-sage/warm-neutral palette, dark-theme counterpart, small-size legibility, and central adaptive-icon safe area. |
+| D-012 | Confirmed | The Steady app mark is a small line-art sapling with a subtle checkmark near its base. | The sapling reads first and the check second, expressing a routine taking root through calm progress and daily return. Use `docs/design/branding/steady-app-icon.svg` as the canonical source until Android adaptive foreground/background and monochrome launcher resources are implemented. Preserve the sage/warm-neutral palette, dark-theme counterpart, small-size legibility, and central adaptive-icon safe area. |
 | W-001 | Prototype only | The interactive web prototype persists its mutable demonstration state in browser `localStorage`. | This enables add/edit/archive/restore/delete/reset review across reloads. An explicit initialization marker seeds demo data only for a new visitor; a completed reset remains empty. This is simulation scaffolding, not Android persistence architecture. |
 | A-001 | Confirmed | The repository remains limited to `app` and `core:designsystem` during design exploration. | Add modules only after a real vertical slice establishes a boundary. |
 
@@ -51,7 +55,11 @@ entry when a decision changes and preserve the previous direction in its notes.
 - Pause-day consistency formula
 - Final typography
 - Future Insights screen hierarchy and metrics
-- Premium pricing and downgrade behavior
+- Final Premium price points, trial/introductory offers, and whether to offer an
+  early-supporter lifetime purchase
+- Cloud retention and access behavior after a Steady Plus subscription ends
+- Future sync conflict-resolution rules and the precise boundary between
+  backup processing and optional server-side insight processing
 - Whether future redeemable rewards use a separate verified currency
 - Which contextual API features belong in the MVP and their permission model
 - Whether Open-Meteo is adopted for MVP weather, where attribution appears, and whether location uses coarse permission or manual city selection

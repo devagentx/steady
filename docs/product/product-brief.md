@@ -79,13 +79,59 @@ The MVP is free and allows up to seven non-archived habits.
 Steady Coins may be spent on an in-app one-day Streak Shield. Coins and shop
 items remain motivational only and have no monetary or redeemable value.
 
-A possible post-MVP model is:
+The intended post-MVP freemium model is:
 
-- Free tier: up to four non-archived habits
-- Premium subscription: up to ten non-archived habits
+- Free tier: up to five active habits, with the core Today experience,
+  streaks, basic weekly summaries, reminders, travel/pause behavior, local
+  export, and unlimited archived habits
+- Steady Plus: unlimited active habits, optional cross-device sync and backup,
+  deeper habit-level insights, advanced trends, and future premium
+  personalization such as widgets or themes
+- Indicative India pricing: ₹49–₹79 monthly or ₹399–₹599 annually, with the
+  annual plan presented as the better-value option
+- A time-limited early-supporter lifetime purchase may be explored before
+  ongoing cloud costs become material
 
-This future model must not be implemented until pricing, downgrade behavior,
-data migration, and user value have been decided.
+Final pricing must be configured through Google Play Billing rather than
+hard-coded so taxes, fees, experiments, and regional pricing can be handled
+correctly. This future model must not be implemented until pricing,
+entitlements, downgrade behavior, purchase restoration, data migration, and
+user value have been validated.
+
+Cancelling Premium must never remove or hide a user's history. If the user has
+more active habits than the Free limit, existing habits and history remain
+readable, but the user must archive habits before creating or restoring another
+active habit. Archived habits never count toward the limit.
+
+The Free experience must remain a genuinely useful local habit tracker.
+Premium should sell additional scale, convenience, continuity, and insight
+rather than basic access to the user's data.
+
+## Post-MVP account and sync direction
+
+Steady may later offer an optional email-based account for cross-device backup
+and synchronization. The app remains local-first:
+
+- Users can start and continue using Steady without an account.
+- Account creation and sync require explicit opt-in.
+- Before the first upload, Steady explains what data will be stored and asks
+  for confirmation.
+- Cloud sync is primarily for backup and multi-device continuity; basic
+  tracking and locally computable insights must not require uploading data.
+- Users can disable sync, export their data, sign out without deleting the
+  on-device copy, and separately delete their server-side account and data.
+- Cancellation of Steady Plus must not delete cloud or local history. The
+  retention and read-only behavior after cancellation must be defined before
+  launch.
+- A later account must adopt the existing local profile and history rather than
+  replacing them or creating a second empty profile.
+
+The MVP does not include authentication, a Steady backend, or sync. However,
+persisted records should use stable identifiers and explicit creation,
+modification, deletion, local-date, and timezone semantics so a future sync
+system can be introduced without rewriting product history. This preparation
+must not justify speculative backend modules or unused sync abstractions in the
+MVP.
 
 ## Privacy position
 
@@ -110,6 +156,13 @@ data migration, and user value have been decided.
 - Notification content should eventually support a privacy-sensitive mode.
 - Users must be told that uninstalling the app may remove their data until
   backup or export exists.
+- Any future cloud sync is optional and requires informed consent before the
+  first upload.
+- A future account must provide export, sync disablement, account deletion, and
+  deletion of the associated server-side product data.
+- Server-side analytics or insight processing must be separately justified and
+  disclosed; enabling backup must not silently opt the user into secondary use
+  of habit data.
 - Users can reset all local data. Reset removes habits (active and archived),
   profile, completion/progress, streaks, Steady Coins, Streak Shields, and
   appearance preference, then reopens first-launch onboarding with System

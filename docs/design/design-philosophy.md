@@ -68,8 +68,8 @@ the system reduced-motion preference.
 
 ### Brand mark
 
-Steady's app mark is a broad, upward-growing leaf whose single central vein
-forms a subtle checkmark. It should read as nature and return first, progress
+Steady's app mark is a small line-art sapling with two open leaves and a subtle
+check near its base. It should read as a routine taking root first and progress
 second: calm consistency rather than fitness intensity, financial growth, or
 corporate task completion.
 

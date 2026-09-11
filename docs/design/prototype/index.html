@@ -143,16 +143,6 @@
     }
 
     .svg-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
-    .steady-mark .mark-bg { fill: var(--mark-bg, var(--bg)); }
-    .steady-mark .mark-halo { fill: var(--mark-halo, var(--sage-light)); }
-    .steady-mark .mark-leaf { fill: var(--mark-leaf, var(--primary)); }
-    .steady-mark .mark-vein {
-      fill: none;
-      stroke: var(--mark-vein, var(--sage-light));
-      stroke-width: 58;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
 
     .prototype-label {
       margin-bottom: -8px;
@@ -651,11 +641,7 @@
       margin-bottom: 22px;
     }
     .page-heading .eyebrow { margin-bottom: 4px; }
-    .insights-content {
-      display: grid;
-      gap: 14px;
-    }
-    .streak-spotlight {
+    .insights-card {
       padding: 21px;
       border: 1px solid var(--border);
       border-radius: 22px;
@@ -687,55 +673,40 @@
     }
     .streak-value span { color: var(--secondary); font-size: 13px; font-weight: 750; }
     .streak-motivation {
-      margin: 0;
+      margin: 0 0 20px;
       color: var(--secondary);
       font-size: 11px;
       line-height: 1.6;
     }
-    .coming-soon {
-      min-height: 280px;
+    .insights-coming {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .insights-coming-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
       display: grid;
       place-items: center;
-      align-content: center;
-      padding: 26px 18px 42px;
-      text-align: center;
-    }
-    .coming-icon {
-      width: 78px;
-      height: 78px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 17px;
       color: var(--primary);
-      border-radius: 34px;
-      background: var(--sage-light);
-      transform: rotate(-3deg);
-    }
-    .coming-icon svg { width: 36px; height: 36px; transform: rotate(3deg); }
-    .coming-badge {
-      display: inline-flex;
-      margin-bottom: 10px;
-      padding: 5px 9px;
-      color: var(--primary);
-      border-radius: 999px;
+      border-radius: 14px;
       background: var(--sage-soft);
-      font-size: 9px;
-      font-weight: 850;
-      letter-spacing: .04em;
-      text-transform: uppercase;
     }
-    .coming-soon h2 {
-      margin: 0 0 9px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 23px;
-      font-weight: 600;
+    .insights-coming-icon svg { width: 21px; height: 21px; }
+    .insights-coming-copy strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 11px;
     }
-    .coming-soon p {
-      max-width: 270px;
+    .insights-coming-copy span {
+      display: block;
       margin: 0;
       color: var(--secondary);
-      font-size: 11px;
-      line-height: 1.65;
+      font-size: 9.5px;
+      line-height: 1.5;
     }
 
     .profile-card {
@@ -1983,17 +1954,22 @@
     html[data-onboarding="pending"] .onboarding-screen { display: block; }
     .onboarding-content { width: min(100%, 330px); margin: 0 auto; }
     .onboarding-mark {
-      width: 72px;
-      height: 72px;
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
       margin: 22px 0 18px;
+      border: 1px solid rgba(66, 107, 90, .15);
+      border-radius: 20px;
+      background: var(--sage-light);
+      box-shadow: 0 10px 24px rgba(49, 58, 52, .1);
       transform: rotate(-3deg);
     }
     .onboarding-mark svg {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      border-radius: 22px;
-      box-shadow: 0 10px 24px rgba(49, 58, 52, .1);
+      width: 29px;
+      height: 29px;
+      color: var(--primary);
+      transform: rotate(3deg);
       transform: rotate(3deg);
     }
     .onboarding-eyebrow {
@@ -2400,7 +2376,9 @@
         linear-gradient(180deg, rgba(50, 77, 63, .38), rgba(21, 26, 23, 0) 250px),
         var(--bg);
     }
-    html[data-theme="dark"] .onboarding-mark svg {
+    html[data-theme="dark"] .onboarding-mark {
+      border-color: var(--border);
+      background: var(--sage-soft);
       box-shadow: 0 10px 24px rgba(0, 0, 0, .24);
     }
     html[data-theme="dark"] .onboarding-name-input {
@@ -2481,10 +2459,14 @@
 <body>
   <svg class="svg-sprite" aria-hidden="true">
     <symbol id="steadyBrandMark" viewBox="0 0 1080 1080">
-      <rect class="mark-bg" width="1080" height="1080"></rect>
-      <circle class="mark-halo" cx="540" cy="540" r="344"></circle>
-      <path class="mark-leaf" d="M306 615C320 456 427 322 690 271C758 258 806 257 818 258C798 430 740 587 635 705C557 793 452 839 369 792C314 761 289 696 306 615Z"></path>
-      <path class="mark-vein" d="M350 655C405 708 456 740 505 750C571 651 646 541 751 385"></path>
+      <rect width="1080" height="1080" fill="var(--mark-bg, var(--bg))"></rect>
+      <circle cx="540" cy="540" r="344" fill="var(--mark-halo, var(--sage-light))"></circle>
+      <g fill="none" stroke="var(--mark-leaf, var(--primary))" stroke-width="62" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M540 810V450"></path>
+        <path d="M540 540C369 540 256 441 239 266C410 257 522 342 540 504"></path>
+        <path d="M540 428C563 270 671 185 842 194C829 365 716 464 540 464"></path>
+        <path d="M441 684L509 752L657 594"></path>
+      </g>
     </symbol>
   </svg>
   <main class="stage">
@@ -2642,8 +2624,7 @@
                   <p class="eyebrow">Your progress</p>
                   <h1>Insights</h1>
                 </div>
-                <div class="insights-content">
-                  <article class="streak-spotlight" aria-labelledby="insightsStreakLabel">
+                <article class="insights-card" aria-labelledby="insightsStreakLabel">
                     <div class="streak-label" id="insightsStreakLabel">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
                       Current streak
@@ -2653,16 +2634,16 @@
                       <span id="insightsStreakUnit">days steady</span>
                     </div>
                     <p class="streak-motivation" id="insightsMotivation">You keep returning to what matters. Let today be one more gentle step.</p>
-                  </article>
-                  <div class="coming-soon">
-                    <div class="coming-icon">
+                    <div class="insights-coming">
+                      <div class="insights-coming-icon">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 19V11M10 19V6M16 19v-9M22 19H2"/><path d="m4 8 5-4 5 3 6-5"/></svg>
+                      </div>
+                      <div class="insights-coming-copy">
+                        <strong>More insights coming soon</strong>
+                        <span>Strongest days, growing patterns, and habits that may need support.</span>
+                      </div>
                     </div>
-                    <span class="coming-badge">More insights coming soon</span>
-                    <h2>Your rhythm, understood</h2>
-                    <p>Soon you’ll see your strongest days, growing patterns, and the habits that may need a little more support.</p>
-                  </div>
-                </div>
+                </article>
               </section>
 
               <section class="destination-page settings-page">
@@ -3105,7 +3086,12 @@
           <section class="onboarding-screen" id="onboardingScreen" aria-hidden="true" aria-labelledby="onboardingTitle">
             <form class="onboarding-content" id="onboardingForm" novalidate>
               <div class="onboarding-mark" aria-hidden="true">
-                <svg class="steady-mark" viewBox="0 0 1080 1080"><use href="#steadyBrandMark"></use></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20v-8"/>
+                  <path d="M12 14c-3.8 0-6.3-2.2-6.7-6.1 3.8-.2 6.3 1.7 6.7 5.3"/>
+                  <path d="M12 11.5c.5-3.5 2.9-5.4 6.7-5.2-.3 3.8-2.8 6-6.7 6"/>
+                  <path d="m9.8 17.2 1.5 1.5 3.3-3.5"/>
+                </svg>
               </div>
               <p class="onboarding-eyebrow">A small beginning</p>
               <h1 id="onboardingTitle">Welcome to Steady</h1>
@@ -3132,8 +3118,8 @@
       <section class="brand-preview" aria-labelledby="brandPreviewTitle">
         <div class="brand-preview-header">
           <span>App icon direction</span>
-          <h2 id="brandPreviewTitle">A leaf that quietly becomes a check</h2>
-          <p>The broad silhouette reads at launcher size; the central vein carries the idea of calm, repeatable progress.</p>
+          <h2 id="brandPreviewTitle">A small sapling with a quiet check</h2>
+          <p>New growth suggests a routine taking root; the check at its base adds progress without turning the mark into a task badge.</p>
         </div>
         <div class="brand-preview-grid">
           <article class="brand-sample light">

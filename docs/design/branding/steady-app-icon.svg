@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" role="img" aria-labelledby="title description">
   <title id="title">Steady app icon</title>
-  <desc id="description">A growing sage leaf whose central vein forms a subtle checkmark, on a warm neutral background.</desc>
+  <desc id="description">A quiet sage sapling with a subtle checkmark at its base, on a warm neutral background.</desc>
   <style>
     .background { fill: #f7f5ef; }
     .halo { fill: #dce9e1; }
-    .leaf { fill: #426b5a; }
-    .vein { fill: none; stroke: #dce9e1; stroke-width: 58; stroke-linecap: round; stroke-linejoin: round; }
+    .sapling { fill: none; stroke: #426b5a; stroke-width: 62; stroke-linecap: round; stroke-linejoin: round; }
 
     @media (prefers-color-scheme: dark) {
       .background { fill: #151a17; }
       .halo { fill: #24352d; }
-      .leaf { fill: #9bc8b0; }
-      .vein { stroke: #24352d; }
+      .sapling { stroke: #9bc8b0; }
     }
   </style>
   <rect class="background" width="1080" height="1080" />
   <circle class="halo" cx="540" cy="540" r="344" />
-  <path
-    class="leaf"
-    d="M306 615C320 456 427 322 690 271C758 258 806 257 818 258C798 430 740 587 635 705C557 793 452 839 369 792C314 761 289 696 306 615Z"
-  />
-  <path class="vein" d="M350 655C405 708 456 740 505 750C571 651 646 541 751 385" />
+  <g class="sapling">
+    <path d="M540 810V450" />
+    <path d="M540 540C369 540 256 441 239 266C410 257 522 342 540 504" />
+    <path d="M540 428C563 270 671 185 842 194C829 365 716 464 540 464" />
+    <path d="M441 684L509 752L657 594" />
+  </g>
 </svg>
