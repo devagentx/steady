@@ -55,6 +55,9 @@ counterpart. The editable source is
 [`docs/design/branding/steady-app-icon.svg`](docs/design/branding/steady-app-icon.svg);
 Android launcher resources have not been derived or added yet.
 
+App launch briefly pairs the sapling with the promise **“Small actions shape a
+steady life.”**
+
 ## Technology
 
 - Kotlin

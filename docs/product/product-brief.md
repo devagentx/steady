@@ -50,6 +50,7 @@ their daily progress without creating an account.
 - Steady Coins shop with a one-day Streak Shield
 - Local profile with a display name and selectable icon
 - First-launch onboarding requiring a local display name
+- Brief branded launch moment with the Steady sapling and habit-building promise
 - Appearance setting with System default, Light, and Dark choices
 - User-initiated email feedback to `ceo@monklabs.ai`
 - Insights destination showing the current streak and gentle motivation, with

@@ -15,6 +15,8 @@ For app-icon or brand-mark work, use
 Android adaptive launcher resources are implemented. Preserve its small-sapling
 first, subtle-checkmark second reading, intentional light/dark palette, and
 adaptive safe-area geometry rather than redrawing it from memory.
+The launch moment briefly pairs that mark with “Small actions shape a steady
+life.” before onboarding or Today; keep it passive and reduced-motion friendly.
 
 The project is currently in design exploration. Keep the repository limited to
 the `app` and `core:designsystem` modules until an approved vertical slice

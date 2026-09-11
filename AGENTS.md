@@ -94,6 +94,9 @@ clear ownership boundary and an approved product need.
   Continue. Assign the default icon automatically and leave customization to
   Settings. Completion opens empty Today with Add your first habit and must not
   seed demo habits.
+- Preserve the brief launch moment: canonical sapling mark, Steady wordmark,
+  and “Small actions shape a steady life.” It must remain short, passive, and
+  reduced-motion friendly.
 - Prototype sample data must be entered through an explicitly labeled
   prototype-only control, never a silent production-behavior bypass.
 

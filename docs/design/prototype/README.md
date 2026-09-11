@@ -13,6 +13,7 @@ Open [`index.html`](index.html) in a browser to explore:
 - Reversible archive/restore and separate permanent habit deletion
 - Two-step Reset all data flow that reopens first-launch onboarding
 - Minimal first-launch onboarding with a required local name
+- Brief sapling launch screen with the Steady habit-building promise
 - The canonical sapling/check brand mark in onboarding plus external
   light, dark, and adaptive-mask previews
 - Exact-time and routine-cue scheduling

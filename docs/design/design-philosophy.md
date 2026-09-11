@@ -227,6 +227,14 @@ seed sample habits. A design prototype may provide a separate, explicitly
 labeled prototype-only sample-data action outside onboarding; it must not
 silently represent production first-launch behavior.
 
+## Launch moment
+
+Before onboarding or Today, briefly show the canonical Steady sapling mark,
+the word Steady, and the line “Small actions shape a steady life.” Keep this
+moment calm and short. It is brand orientation, not another onboarding step:
+there are no controls, feature explanations, or rotating quotes. Respect
+reduced motion.
+
 ## Add and edit habit form
 
 Habit creation and editing use the same focused full-screen composition:
