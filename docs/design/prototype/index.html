@@ -475,7 +475,7 @@
       position: relative;
       min-height: 68px;
       display: grid;
-      grid-template-columns: 43px 1fr 45px;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: 12px;
       width: 100%;
@@ -489,6 +489,41 @@
       transition: transform .2s var(--ease), border-color .25s, background .25s;
       animation: fadeUp .5s var(--delay, .15s) var(--ease) both;
     }
+    .habit-main {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 43px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 0;
+      color: inherit;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+    .habit-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .habit-history-btn {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--secondary);
+      border: 0;
+      border-radius: 11px;
+      background: transparent;
+      cursor: pointer;
+      transition: .2s var(--ease);
+    }
+    .habit-history-btn:hover {
+      color: var(--primary);
+      background: var(--sage-soft);
+    }
+    .habit-history-btn svg { width: 17px; height: 17px; }
     .habit-row:hover { transform: translateY(-1px); border-color: #d8d8cf; }
     .habit-row:active { transform: scale(.986); }
     .habit-row.complete {
@@ -542,6 +577,7 @@
       text-decoration-thickness: 1.5px;
     }
     .complete .habit-subtitle { opacity: .62; }
+    .complete .habit-main { cursor: default; }
 
     .check {
       position: relative;
@@ -753,7 +789,157 @@
       font-size: 9.5px;
       line-height: 1.5;
     }
-
+    .monthly-insights-card {
+      margin-top: 12px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--surface);
+    }
+    .monthly-insights-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+    .monthly-insights-heading strong { display: block; font-size: 12px; }
+    .monthly-insights-heading span {
+      display: block;
+      margin-top: 3px;
+      color: var(--secondary);
+      font-size: 9px;
+    }
+    .monthly-insights-summary {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 13px;
+      padding: 10px 11px;
+      border-radius: 14px;
+      background: var(--sage-soft);
+    }
+    .monthly-insights-summary span {
+      color: var(--secondary);
+      font-size: 8.5px;
+    }
+    .monthly-insights-summary b {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--text);
+      font-size: 12px;
+    }
+    .insights-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .insights-calendar-day {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      color: var(--secondary);
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: transparent;
+      font-size: 7.5px;
+      font-weight: 850;
+      cursor: pointer;
+    }
+    .insights-calendar-day.complete {
+      color: #fff;
+      background: var(--primary);
+    }
+    .insights-calendar-day.partial {
+      color: var(--primary);
+      border-color: rgba(66, 107, 90, .2);
+      background: var(--sage-soft);
+    }
+    .insights-calendar-day.missed {
+      color: #9a6a38;
+      border-color: rgba(154, 106, 56, .22);
+      background: var(--warm-soft);
+    }
+    .insights-calendar-day.paused {
+      color: #65706a;
+      border-color: rgba(101, 112, 106, .2);
+      background: rgba(139, 145, 140, .14);
+    }
+    .insights-calendar-day.travel {
+      color: #73637c;
+      border-color: rgba(115, 99, 124, .22);
+      background: #eee9f0;
+    }
+    .insights-calendar-day.future {
+      color: #a8ada9;
+      background: rgba(139, 145, 140, .06);
+      cursor: default;
+    }
+    .insights-calendar-day.empty { visibility: hidden; }
+    .insights-calendar-day.today { box-shadow: inset 0 0 0 2px var(--primary); }
+    .insights-calendar-note {
+      display: block;
+      margin-top: 10px;
+      color: var(--secondary);
+      font-size: 8px;
+      line-height: 1.4;
+    }
+    .insights-calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 10px;
+      margin-top: 11px;
+      color: var(--secondary);
+      font-size: 7.5px;
+    }
+    .insights-calendar-legend span { display: flex; align-items: center; gap: 4px; }
+    .insights-state-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+    }
+    .insights-state-dot.complete { background: var(--primary); }
+    .insights-state-dot.partial { background: var(--sage-light); border: 1px solid rgba(66, 107, 90, .28); }
+    .insights-state-dot.missed { background: var(--warm-soft); border: 1px solid rgba(154, 106, 56, .35); }
+    .insights-state-dot.paused { background: rgba(139, 145, 140, .22); }
+    .insights-state-dot.travel { background: #eee9f0; border: 1px solid rgba(115, 99, 124, .3); }
+    .daily-preview-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 13px;
+    }
+    .daily-preview-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 11px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--input);
+      font-size: 10px;
+      font-weight: 750;
+    }
+    .daily-preview-state {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--secondary);
+      font-size: 8.5px;
+      font-weight: 700;
+    }
+    .daily-preview-state i {
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      background: var(--primary);
+    }
+    .daily-preview-state.missed { color: #9a6a38; }
+    .daily-preview-state.missed i { background: var(--warm); }
+    .daily-preview-state.paused { color: #65706a; }
+    .daily-preview-state.paused i { background: #8b918c; }
+    .daily-preview-state.travel { color: #73637c; }
+    .daily-preview-state.travel i { background: #9a87a3; }
     .profile-card {
       padding: 18px;
       border: 1px solid var(--border);
@@ -834,13 +1020,16 @@
       font-size: 11px;
       font-weight: 750;
     }
-    button.settings-row {
+    button.settings-row,
+    a.settings-row {
       font: inherit;
       text-align: left;
       cursor: pointer;
       transition: .2s var(--ease);
     }
-    button.settings-row:hover {
+    a.settings-row { text-decoration: none; }
+    button.settings-row:hover,
+    a.settings-row:hover {
       border-color: rgba(66, 107, 90, .28);
       background: var(--sage-soft);
     }
@@ -1345,6 +1534,107 @@
     .sheet-option span { font-size: 12px; font-weight: 750; }
     .sheet-option small { display: block; margin-top: 2px; color: var(--secondary); font-size: 9px; font-weight: 500; }
     .sheet-option:disabled { opacity: .52; cursor: default; }
+
+    .history-sheet { padding-bottom: 20px; }
+    .history-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .history-heading-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--secondary);
+      font-size: 9px;
+    }
+    .history-month-nav {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .history-month-btn {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--secondary);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--input);
+      cursor: pointer;
+    }
+    .history-month-btn:disabled { opacity: .35; cursor: default; }
+    .history-month-btn svg { width: 16px; height: 16px; }
+    .history-summary {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 12px 13px;
+      border-radius: 15px;
+      background: var(--sage-soft);
+    }
+    .history-summary strong { color: var(--primary); font-size: 15px; }
+    .history-summary span { color: var(--secondary); font-size: 9px; text-align: right; }
+    .history-weekdays,
+    .history-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .history-weekdays {
+      margin-bottom: 6px;
+      color: var(--secondary);
+      font-size: 8px;
+      font-weight: 800;
+      text-align: center;
+    }
+    .history-day {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: var(--secondary);
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-size: 9px;
+      font-weight: 750;
+    }
+    .history-day.completed {
+      color: #fff;
+      background: var(--primary);
+    }
+    .history-day.missed {
+      color: #9a6a38;
+      border-color: rgba(154, 106, 56, .25);
+      background: var(--warm-soft);
+    }
+    .history-day.future {
+      color: #a4aaa5;
+      background: rgba(139, 145, 140, .06);
+    }
+    .history-day.unscheduled { color: #b2b6b2; }
+    .history-day.today { box-shadow: inset 0 0 0 2px var(--primary); }
+    .history-day.empty { visibility: hidden; }
+    .history-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 12px;
+      margin-top: 13px;
+      color: var(--secondary);
+      font-size: 8px;
+    }
+    .history-legend span { display: flex; align-items: center; gap: 5px; }
+    .history-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 3px;
+      background: var(--primary);
+    }
+    .history-dot.missed { background: var(--warm-soft); border: 1px solid rgba(154, 106, 56, .35); }
+    .history-dot.unscheduled { background: rgba(139, 145, 140, .14); }
 
     .manage-habits {
       position: absolute;
@@ -2274,6 +2564,7 @@
     html[data-theme="dark"] .summary-card,
     html[data-theme="dark"] .habit-row,
     html[data-theme="dark"] .profile-card,
+    html[data-theme="dark"] .monthly-insights-card,
     html[data-theme="dark"] .settings-row,
     html[data-theme="dark"] .appearance-card,
     html[data-theme="dark"] .celebration-card,
@@ -2305,6 +2596,18 @@
       background: var(--completed-surface);
     }
     html[data-theme="dark"] .habit-row.complete:hover { border-color: var(--completed-border); }
+    html[data-theme="dark"] .insights-calendar-day.travel,
+    html[data-theme="dark"] .insights-state-dot.travel {
+      color: var(--lilac);
+      border-color: #514457;
+      background: var(--lilac-soft);
+    }
+    html[data-theme="dark"] .insights-calendar-day.paused,
+    html[data-theme="dark"] .insights-state-dot.paused {
+      color: #aab2ad;
+      border-color: #48514c;
+      background: var(--muted-surface);
+    }
     html[data-theme="dark"] .complete .habit-title { color: #9ca59f; text-decoration-color: #789282; }
     html[data-theme="dark"] .complete .habit-icon,
     html[data-theme="dark"] .complete .check {
@@ -2489,7 +2792,10 @@
 
     @media (max-height: 780px) {
       .phone-frame { height: calc(100vh - 102px); min-height: 630px; }
-      .habit-row { min-height: 62px; grid-template-columns: 39px 1fr 41px; padding-block: 9px; }
+      .habit-row { min-height: 62px; padding-block: 9px; }
+      .habit-main { grid-template-columns: 39px minmax(0, 1fr); }
+      .habit-actions { gap: 3px; }
+      .habit-history-btn { width: 30px; height: 34px; }
       .habit-icon { width: 39px; height: 39px; }
       .check { width: 39px; height: 39px; }
       .summary-card { padding-block: 13px; margin-bottom: 14px; }
@@ -2584,11 +2890,12 @@
                         <span><b id="todayCoinBalance">82</b> coins</span>
                         <svg class="metric-affordance" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
                       </button>
-                      <div class="metric" title="Current streak">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
-                        <span><b id="streakDays">12</b> days</span>
+                      <div class="metric" title="Best streak">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 19V9M12 19V5M18 19v-7"/></svg>
+                        <span><b id="bestStreakDays">18</b> best</span>
                       </div>
                     </div>
+
                   </div>
                   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
                 </section>
@@ -2705,6 +3012,38 @@
                       </div>
                     </div>
                 </article>
+                <section class="monthly-insights-card" aria-labelledby="monthlyInsightsTitle">
+                  <div class="monthly-insights-heading">
+                    <div>
+                      <strong id="monthlyInsightsTitle">Monthly rhythm</strong>
+                      <span id="insightsMonthLabel">September 2026</span>
+                    </div>
+                    <div class="history-month-nav" aria-label="Choose Insights month">
+                      <button class="history-month-btn" id="insightsPreviousMonth" type="button" onclick="changeInsightsMonth(-1)" aria-label="Previous Insights month">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+                      </button>
+                      <button class="history-month-btn" id="insightsNextMonth" type="button" onclick="changeInsightsMonth(1)" aria-label="Next Insights month">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="monthly-insights-summary">
+                    <span><b id="monthlyCompletedCount">42</b>habits completed</span>
+                    <span><b id="monthlyMissedCount">12</b>habits missed</span>
+                  </div>
+                  <div class="history-weekdays" aria-hidden="true">
+                    <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                  </div>
+                  <div class="insights-calendar" id="insightsCalendar"></div>
+                  <div class="insights-calendar-legend" aria-label="Calendar color legend">
+                    <span><i class="insights-state-dot complete"></i>Complete</span>
+                    <span><i class="insights-state-dot partial"></i>Partial</span>
+                    <span><i class="insights-state-dot missed"></i>Missed</span>
+                    <span><i class="insights-state-dot paused"></i>Paused</span>
+                    <span><i class="insights-state-dot travel"></i>Travel</span>
+                  </div>
+                  <span class="insights-calendar-note">Each day shows completed habits / habits scheduled. Tap a day for details.</span>
+                </section>
               </section>
 
               <section class="destination-page settings-page">
@@ -2757,6 +3096,10 @@
                     <span>Send feedback</span>
                     <span>ceo@monklabs.ai ↗</span>
                   </button>
+                  <a class="settings-row" href="https://www.patreon.com/" target="_blank" rel="noopener noreferrer">
+                    <span>Support Steady</span>
+                    <span>Patreon ↗</span>
+                  </a>
                 </div>
                 <section class="data-privacy-card" aria-labelledby="dataPrivacyTitle">
                   <h2 id="dataPrivacyTitle">Data and privacy</h2>
@@ -2873,6 +3216,48 @@
                 <h3 id="sheetTitle">Adjust your rhythm</h3>
                 <p id="sheetCopy">Choose what you’d like to do.</p>
                 <div class="sheet-options" id="sheetOptions"></div>
+              </div>
+            </div>
+
+            <div class="sheet-backdrop" id="historyBackdrop" aria-hidden="true" onclick="historyBackdropClose(event)">
+              <div class="sheet history-sheet" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+                <div class="handle"></div>
+                <div class="history-heading">
+                  <div class="history-heading-copy">
+                    <h3 id="historyTitle">Habit history</h3>
+                    <span id="historyMonthLabel">September 2026</span>
+                  </div>
+                  <div class="history-month-nav" aria-label="Choose month">
+                    <button class="history-month-btn" id="historyPreviousMonth" type="button" onclick="changeHistoryMonth(-1)" aria-label="Previous month">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button class="history-month-btn" id="historyNextMonth" type="button" onclick="changeHistoryMonth(1)" aria-label="Next month">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="history-summary">
+                  <strong id="historySummaryValue">18 of 22 days</strong>
+                  <span id="historySummaryCopy">82% of scheduled days completed</span>
+                </div>
+                <div class="history-weekdays" aria-hidden="true">
+                  <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                </div>
+                <div class="history-calendar" id="historyCalendar"></div>
+                <div class="history-legend">
+                  <span><i class="history-dot"></i>Completed</span>
+                  <span><i class="history-dot missed"></i>Missed</span>
+                  <span><i class="history-dot unscheduled"></i>Not scheduled</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sheet-backdrop" id="dailyInsightBackdrop" aria-hidden="true" onclick="dailyInsightBackdropClose(event)">
+              <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dailyInsightTitle">
+                <div class="handle"></div>
+                <h3 id="dailyInsightTitle">Daily progress</h3>
+                <p id="dailyInsightSummary">3 of 5 scheduled habits completed</p>
+                <div class="daily-preview-list" id="dailyInsightList"></div>
               </div>
             </div>
           </div>
@@ -3174,7 +3559,7 @@
         </div>
       </section>
 
-      <div class="interaction-hint">Tap a habit to complete it · Tap the calendar to pause · Switch states above</div>
+      <div class="interaction-hint">Tap a habit to complete it · Row calendars show monthly history · The top calendar pauses routines</div>
 
       <section class="brand-preview" aria-labelledby="brandPreviewTitle">
         <div class="brand-preview-header">
@@ -3230,6 +3615,10 @@
     const sheetCopy = document.getElementById('sheetCopy');
     const sheetOptions = document.getElementById('sheetOptions');
     const habitList = document.getElementById('habitList');
+    const historyBackdrop = document.getElementById('historyBackdrop');
+    const historyCalendar = document.getElementById('historyCalendar');
+    const dailyInsightBackdrop = document.getElementById('dailyInsightBackdrop');
+    const insightsCalendar = document.getElementById('insightsCalendar');
     const dayCelebration = document.getElementById('dayCelebration');
     const coinShop = document.getElementById('coinShop');
     const missedDayBackdrop = document.getElementById('missedDayBackdrop');
@@ -3284,6 +3673,9 @@
     let appearancePreference = document.documentElement.dataset.appearance || 'system';
     let focusBeforeDialog = null;
     let onboardingComplete = false;
+    let historyHabitKey = null;
+    let historyMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    let insightsMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
     function cloneDemoHabits() {
       return JSON.parse(JSON.stringify(demoHabits));
@@ -3361,17 +3753,27 @@
     function createTodayRow(key, habit) {
       const completeClass = habit.completed ? ' complete' : '';
       return `
-        <button class="habit-row${completeClass}" id="todayRow-${key}" type="button"
-          aria-pressed="${habit.completed ? 'true' : 'false'}"
-          ${habit.completed ? 'aria-disabled="true"' : ''}
-          onclick="toggleHabit(this)" data-habit-key="${key}">
-          <span class="habit-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
-          <span class="habit-copy">
-            <span class="habit-title">${escapeHtml(habit.name)}</span>
-            <span class="habit-subtitle">${escapeHtml(habitSubtitle(habit.goalNote, habit.scheduleMode, habit.time, habit.cue))}</span>
+        <div class="habit-row${completeClass}" id="todayRow-${key}" data-habit-key="${key}">
+          <button class="habit-main" type="button"
+            aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed today` : `Mark ${escapeHtml(habit.name)} complete`}"
+            aria-pressed="${habit.completed ? 'true' : 'false'}"
+            ${habit.completed ? 'aria-disabled="true"' : ''}
+            onclick="toggleHabit(this.closest('.habit-row'))">
+            <span class="habit-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
+            <span class="habit-copy">
+              <span class="habit-title">${escapeHtml(habit.name)}</span>
+              <span class="habit-subtitle">${escapeHtml(habitSubtitle(habit.goalNote, habit.scheduleMode, habit.time, habit.cue))}</span>
+            </span>
+          </button>
+          <span class="habit-actions">
+            <button class="habit-history-btn" type="button" onclick="openHabitHistory(event, '${key}')" aria-label="View monthly history for ${escapeHtml(habit.name)}" title="View monthly history">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h14v16H5zM8 2v4M16 2v4M5 9h14"/><path d="M8 13h2M12 13h2M16 13h.01M8 17h2M12 17h2"/></svg>
+            </button>
+            <button class="check" type="button" onclick="toggleHabit(this.closest('.habit-row'))" aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed` : `Mark ${escapeHtml(habit.name)} complete`}" ${habit.completed ? 'disabled' : ''}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
+            </button>
           </span>
-          <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg></span>
-        </button>`;
+        </div>`;
     }
 
     function createManageRow(key, habit) {
@@ -3421,7 +3823,7 @@
       const profileName = document.getElementById('profileName').value.trim();
       document.getElementById('greetingName').textContent = profileName || 'there';
       document.getElementById('profileAvatar').textContent = avatarOptions[avatarIndex] || avatarOptions[0];
-      document.getElementById('streakDays').textContent = streakDays;
+      document.getElementById('bestStreakDays').textContent = Math.max(18, streakDays);
       document.getElementById('insightsStreakDays').textContent = streakDays;
       document.getElementById('insightsStreakUnit').textContent = streakDays === 1 ? 'day steady' : 'days steady';
       document.getElementById('insightsMotivation').textContent = streakDays > 0
@@ -3430,6 +3832,7 @@
       phone.classList.toggle('empty-mode', active.length === 0);
       updateProgress({ celebrate: false });
       updateShopState();
+      renderMonthlyInsights();
     }
 
     function updateOnboardingNameValidation({ showError = false } = {}) {
@@ -3525,6 +3928,12 @@
       row.classList.add('just-toggled');
       row.setAttribute('aria-pressed', 'true');
       row.setAttribute('aria-disabled', 'true');
+      const mainAction = row.querySelector('.habit-main');
+      const completionAction = row.querySelector('.check');
+      mainAction?.setAttribute('aria-pressed', 'true');
+      mainAction?.setAttribute('aria-disabled', 'true');
+      if (mainAction) mainAction.disabled = true;
+      if (completionAction) completionAction.disabled = true;
       const key = row.dataset.habitKey;
       if (key && habits[key]) habits[key].completed = true;
       persistPrototypeData();
@@ -3732,6 +4141,263 @@
 
     function backdropClose(event) {
       if (event.target === backdrop) backdrop.classList.remove('open');
+    }
+
+    function historyHash(value) {
+      let hash = 0;
+      for (let index = 0; index < value.length; index += 1) {
+        hash = ((hash << 5) - hash + value.charCodeAt(index)) | 0;
+      }
+      return Math.abs(hash);
+    }
+
+    function isHabitScheduledOnDate(habit, date) {
+      if (habit.days === 'everyday') return true;
+      const weekday = date.getDay();
+      return weekday >= 1 && weekday <= 5;
+    }
+
+    function historyDayState(habit, key, date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const candidate = new Date(date);
+      candidate.setHours(0, 0, 0, 0);
+      if (!isHabitScheduledOnDate(habit, candidate)) return 'unscheduled';
+      if (candidate > today) return 'future';
+      if (candidate.getTime() === today.getTime()) {
+        return habit.completed ? 'completed' : 'missed';
+      }
+      const seed = `${key}-${candidate.getFullYear()}-${candidate.getMonth()}-${candidate.getDate()}`;
+      return historyHash(seed) % 100 < 78 ? 'completed' : 'missed';
+    }
+
+    function aggregateDayProgress(date) {
+      const scheduledHabits = activeHabitEntries()
+        .filter(([, habit]) => isHabitScheduledOnDate(habit, date));
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const candidate = new Date(date);
+      candidate.setHours(0, 0, 0, 0);
+
+      if (candidate > today) {
+        return { scheduled: scheduledHabits.length, completed: 0, state: 'future', details: [] };
+      }
+
+      const daySeed = historyHash(
+        `day-${candidate.getFullYear()}-${candidate.getMonth()}-${candidate.getDate()}`
+      );
+      const isToday = candidate.getTime() === today.getTime();
+      const adjustedState = !isToday && candidate.getDate() !== 2 && (candidate.getDate() === 10 || daySeed % 17 === 0)
+        ? 'travel'
+        : !isToday && candidate.getDate() !== 2 && (candidate.getDate() === 6 || daySeed % 13 === 0)
+          ? 'paused'
+          : null;
+      if (adjustedState) {
+        return {
+          scheduled: scheduledHabits.length,
+          completed: 0,
+          state: adjustedState,
+          details: scheduledHabits.map(([key, habit]) => ({
+            key,
+            habit,
+            completed: false,
+            adjustedState,
+          })),
+        };
+      }
+      if (!isToday && candidate.getDate() === 2) {
+        return {
+          scheduled: scheduledHabits.length,
+          completed: 0,
+          state: 'missed',
+          details: scheduledHabits.map(([key, habit]) => ({
+            key,
+            habit,
+            completed: false,
+          })),
+        };
+      }
+
+      const details = scheduledHabits.map(([key, habit]) => {
+        const state = historyDayState(habit, key, candidate);
+        return { key, habit, completed: state === 'completed' };
+      });
+      const completed = details.filter(item => item.completed).length;
+      const scheduled = details.length;
+      const state = scheduled === 0
+        ? 'future'
+        : completed === scheduled
+          ? 'complete'
+          : completed === 0
+            ? 'missed'
+            : 'partial';
+      return { scheduled, completed, state, details };
+    }
+
+    function renderMonthlyInsights() {
+      const year = insightsMonth.getFullYear();
+      const month = insightsMonth.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const leadingEmptyDays = (firstDay.getDay() + 6) % 7;
+      const cells = Array.from({ length: leadingEmptyDays }, () => '<span class="insights-calendar-day empty"></span>');
+      const today = new Date();
+      let completedTotal = 0;
+      let missedTotal = 0;
+
+      for (let day = 1; day <= lastDay.getDate(); day += 1) {
+        const date = new Date(year, month, day);
+        const progress = aggregateDayProgress(date);
+        const isToday = date.toDateString() === today.toDateString();
+        if (!['future', 'paused', 'travel'].includes(progress.state)) {
+          completedTotal += progress.completed;
+          missedTotal += progress.scheduled - progress.completed;
+        }
+        const fraction = progress.state === 'future'
+          ? day
+          : progress.state === 'paused'
+            ? 'Pause'
+            : progress.state === 'travel'
+              ? 'Trip'
+              : `${progress.completed}/${progress.scheduled}`;
+        const label = progress.state === 'future'
+          ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: upcoming`
+          : progress.state === 'paused'
+            ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: routine paused`
+            : progress.state === 'travel'
+              ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: travel day`
+              : `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: ${progress.completed} of ${progress.scheduled} habits completed`;
+        cells.push(
+          `<button class="insights-calendar-day ${progress.state}${isToday ? ' today' : ''}" type="button" ${progress.state === 'future' ? 'disabled' : ''} onclick="openDailyInsight(event, ${year}, ${month}, ${day})" aria-label="${label}">${fraction}</button>`
+        );
+      }
+
+      document.getElementById('insightsMonthLabel').textContent =
+        insightsMonth.toLocaleDateString([], { month: 'long', year: 'numeric' });
+      document.getElementById('monthlyCompletedCount').textContent = completedTotal;
+      document.getElementById('monthlyMissedCount').textContent = missedTotal;
+      insightsCalendar.innerHTML = cells.join('');
+
+      const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      document.getElementById('insightsNextMonth').disabled = insightsMonth >= currentMonth;
+    }
+
+    function changeInsightsMonth(offset) {
+      insightsMonth = new Date(insightsMonth.getFullYear(), insightsMonth.getMonth() + offset, 1);
+      renderMonthlyInsights();
+    }
+
+    function openDailyInsight(event, year, month, day) {
+      event?.stopPropagation();
+      const date = new Date(year, month, day);
+      const progress = aggregateDayProgress(date);
+      focusBeforeDialog = event?.currentTarget || document.activeElement;
+      document.getElementById('dailyInsightTitle').textContent =
+        date.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+      document.getElementById('dailyInsightSummary').textContent =
+        progress.state === 'paused'
+          ? 'Your routine was intentionally paused. This day is not counted as missed.'
+          : progress.state === 'travel'
+            ? 'Travel mode adjusted your routine. This day is not counted as missed.'
+            : `${progress.completed} of ${progress.scheduled} scheduled habits completed`;
+      document.getElementById('dailyInsightList').innerHTML = progress.details.map(({ habit, completed, adjustedState }) => `
+        <div class="daily-preview-row">
+          <span>${escapeHtml(habit.name)}</span>
+          <span class="daily-preview-state${adjustedState ? ` ${adjustedState}` : completed ? '' : ' missed'}">
+            <i></i>${adjustedState === 'paused' ? 'Paused' : adjustedState === 'travel' ? 'Travel plan' : completed ? 'Completed' : 'Missed'}
+          </span>
+        </div>
+      `).join('');
+      dailyInsightBackdrop.classList.add('open');
+      dailyInsightBackdrop.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDailyInsight() {
+      dailyInsightBackdrop.classList.remove('open');
+      dailyInsightBackdrop.setAttribute('aria-hidden', 'true');
+      const returnTarget = focusBeforeDialog && document.contains(focusBeforeDialog)
+        ? focusBeforeDialog
+        : null;
+      if (returnTarget) window.setTimeout(() => returnTarget.focus(), 0);
+    }
+
+    function dailyInsightBackdropClose(event) {
+      if (event.target === dailyInsightBackdrop) closeDailyInsight();
+    }
+
+    function renderHabitHistory() {
+      const habit = habits[historyHabitKey];
+      if (!habit) return;
+
+      const year = historyMonth.getFullYear();
+      const month = historyMonth.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const leadingEmptyDays = (firstDay.getDay() + 6) % 7;
+      const cells = Array.from({ length: leadingEmptyDays }, () => '<span class="history-day empty"></span>');
+      let scheduled = 0;
+      let completed = 0;
+      const today = new Date();
+
+      for (let day = 1; day <= lastDay.getDate(); day += 1) {
+        const date = new Date(year, month, day);
+        const state = historyDayState(habit, historyHabitKey, date);
+        const isToday = date.toDateString() === today.toDateString();
+        if (state === 'completed' || state === 'missed') scheduled += 1;
+        if (state === 'completed') completed += 1;
+        const label = state === 'unscheduled'
+          ? 'not scheduled'
+          : state === 'future'
+            ? 'upcoming'
+            : state;
+        cells.push(
+          `<span class="history-day ${state}${isToday ? ' today' : ''}" aria-label="${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: ${label}">${day}</span>`
+        );
+      }
+
+      const percentage = scheduled ? Math.round((completed / scheduled) * 100) : 0;
+      document.getElementById('historyTitle').textContent = `${habit.name} history`;
+      document.getElementById('historyMonthLabel').textContent =
+        historyMonth.toLocaleDateString([], { month: 'long', year: 'numeric' });
+      document.getElementById('historySummaryValue').textContent =
+        `${completed} of ${scheduled} scheduled days`;
+      document.getElementById('historySummaryCopy').textContent =
+        scheduled ? `${percentage}% completed this month` : 'No scheduled days yet';
+      historyCalendar.innerHTML = cells.join('');
+
+      const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      document.getElementById('historyNextMonth').disabled = historyMonth >= currentMonth;
+    }
+
+    function openHabitHistory(event, key) {
+      event?.stopPropagation();
+      if (!habits[key]) return;
+      historyHabitKey = key;
+      const today = new Date();
+      historyMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      focusBeforeDialog = event?.currentTarget || document.activeElement;
+      renderHabitHistory();
+      historyBackdrop.classList.add('open');
+      historyBackdrop.setAttribute('aria-hidden', 'false');
+      window.setTimeout(() => document.getElementById('historyPreviousMonth').focus(), 80);
+    }
+
+    function closeHabitHistory() {
+      historyBackdrop.classList.remove('open');
+      historyBackdrop.setAttribute('aria-hidden', 'true');
+      const returnTarget = focusBeforeDialog && document.contains(focusBeforeDialog)
+        ? focusBeforeDialog
+        : null;
+      if (returnTarget) window.setTimeout(() => returnTarget.focus(), 0);
+    }
+
+    function historyBackdropClose(event) {
+      if (event.target === historyBackdrop) closeHabitHistory();
+    }
+
+    function changeHistoryMonth(offset) {
+      historyMonth = new Date(historyMonth.getFullYear(), historyMonth.getMonth() + offset, 1);
+      renderHabitHistory();
     }
 
     function choosePause(label) {
@@ -4283,6 +4949,10 @@
       if (event.key === 'Tab') {
         if (onboardingScreen.classList.contains('open')) {
           trapFocus(onboardingScreen, event);
+        } else if (dailyInsightBackdrop.classList.contains('open')) {
+          trapFocus(dailyInsightBackdrop, event);
+        } else if (historyBackdrop.classList.contains('open')) {
+          trapFocus(historyBackdrop, event);
         } else if (document.getElementById('resetBackdrop').classList.contains('open')) {
           trapFocus(document.getElementById('resetBackdrop'), event);
         } else if (document.getElementById('deleteHabitBackdrop').classList.contains('open')) {
@@ -4302,6 +4972,10 @@
       if (event.key !== 'Escape') return;
       if (onboardingScreen.classList.contains('open')) {
         event.preventDefault();
+      } else if (dailyInsightBackdrop.classList.contains('open')) {
+        closeDailyInsight();
+      } else if (historyBackdrop.classList.contains('open')) {
+        closeHabitHistory();
       } else if (document.getElementById('resetBackdrop').classList.contains('open')) {
         closeResetDialog();
       } else if (document.getElementById('deleteHabitBackdrop').classList.contains('open')) {
