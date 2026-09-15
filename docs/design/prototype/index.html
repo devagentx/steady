@@ -4341,31 +4341,31 @@
         dayCelebrated = true;
         showDayCelebration();
       }
+    }
 
-      function applyTodaySummaryState() {
-        const card = document.getElementById('todaySummaryCard');
-        const disclosure = document.getElementById('summaryDisclosure');
-        if (!card || !disclosure) return;
-        card.dataset.expanded = String(todaySummaryExpanded);
-        disclosure.setAttribute('aria-expanded', String(todaySummaryExpanded));
-        disclosure.setAttribute(
-          'aria-label',
-          `${todaySummaryExpanded ? 'Expanded' : 'Collapsed'} daily progress. ` +
-            `${document.getElementById('progressText')?.textContent || ''}. ` +
-            `${todaySummaryExpanded ? 'Collapse' : 'Expand'} daily progress.`
+    function applyTodaySummaryState() {
+      const card = document.getElementById('todaySummaryCard');
+      const disclosure = document.getElementById('summaryDisclosure');
+      if (!card || !disclosure) return;
+      card.dataset.expanded = String(todaySummaryExpanded);
+      disclosure.setAttribute('aria-expanded', String(todaySummaryExpanded));
+      disclosure.setAttribute(
+        'aria-label',
+        `${todaySummaryExpanded ? 'Expanded' : 'Collapsed'} daily progress. ` +
+          `${document.getElementById('progressText')?.textContent || ''}. ` +
+          `${todaySummaryExpanded ? 'Collapse' : 'Expand'} daily progress.`
+      );
+    }
+
+    function toggleTodaySummary() {
+      todaySummaryExpanded = !todaySummaryExpanded;
+      applyTodaySummaryState();
+      try {
+        localStorage.setItem(
+          TODAY_SUMMARY_EXPANDED_KEY,
+          String(todaySummaryExpanded),
         );
-      }
-
-      function toggleTodaySummary() {
-        todaySummaryExpanded = !todaySummaryExpanded;
-        applyTodaySummaryState();
-        try {
-          localStorage.setItem(
-            TODAY_SUMMARY_EXPANDED_KEY,
-            String(todaySummaryExpanded),
-          );
-        } catch {}
-      }
+      } catch {}
     }
 
     function showDayCelebration() {
