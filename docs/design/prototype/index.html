@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Steady — Interactive Design Prototype</title>
+  <title>Steady Habits — Interactive Design Prototype</title>
   <script>
     (() => {
       const key = 'steadyAppearance';
@@ -227,51 +227,6 @@
       pointer-events: none;
     }
 
-    .launch-screen {
-      position: absolute;
-      z-index: 120;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      padding: 36px;
-      text-align: center;
-      background:
-        radial-gradient(circle at 50% 37%, rgba(220, 233, 225, .82), transparent 190px),
-        var(--bg);
-      transition: opacity .35s var(--ease), visibility .35s var(--ease);
-    }
-    .launch-screen.dismissed {
-      visibility: hidden;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .launch-content { width: min(100%, 275px); }
-    .launch-icon {
-      width: 94px;
-      height: 94px;
-      margin: 0 auto 25px;
-      overflow: hidden;
-      border-radius: 29px;
-      box-shadow: 0 18px 40px rgba(49, 58, 52, .14);
-    }
-    .launch-icon svg { width: 100%; height: 100%; }
-    .launch-wordmark {
-      display: block;
-      margin-bottom: 12px;
-      color: var(--primary);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
-    .launch-quote {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 23px;
-      font-weight: 600;
-      line-height: 1.3;
-    }
-
     .status-bar {
       height: 44px;
       display: flex;
@@ -392,6 +347,55 @@
       margin-bottom: 13px;
     }
 
+    .summary-disclosure {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 48px;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      text-align: left;
+      background: transparent;
+      cursor: pointer;
+    }
+    .summary-disclosure .progress-copy { flex: 1; min-width: 0; }
+    .summary-percentage {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .summary-chevron {
+      width: 18px;
+      height: 18px;
+      color: var(--secondary);
+      transition: transform .22s var(--ease);
+    }
+    .summary-card[data-expanded="true"] .summary-chevron { transform: rotate(180deg); }
+    .summary-details {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 1fr;
+      opacity: 1;
+      transition: grid-template-rows .22s var(--ease), opacity .18s var(--ease);
+    }
+    .summary-details-inner {
+      min-height: 0;
+      overflow: hidden;
+      padding-block: 4px 13px;
+    }
+    .summary-card[data-expanded="false"] .summary-details {
+      grid-template-rows: 0fr;
+      opacity: 0;
+    }
+    .summary-card[data-expanded="false"] .progress-track { display: none; }
+    .summary-card[data-expanded="false"] { padding-block: 12px; }
+
     .progress-copy strong {
       display: block;
       margin-bottom: 2px;
@@ -404,22 +408,32 @@
       display: flex;
       align-items: center;
       gap: 13px;
+      min-width: 0;
+      overflow: hidden;
       padding-right: 2px;
     }
 
     .metric {
       display: flex;
+      flex: 1 1 0;
       align-items: center;
       gap: 5px;
+      min-width: 0;
+      overflow: hidden;
       color: var(--secondary);
       font-size: 10px;
       font-weight: 700;
       white-space: nowrap;
     }
     .metric b { color: var(--text); font-size: 12px; }
-    .metric svg { width: 13px; height: 13px; color: var(--warm); }
+    .metric span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .metric svg { flex: 0 0 auto; width: 13px; height: 13px; color: var(--warm); }
     button.metric {
-      margin: -5px;
+      margin: 0;
       padding: 5px;
       border: 0;
       border-radius: 9px;
@@ -500,7 +514,32 @@
       border: 0;
       background: transparent;
       text-align: left;
+    }
+    .habit-icon-trigger,
+    .habit-copy-trigger {
+      padding: 0;
+      color: inherit;
+      border: 0;
+      background: transparent;
+      text-align: left;
       cursor: pointer;
+    }
+    .habit-icon-trigger {
+      position: relative;
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+    }
+    .habit-icon-trigger:focus-visible,
+    .habit-copy-trigger:focus-visible,
+    .habit-history-btn:focus-visible,
+    .check:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .habit-copy-trigger {
+      min-width: 0;
+      border-radius: 8px;
     }
     .habit-actions {
       display: flex;
@@ -519,9 +558,19 @@
       cursor: pointer;
       transition: .2s var(--ease);
     }
+    .habit-history-btn.momentum-state {
+      color: var(--momentum-color);
+      border: 1px solid color-mix(in srgb, var(--momentum-color) 34%, transparent);
+      background: color-mix(in srgb, var(--momentum-color) 12%, transparent);
+    }
     .habit-history-btn:hover {
       color: var(--primary);
       background: var(--sage-soft);
+    }
+    .habit-history-btn.momentum-state:hover {
+      color: var(--momentum-color);
+      border-color: color-mix(in srgb, var(--momentum-color) 48%, transparent);
+      background: color-mix(in srgb, var(--momentum-color) 18%, transparent);
     }
     .habit-history-btn svg { width: 17px; height: 17px; }
     .habit-row:hover { transform: translateY(-1px); border-color: #d8d8cf; }
@@ -535,6 +584,8 @@
     .habit-row.complete:active { transform: none; }
 
     .habit-icon {
+      position: relative;
+      z-index: 1;
       width: 43px;
       height: 43px;
       display: grid;
@@ -549,6 +600,53 @@
     .habit-icon.lilac { color: #73637c; background: #eee9f0; }
     .habit-icon svg { width: 21px; height: 21px; }
     .complete .habit-icon { color: #fff; background: #8b918c; }
+
+    .momentum-up {
+      --momentum-color: #3f7f60;
+      --momentum-soft: #e5f0e9;
+    }
+    .momentum-flat {
+      --momentum-color: #587484;
+      --momentum-soft: #e6eef1;
+    }
+    .momentum-down {
+      --momentum-color: #ad604f;
+      --momentum-soft: #f5e8e3;
+    }
+    .momentum-new {
+      --momentum-color: #766583;
+      --momentum-soft: #eee9f2;
+    }
+    .momentum-pending {
+      --momentum-color: #707873;
+      --momentum-soft: #eceeea;
+    }
+    .momentum-badge {
+      position: absolute;
+      z-index: 2;
+      right: -5px;
+      bottom: -5px;
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: #fffdf7;
+      border: 2px solid var(--surface);
+      border-radius: 50%;
+      background: var(--momentum-color);
+      box-shadow: 0 2px 7px rgba(32, 37, 33, .16);
+      pointer-events: none;
+      transition: transform .2s var(--ease), background .2s var(--ease);
+    }
+    .habit-icon-trigger:active .momentum-badge { transform: scale(.88); }
+    .momentum-badge svg { width: 11px; height: 11px; }
+    .momentum-badge.is-dot::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
 
     .habit-copy { min-width: 0; }
     .habit-title {
@@ -570,14 +668,70 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .momentum-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      width: fit-content;
+      max-width: 100%;
+      overflow: hidden;
+      color: var(--momentum-color);
+      border-radius: 999px;
+      background: var(--momentum-soft);
+      font-size: 9px;
+      font-weight: 800;
+      line-height: 17px;
+      white-space: nowrap;
+    }
+    .momentum-chip svg {
+      flex: 0 0 auto;
+      width: 10px;
+      height: 10px;
+    }
+    .momentum-chip.tap-only {
+      max-height: 0;
+      margin-top: 0;
+      padding-inline: 7px;
+      opacity: 0;
+      transform: translateY(-3px);
+      transition:
+        max-height .2s var(--ease),
+        margin-top .2s var(--ease),
+        padding .2s var(--ease),
+        opacity .16s ease,
+        transform .2s var(--ease);
+    }
+    .habit-row.show-momentum-chip .momentum-chip.tap-only {
+      max-height: 23px;
+      margin-top: 5px;
+      padding-block: 2px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .momentum-chip.persistent {
+      margin-top: 5px;
+      padding: 2px 7px;
+    }
     .complete .habit-title {
       color: #69716b;
       text-decoration: line-through;
       text-decoration-color: rgba(66, 107, 90, .72);
       text-decoration-thickness: 1.5px;
     }
-    .complete .habit-subtitle { opacity: .62; }
-    .complete .habit-main { cursor: default; }
+    .complete .habit-subtitle {
+      opacity: .62;
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+    .complete .habit-copy-trigger { cursor: default; }
+    .complete .momentum-badge,
+    .complete .momentum-chip { display: none; }
+    .complete .habit-history-btn,
+    .complete .habit-history-btn:hover {
+      color: var(--completed-control);
+      border-color: transparent;
+      background: transparent;
+    }
 
     .check {
       position: relative;
@@ -739,7 +893,12 @@
       letter-spacing: .05em;
       text-transform: uppercase;
     }
-    .streak-label svg { width: 16px; height: 16px; color: var(--warm); }
+    .streak-label svg {
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      color: var(--warm);
+    }
     .streak-value {
       display: flex;
       align-items: baseline;
@@ -796,31 +955,45 @@
       border-radius: 22px;
       background: var(--surface);
     }
-    .monthly-insights-heading {
+    .monthly-insights-header {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
+      align-items: center;
+      gap: 10px;
       margin-bottom: 13px;
     }
+    .monthly-insights-heading { flex: 1 1 auto; min-width: 0; }
     .monthly-insights-heading strong { display: block; font-size: 12px; }
     .monthly-insights-heading span {
       display: block;
       margin-top: 3px;
       color: var(--secondary);
       font-size: 9px;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+    .monthly-insights-selector {
+      flex: 0 0 auto;
+      width: auto;
+    }
+    html[dir="rtl"] .monthly-insights-selector svg { transform: scaleX(-1); }
     .monthly-insights-summary {
-      display: flex;
-      gap: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(4px, 2vw, 14px);
       margin-bottom: 13px;
       padding: 10px 11px;
       border-radius: 14px;
       background: var(--sage-soft);
     }
     .monthly-insights-summary span {
+      min-width: 0;
+      overflow: hidden;
       color: var(--secondary);
-      font-size: 8.5px;
+      font-size: clamp(6px, 2vw, 8.5px);
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .monthly-insights-summary b {
       display: block;
@@ -830,19 +1003,25 @@
     }
     .insights-calendar {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 5px;
+      max-width: 100%;
+      overflow: hidden;
     }
     .insights-calendar-day {
+      position: relative;
       aspect-ratio: 1;
       display: grid;
       place-items: center;
       padding: 0;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
       color: var(--secondary);
       border: 1px solid transparent;
       border-radius: 10px;
       background: transparent;
-      font-size: 7.5px;
+      font-size: clamp(5px, 1.9vw, 7.5px);
       font-weight: 850;
       cursor: pointer;
     }
@@ -870,6 +1049,17 @@
       border-color: rgba(115, 99, 124, .22);
       background: #eee9f0;
     }
+    .insights-calendar-day.no-schedule {
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0,
+          transparent 4px,
+          rgba(105, 113, 107, .14) 4px,
+          rgba(105, 113, 107, .14) 5px
+        );
+    }
+    .insights-calendar-day.no-schedule.today { background: transparent; }
     .insights-calendar-day.future {
       color: #a8ada9;
       background: rgba(139, 145, 140, .06);
@@ -877,13 +1067,6 @@
     }
     .insights-calendar-day.empty { visibility: hidden; }
     .insights-calendar-day.today { box-shadow: inset 0 0 0 2px var(--primary); }
-    .insights-calendar-note {
-      display: block;
-      margin-top: 10px;
-      color: var(--secondary);
-      font-size: 8px;
-      line-height: 1.4;
-    }
     .insights-calendar-legend {
       display: flex;
       flex-wrap: wrap;
@@ -892,7 +1075,20 @@
       color: var(--secondary);
       font-size: 7.5px;
     }
-    .insights-calendar-legend span { display: flex; align-items: center; gap: 4px; }
+    .insights-calendar-legend span {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .insights-calendar-helper {
+      margin: 9px 0 0;
+      color: var(--secondary);
+      font-size: 9px;
+      line-height: 1.45;
+    }
     .insights-state-dot {
       width: 8px;
       height: 8px;
@@ -903,15 +1099,33 @@
     .insights-state-dot.missed { background: var(--warm-soft); border: 1px solid rgba(154, 106, 56, .35); }
     .insights-state-dot.paused { background: rgba(139, 145, 140, .22); }
     .insights-state-dot.travel { background: #eee9f0; border: 1px solid rgba(115, 99, 124, .3); }
+    .insights-state-line {
+      width: 8px;
+      height: 8px;
+      position: relative;
+      flex: 0 0 8px;
+    }
+    .insights-state-line.no-schedule {
+      overflow: hidden;
+      border-radius: 2px;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          transparent 0,
+          transparent 2px,
+          color-mix(in srgb, var(--secondary) 24%, transparent) 2px,
+          color-mix(in srgb, var(--secondary) 24%, transparent) 3px
+        );
+    }
     .daily-preview-list {
       display: grid;
       gap: 7px;
       margin-top: 13px;
     }
     .daily-preview-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
       gap: 12px;
       padding: 10px 11px;
       border: 1px solid var(--border);
@@ -921,25 +1135,15 @@
       font-weight: 750;
     }
     .daily-preview-state {
-      display: flex;
-      align-items: center;
-      gap: 5px;
       color: var(--secondary);
       font-size: 8.5px;
       font-weight: 700;
-    }
-    .daily-preview-state i {
-      width: 8px;
-      height: 8px;
-      border-radius: 3px;
-      background: var(--primary);
+      white-space: nowrap;
+      text-align: right;
     }
     .daily-preview-state.missed { color: #9a6a38; }
-    .daily-preview-state.missed i { background: var(--warm); }
     .daily-preview-state.paused { color: #65706a; }
-    .daily-preview-state.paused i { background: #8b918c; }
     .daily-preview-state.travel { color: #73637c; }
-    .daily-preview-state.travel i { background: #9a87a3; }
     .profile-card {
       padding: 18px;
       border: 1px solid var(--border);
@@ -2549,12 +2753,6 @@
     html[data-theme="dark"] .phone-screen::before {
       background: linear-gradient(180deg, rgba(54, 82, 67, .45), rgba(21, 26, 23, 0));
     }
-    html[data-theme="dark"] .launch-screen {
-      background:
-        radial-gradient(circle at 50% 37%, rgba(45, 70, 57, .72), transparent 190px),
-        var(--bg);
-    }
-    html[data-theme="dark"] .launch-icon { box-shadow: 0 18px 40px rgba(0, 0, 0, .34); }
     html[data-theme="dark"] .travel-btn.active {
       color: var(--warm);
       border-color: #654f34;
@@ -2642,6 +2840,31 @@
     html[data-theme="dark"] .manage-icon.warm,
     html[data-theme="dark"] .preview-icon-btn.warm,
     html[data-theme="dark"] .picker-swatch.warm { color: var(--warm); background: var(--warm-soft); }
+    html[data-theme="dark"] .momentum-up {
+      --momentum-color: #94d6b2;
+      --momentum-soft: #24382e;
+    }
+    html[data-theme="dark"] .momentum-flat {
+      --momentum-color: #9fc7d4;
+      --momentum-soft: #263940;
+    }
+    html[data-theme="dark"] .momentum-down {
+      --momentum-color: #efa58f;
+      --momentum-soft: #4a302a;
+    }
+    html[data-theme="dark"] .momentum-new {
+      --momentum-color: #c7b5d8;
+      --momentum-soft: #3b3041;
+    }
+    html[data-theme="dark"] .momentum-pending {
+      --momentum-color: #aab2ad;
+      --momentum-soft: #2a302c;
+    }
+    html[data-theme="dark"] .momentum-badge {
+      color: #151a17;
+      border-color: var(--surface);
+      box-shadow: 0 2px 7px rgba(0, 0, 0, .32);
+    }
     html[data-theme="dark"] .preview-icon-btn.neutral,
     html[data-theme="dark"] .picker-swatch.neutral { color: var(--neutral-icon); background: var(--neutral-soft); }
     html[data-theme="dark"] .bottom-nav,
@@ -2796,6 +3019,7 @@
       .habit-main { grid-template-columns: 39px minmax(0, 1fr); }
       .habit-actions { gap: 3px; }
       .habit-history-btn { width: 30px; height: 34px; }
+      .habit-icon-trigger,
       .habit-icon { width: 39px; height: 39px; }
       .check { width: 39px; height: 39px; }
       .summary-card { padding-block: 13px; margin-bottom: 14px; }
@@ -2833,20 +3057,10 @@
         <button class="mode-btn active" data-choice="today-primary" onclick="setMode('today', this)">Current data</button>
         <button class="mode-btn" data-choice="first-day-empty" onclick="setMode('empty', this)">Empty state</button>
         <button class="mode-btn" data-choice="load-sample-demo" onclick="loadDesignDemo(this)">Sample demo</button>
-        <button class="mode-btn" data-choice="replay-launch" onclick="replayLaunch()">Replay launch</button>
       </div>
 
-      <section class="phone-frame" aria-label="Steady Android Today screen concept">
+      <section class="phone-frame" aria-label="Steady Habits Android Today screen concept">
         <div class="phone-screen" id="phoneScreen">
-          <section class="launch-screen" id="launchScreen" aria-label="Steady launch message">
-            <div class="launch-content">
-              <div class="launch-icon" aria-hidden="true">
-                <svg class="steady-mark" viewBox="0 0 1080 1080"><use href="#steadyBrandMark"></use></svg>
-              </div>
-              <span class="launch-wordmark">Steady</span>
-              <p class="launch-quote">Small actions shape a steady life.</p>
-            </div>
-          </section>
           <div class="status-bar">
             <span>9:41</span>
             <span class="status-icons">
@@ -2878,12 +3092,17 @@
               </div>
 
               <div class="today-state today-destination">
-                <section class="summary-card" aria-label="Daily progress summary">
-                  <div class="summary-top">
+                <section class="summary-card" id="todaySummaryCard" data-expanded="false" aria-label="Daily progress summary">
+                  <button class="summary-disclosure" id="summaryDisclosure" type="button" aria-expanded="false" aria-controls="summaryDetails" onclick="toggleTodaySummary()">
                     <div class="progress-copy">
                       <strong id="progressText">3 of 5 complete</strong>
                       <span id="progressMessage">A steady day is taking shape.</span>
                     </div>
+                    <span class="summary-percentage" id="progressPercentage">60%</span>
+                    <svg class="summary-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m7 9 5 5 5-5"/></svg>
+                  </button>
+                  <div class="summary-details" id="summaryDetails">
+                    <div class="summary-details-inner">
                     <div class="quiet-metrics">
                       <button class="metric" id="coinsButton" type="button" title="Open Steady Coins shop" aria-label="82 Steady Coins. Open shop." onclick="openCoinShop()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><path d="M9 9.2c.8-.7 1.8-1.1 3-1.1 1.7 0 3 .8 3 2 0 2.9-6 1-6 4 0 1.2 1.3 2 3 2 1.2 0 2.3-.4 3-1.1M12 6.4v11.2"/></svg>
@@ -2894,8 +3113,12 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 19V9M12 19V5M18 19v-7"/></svg>
                         <span><b id="bestStreakDays">18</b> best</span>
                       </div>
+                      <div class="metric" title="Current streak">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 18c0-2.2 1.3-3.5 3-5.3 1.1-1.2 1.8-2.5 2-4.2 2.7 2.1 4.5 4.7 4.5 7.3A4.5 4.5 0 0 1 12 20a5 5 0 0 1-5-2Z"/></svg>
+                        <span><b id="currentStreakDays">12</b> current</span>
+                      </div>
                     </div>
-
+                    </div>
                   </div>
                   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
                 </section>
@@ -2994,7 +3217,7 @@
                 </div>
                 <article class="insights-card" aria-labelledby="insightsStreakLabel">
                     <div class="streak-label" id="insightsStreakLabel">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.6 2.8c.8 4.1-2.2 5.2-3.5 8.1-.8 1.8-.2 3.4 1 4.3-.1-2.4 1.7-3.6 3.2-5.3.5 2.5 3.7 4.1 2.5 7.2-.7 1.8-2.4 3.1-4.6 3.1-4.1 0-6.8-3-6.8-6.6 0-4.5 4.6-7.1 8.2-10.8Z"/></svg>
                       Current streak
                     </div>
                     <div class="streak-value">
@@ -3013,12 +3236,12 @@
                     </div>
                 </article>
                 <section class="monthly-insights-card" aria-labelledby="monthlyInsightsTitle">
-                  <div class="monthly-insights-heading">
-                    <div>
+                  <div class="monthly-insights-header">
+                    <div class="monthly-insights-heading">
                       <strong id="monthlyInsightsTitle">Monthly rhythm</strong>
                       <span id="insightsMonthLabel">September 2026</span>
                     </div>
-                    <div class="history-month-nav" aria-label="Choose Insights month">
+                    <div class="history-month-nav monthly-insights-selector" aria-label="Choose Insights month">
                       <button class="history-month-btn" id="insightsPreviousMonth" type="button" onclick="changeInsightsMonth(-1)" aria-label="Previous Insights month">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
                       </button>
@@ -3028,21 +3251,22 @@
                     </div>
                   </div>
                   <div class="monthly-insights-summary">
-                    <span><b id="monthlyCompletedCount">42</b>habits completed</span>
-                    <span><b id="monthlyMissedCount">12</b>habits missed</span>
+                    <span id="monthlyCompletedMetric" aria-label="42 Habits complete"><b id="monthlyCompletedCount">42</b>Habits complete</span>
+                    <span id="monthlyPerfectMetric" aria-label="7 Steady days"><b id="monthlyCompleteDayCount">7</b>Steady days</span>
                   </div>
                   <div class="history-weekdays" aria-hidden="true">
                     <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
                   </div>
                   <div class="insights-calendar" id="insightsCalendar"></div>
-                  <div class="insights-calendar-legend" aria-label="Calendar color legend">
+                  <div class="insights-calendar-legend" aria-label="Calendar status legend">
                     <span><i class="insights-state-dot complete"></i>Complete</span>
                     <span><i class="insights-state-dot partial"></i>Partial</span>
                     <span><i class="insights-state-dot missed"></i>Missed</span>
                     <span><i class="insights-state-dot paused"></i>Paused</span>
                     <span><i class="insights-state-dot travel"></i>Travel</span>
+                    <span><i class="insights-state-line no-schedule" aria-hidden="true"></i>Not tracked</span>
                   </div>
-                  <span class="insights-calendar-note">Each day shows completed habits / habits scheduled. Tap a day for details.</span>
+                  <p class="insights-calendar-helper">Each day shows completed habits / habits scheduled. Tap a tracked day for details.</p>
                 </section>
               </section>
 
@@ -3063,7 +3287,7 @@
                   <input class="profile-input" id="profileName" value="Kartik" maxlength="24" placeholder="Your name" />
                   <div class="offline-note">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                    <span>Your profile and habits stay on this device. Steady does not create an online account or upload this information.</span>
+                    <span>Your profile and habits stay on this device. Steady Habits does not create an online account or upload this information.</span>
                   </div>
                 </section>
                 <section class="appearance-card" aria-labelledby="appearanceTitle">
@@ -3097,7 +3321,7 @@
                     <span>ceo@monklabs.ai ↗</span>
                   </button>
                   <a class="settings-row" href="https://www.patreon.com/" target="_blank" rel="noopener noreferrer">
-                    <span>Support Steady</span>
+                    <span>Support Steady Habits</span>
                     <span>Patreon ↗</span>
                   </a>
                 </div>
@@ -3187,7 +3411,7 @@
 
                 <section class="shop-demo" aria-labelledby="demoTitle">
                   <strong id="demoTitle">Preview the next-open prompt</strong>
-                  <p>Simulate opening Steady after a missed day to review the choice before it appears in the product.</p>
+                  <p>Simulate opening Steady Habits after a missed day to review the choice before it appears in the product.</p>
                   <button class="demo-btn" type="button" onclick="openMissedDayPrompt()">Preview missed-day prompt</button>
                 </section>
 
@@ -3367,7 +3591,7 @@
                 <input class="habit-name-input" id="habitNameInput" maxlength="34" placeholder="e.g. Drink water" autocomplete="off" oninput="handleHabitNameInput()" />
                 <div class="suggestion-note" id="suggestionNote">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 22h4"/><path d="M8.2 14.5A6 6 0 1 1 15.8 14.5C14.7 15.3 14 16.1 14 18h-4c0-1.9-.7-2.7-1.8-3.5Z"/></svg>
-                  <span>Steady suggests an icon and color locally as you type.</span>
+                  <span>Steady Habits suggests an icon and color locally as you type.</span>
                 </div>
               </section>
 
@@ -3441,7 +3665,7 @@
                   </div>
                   <div class="cue-reminder-note">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
-                    <span>Steady uses this approximate time for the reminder. It does not detect waking, meals, or bedtime.</span>
+                    <span>Steady Habits uses this approximate time for the reminder. It does not detect waking, meals, or bedtime.</span>
                   </div>
                 </div>
               </section>
@@ -3449,14 +3673,14 @@
               <section class="form-section reminder-row">
                 <div class="row-copy">
                   <strong>Gentle reminder</strong>
-                  <span id="reminderHelp">For a routine cue, Steady uses the approximate preferred time above.</span>
+                  <span id="reminderHelp">For a routine cue, Steady Habits uses the approximate preferred time above.</span>
                 </div>
                 <button class="toggle on" id="reminderToggle" type="button" role="switch" aria-checked="true" onclick="toggleReminder()"></button>
               </section>
 
               <div class="device-note">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                <span>Habit details and completion history stay on this device. Steady has no account or backend. MVP supports up to 7 active habits — 5 of 7 are currently in use.</span>
+                <span>Habit details and completion history stay on this device. Steady Habits has no account or backend. MVP supports up to 7 active habits — 5 of 7 are currently in use.</span>
               </div>
 
               <div class="habit-management-actions">
@@ -3540,7 +3764,7 @@
                 </svg>
               </div>
               <p class="onboarding-eyebrow">A small beginning</p>
-              <h1 id="onboardingTitle">Welcome to Steady</h1>
+              <h1 id="onboardingTitle">Welcome to Steady Habits</h1>
               <p class="onboarding-intro">Build a rhythm you can return to. What should we call you? Your name stays on this device.</p>
 
               <div class="onboarding-field">
@@ -3559,7 +3783,7 @@
         </div>
       </section>
 
-      <div class="interaction-hint">Tap a habit to complete it · Row calendars show monthly history · The top calendar pauses routines</div>
+      <div class="interaction-hint">Tap a habit icon for momentum · Tap the habit or check to complete · History opens monthly detail</div>
 
       <section class="brand-preview" aria-labelledby="brandPreviewTitle">
         <div class="brand-preview-header">
@@ -3571,7 +3795,7 @@
           <article class="brand-sample light">
             <div class="brand-sample-top">
               <div class="brand-sample-icon">
-                <svg class="steady-mark" viewBox="0 0 1080 1080" aria-label="Steady icon in the light palette" role="img"><use href="#steadyBrandMark"></use></svg>
+                <svg class="steady-mark" viewBox="0 0 1080 1080" aria-label="Steady Habits icon in the light palette" role="img"><use href="#steadyBrandMark"></use></svg>
               </div>
               <div><strong>Warm light</strong><small>Deep sage on a soft neutral field</small></div>
             </div>
@@ -3584,7 +3808,7 @@
           <article class="brand-sample dark">
             <div class="brand-sample-top">
               <div class="brand-sample-icon">
-                <svg class="steady-mark" viewBox="0 0 1080 1080" aria-label="Steady icon in the dark palette" role="img"><use href="#steadyBrandMark"></use></svg>
+                <svg class="steady-mark" viewBox="0 0 1080 1080" aria-label="Steady Habits icon in the dark palette" role="img"><use href="#steadyBrandMark"></use></svg>
               </div>
               <div><strong>Quiet dark</strong><small>Light sage held by green-black</small></div>
             </div>
@@ -3608,7 +3832,6 @@
 
   <script>
     const phone = document.getElementById('phoneScreen');
-    const launchScreen = document.getElementById('launchScreen');
     const toast = document.getElementById('toast');
     const backdrop = document.getElementById('sheetBackdrop');
     const sheetTitle = document.getElementById('sheetTitle');
@@ -3635,6 +3858,7 @@
     const DATA_KEY = 'steadyPrototypeDataV2';
     const INITIALIZED_KEY = 'steadyPrototypeInitializedV2';
     const ONBOARDING_KEY = 'steadyOnboardingCompleteV1';
+    const TODAY_SUMMARY_EXPANDED_KEY = 'steadyTodaySummaryExpandedV1';
     const MAX_ACTIVE_HABITS = 7;
     const systemAppearance = window.matchMedia('(prefers-color-scheme: dark)');
     const iconSvgs = {
@@ -3645,12 +3869,23 @@
       protein: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4Z"/><path d="M9 14v2.5A2.5 2.5 0 0 0 11.5 19h1a2.5 2.5 0 0 0 2.5-2.5V14M8 4V2M16 4V2"/></svg>',
       leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 4.5C12 4.3 6.2 7.2 5.2 12.1c-.7 3.5 1.8 6.2 5.2 5.5 5-1 7.8-6.5 9.1-13.1Z"/><path d="M5 20c2.2-4.4 5.7-7.5 10.4-9.5"/></svg>'
     };
+    function prototypeDateKey(daysAgo) {
+      const date = new Date();
+      date.setHours(12, 0, 0, 0);
+      date.setDate(date.getDate() - daysAgo);
+      return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, '0'),
+        String(date.getDate()).padStart(2, '0')
+      ].join('-');
+    }
+
     const demoHabits = {
-      exercise: { name: 'Exercise', goalNote: '30 minutes', icon: 'dumbbell', color: 'sage', days: 'weekdays', scheduleMode: 'time', time: '07:30', cue: 'After waking', cueReminderTime: '07:30', reminder: true, archived: false, completed: true },
-      protein: { name: 'Protein', goalNote: '125 g protein', icon: 'protein', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '12:00', reminder: true, archived: false, completed: true },
-      water: { name: 'Water', goalNote: '2.5 L water', icon: 'drop', color: 'blue', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '10:00', reminder: true, archived: false, completed: false },
-      supplements: { name: 'Supplements', goalNote: '', icon: 'bottle', color: 'lilac', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'After breakfast', cueReminderTime: '08:30', reminder: true, archived: false, completed: true },
-      steps: { name: 'Walk', goalNote: '10,000 steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false, archived: false, completed: false }
+      exercise: { name: 'Exercise', goalNote: '30 minutes', icon: 'dumbbell', color: 'sage', days: 'weekdays', scheduleMode: 'time', time: '07:30', cue: 'After waking', cueReminderTime: '07:30', reminder: true, archived: false, completed: true, createdAt: prototypeDateKey(42), prototypeMomentumState: 'down' },
+      protein: { name: 'Protein', goalNote: '125 g protein', icon: 'protein', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '12:00', reminder: true, archived: false, completed: true, createdAt: prototypeDateKey(50), prototypeMomentumState: 'flat' },
+      water: { name: 'Water', goalNote: '2.5 L water', icon: 'drop', color: 'blue', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '10:00', reminder: true, archived: false, completed: false, createdAt: prototypeDateKey(35), prototypeMomentumState: 'up' },
+      supplements: { name: 'Supplements', goalNote: '', icon: 'bottle', color: 'lilac', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'After breakfast', cueReminderTime: '08:30', reminder: true, archived: false, completed: true, createdAt: prototypeDateKey(3) },
+      steps: { name: 'Walk', goalNote: '10,000 steps', icon: 'steps', color: 'warm', days: 'everyday', scheduleMode: 'cue', time: '', cue: 'Anytime', cueReminderTime: '18:00', reminder: false, archived: false, completed: false, createdAt: prototypeDateKey(28) }
     };
     let habits = {};
     const avatarOptions = ['🌿', '⛰️', '🌙', '☀️', '🪷'];
@@ -3661,7 +3896,6 @@
     let streakDays = 12;
     let focusBeforeShop = null;
     let toastTimer;
-    let launchTimer;
     let celebrationTimer;
     let dayCelebrated = false;
     let editorMode = 'add';
@@ -3673,9 +3907,19 @@
     let appearancePreference = document.documentElement.dataset.appearance || 'system';
     let focusBeforeDialog = null;
     let onboardingComplete = false;
+    let todaySummaryExpanded = false;
     let historyHabitKey = null;
     let historyMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     let insightsMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    const momentumChipTimers = new WeakMap();
+
+    const momentumStates = {
+      up: { label: 'Going great', chip: 'tap-only' },
+      flat: { label: 'Holding steady', chip: 'tap-only' },
+      down: { label: 'Finding its rhythm', chip: 'persistent' },
+      new: { label: 'New habit', chip: 'persistent' },
+      pending: { label: null, chip: null }
+    };
 
     function cloneDemoHabits() {
       return JSON.parse(JSON.stringify(demoHabits));
@@ -3708,13 +3952,17 @@
       document.getElementById('profileName').value = saved.profileName || '';
       try {
         onboardingComplete = localStorage.getItem(ONBOARDING_KEY) === 'true';
+        todaySummaryExpanded =
+          localStorage.getItem(TODAY_SUMMARY_EXPANDED_KEY) === 'true';
         if (!onboardingComplete && saved.profileName?.trim()) {
           onboardingComplete = true;
           localStorage.setItem(ONBOARDING_KEY, 'true');
         }
       } catch {
         onboardingComplete = Boolean(saved.profileName?.trim());
+        todaySummaryExpanded = false;
       }
+      applyTodaySummaryState();
     }
 
     function persistPrototypeData() {
@@ -3750,30 +3998,124 @@
       })[character]);
     }
 
+    function momentumIcon(state) {
+      if (state === 'up') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 16 5-5 4 4 5-7"/><path d="M15 8h4v4"/></svg>';
+      }
+      if (state === 'down') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 5 5 4-4 5 7"/><path d="M15 16h4v-4"/></svg>';
+      }
+      if (state === 'new') {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19v-7"/><path d="M12 14c-3 0-5-1.7-5.3-4.7 3-.2 5 1.3 5.3 4.1M12 12c.4-2.7 2.3-4.2 5.3-4-.3 3-2.2 4.7-5.3 4.7"/></svg>';
+      }
+      return '';
+    }
+
+    function habitMomentum(habit) {
+      if (habit.createdAt) {
+        const createdParts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(habit.createdAt);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (createdParts) {
+          const createdDay = Date.UTC(
+            Number(createdParts[1]),
+            Number(createdParts[2]) - 1,
+            Number(createdParts[3])
+          );
+          const todayDay = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+          const ageInDays = Math.floor((todayDay - createdDay) / 86400000);
+          if (ageInDays >= 0 && ageInDays < 7) {
+            return { state: 'new', ...momentumStates.new };
+          }
+        }
+      }
+
+      const previewState = ['up', 'flat', 'down'].includes(habit.prototypeMomentumState)
+        ? habit.prototypeMomentumState
+        : 'pending';
+      return { state: previewState, ...momentumStates[previewState] };
+    }
+
     function createTodayRow(key, habit) {
       const completeClass = habit.completed ? ' complete' : '';
+      const momentum = habitMomentum(habit);
+      const momentumClass = `momentum-${momentum.state}`;
+      const showMomentum = !habit.completed;
+      const momentumLabel = momentum.label
+        ? `${momentum.label} momentum`
+        : 'Momentum is gathering history';
+      const badgeIcon = momentumIcon(momentum.state);
+      const badgeClass = badgeIcon ? '' : ' is-dot';
+      const chip = showMomentum && momentum.label
+        ? `<span class="momentum-chip ${momentum.chip} ${momentumClass}" id="momentumChip-${key}" ${momentum.chip === 'tap-only' ? 'aria-hidden="true"' : ''}>${badgeIcon}${momentum.label}</span>`
+        : '';
       return `
         <div class="habit-row${completeClass}" id="todayRow-${key}" data-habit-key="${key}">
-          <button class="habit-main" type="button"
-            aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed today` : `Mark ${escapeHtml(habit.name)} complete`}"
-            aria-pressed="${habit.completed ? 'true' : 'false'}"
-            ${habit.completed ? 'aria-disabled="true"' : ''}
-            onclick="toggleHabit(this.closest('.habit-row'))">
-            <span class="habit-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
-            <span class="habit-copy">
+          <span class="habit-main">
+            <button class="habit-icon-trigger${showMomentum ? ` ${momentumClass}` : ''}" type="button"
+              onclick="showHabitMomentum(event, this, '${key}')"
+              aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed today; locked` : `${momentumLabel} for ${escapeHtml(habit.name)}`}"
+              ${showMomentum && momentum.chip === 'tap-only' ? `aria-controls="momentumChip-${key}" aria-expanded="false"` : ''}>
+              <span class="habit-icon ${habit.color}">${iconSvgs[habit.icon] || iconSvgs.leaf}</span>
+              ${showMomentum ? `<span class="momentum-badge ${momentumClass}${badgeClass}" aria-hidden="true">${badgeIcon}</span>` : ''}
+            </button>
+            <button class="habit-copy habit-copy-trigger" type="button"
+              aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed today; locked` : `Mark ${escapeHtml(habit.name)} complete`}"
+              aria-pressed="${habit.completed ? 'true' : 'false'}"
+              ${habit.completed ? 'aria-disabled="true"' : ''}
+              onclick="toggleHabit(this.closest('.habit-row'))">
               <span class="habit-title">${escapeHtml(habit.name)}</span>
               <span class="habit-subtitle">${escapeHtml(habitSubtitle(habit.goalNote, habit.scheduleMode, habit.time, habit.cue))}</span>
-            </span>
-          </button>
-          <span class="habit-actions">
-            <button class="habit-history-btn" type="button" onclick="openHabitHistory(event, '${key}')" aria-label="View monthly history for ${escapeHtml(habit.name)}" title="View monthly history">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h14v16H5zM8 2v4M16 2v4M5 9h14"/><path d="M8 13h2M12 13h2M16 13h.01M8 17h2M12 17h2"/></svg>
+              ${chip}
             </button>
-            <button class="check" type="button" onclick="toggleHabit(this.closest('.habit-row'))" aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed` : `Mark ${escapeHtml(habit.name)} complete`}" ${habit.completed ? 'disabled' : ''}>
+          </span>
+          <span class="habit-actions">
+            <button class="habit-history-btn${showMomentum ? ` momentum-state ${momentumClass}` : ''}" type="button"
+              onclick="openHabitHistory(event, '${key}')"
+              aria-label="View history for ${escapeHtml(habit.name)}${showMomentum ? `. ${momentumLabel}.` : ''}"
+              title="View history">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3.5 12a8.5 8.5 0 1 0 2.1-5.6"/>
+                <path d="M3.5 4.8v4.8h4.8"/>
+                <path d="M12 7.5V12l3 2"/>
+              </svg>
+            </button>
+            <button class="check" type="button" onclick="toggleHabit(this.closest('.habit-row'))" aria-label="${habit.completed ? `${escapeHtml(habit.name)} completed today; locked` : `Mark ${escapeHtml(habit.name)} complete`}" ${habit.completed ? 'aria-disabled="true"' : ''}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 12.5 4 4L18.5 8"/></svg>
             </button>
           </span>
         </div>`;
+    }
+
+    function showHabitMomentum(event, button, key) {
+      event.stopPropagation();
+      const row = button.closest('.habit-row');
+      const habit = habits[key];
+      if (!row || !habit) return;
+      if (habit.completed) {
+        showToast('Completed habits are locked for today.');
+        return;
+      }
+
+      const momentum = habitMomentum(habit);
+      if (momentum.state === 'pending') {
+        showToast(`Still gathering enough history for ${habit.name}.`);
+        return;
+      }
+      if (momentum.chip === 'persistent') return;
+
+      const previousTimer = momentumChipTimers.get(row);
+      if (previousTimer) window.clearTimeout(previousTimer);
+      row.classList.add('show-momentum-chip');
+      button.setAttribute('aria-expanded', 'true');
+      row.querySelector('.momentum-chip')?.setAttribute('aria-hidden', 'false');
+      const timer = window.setTimeout(() => {
+        row.classList.remove('show-momentum-chip');
+        button.setAttribute('aria-expanded', 'false');
+        row.querySelector('.momentum-chip')?.setAttribute('aria-hidden', 'true');
+        momentumChipTimers.delete(row);
+      }, 3000);
+      momentumChipTimers.set(row, timer);
     }
 
     function createManageRow(key, habit) {
@@ -3818,12 +4160,13 @@
       document.querySelector('.habit-limit').textContent = `${active.length} / ${MAX_ACTIVE_HABITS} active`;
       document.getElementById('settingsHabitCount').textContent = `${active.length} active`;
       document.querySelector('.device-note span').textContent =
-        `Habit details and completion history stay on this device. Steady has no account or backend. MVP supports up to ${MAX_ACTIVE_HABITS} active habits — ${active.length} of ${MAX_ACTIVE_HABITS} are currently in use.`;
+        `Habit details and completion history stay on this device. Steady Habits has no account or backend. MVP supports up to ${MAX_ACTIVE_HABITS} active habits — ${active.length} of ${MAX_ACTIVE_HABITS} are currently in use.`;
 
       const profileName = document.getElementById('profileName').value.trim();
       document.getElementById('greetingName').textContent = profileName || 'there';
       document.getElementById('profileAvatar').textContent = avatarOptions[avatarIndex] || avatarOptions[0];
       document.getElementById('bestStreakDays').textContent = Math.max(18, streakDays);
+      document.getElementById('currentStreakDays').textContent = streakDays;
       document.getElementById('insightsStreakDays').textContent = streakDays;
       document.getElementById('insightsStreakUnit').textContent = streakDays === 1 ? 'day steady' : 'days steady';
       document.getElementById('insightsMotivation').textContent = streakDays > 0
@@ -3928,19 +4271,23 @@
       row.classList.add('just-toggled');
       row.setAttribute('aria-pressed', 'true');
       row.setAttribute('aria-disabled', 'true');
-      const mainAction = row.querySelector('.habit-main');
+      const mainAction = row.querySelector('.habit-copy-trigger');
       const completionAction = row.querySelector('.check');
       mainAction?.setAttribute('aria-pressed', 'true');
       mainAction?.setAttribute('aria-disabled', 'true');
-      if (mainAction) mainAction.disabled = true;
-      if (completionAction) completionAction.disabled = true;
+      completionAction?.setAttribute('aria-disabled', 'true');
       const key = row.dataset.habitKey;
       if (key && habits[key]) habits[key].completed = true;
+      const title = row.querySelector('.habit-title').textContent;
+      const momentumAction = row.querySelector('.habit-icon-trigger');
+      momentumAction?.setAttribute('aria-label', `${title} completed today; locked`);
+      momentumAction?.removeAttribute('aria-controls');
+      momentumAction?.removeAttribute('aria-expanded');
+      row.querySelector('.habit-history-btn')?.setAttribute('aria-label', `View history for ${title}`);
       persistPrototypeData();
       updateProgress({ celebrate: true });
       window.setTimeout(() => reorderHabit(row), 180);
 
-      const title = row.querySelector('.habit-title').textContent;
       showToast(`${title} completed — nicely done.`);
     }
 
@@ -3972,7 +4319,10 @@
       const complete = habits.filter(row => row.classList.contains('complete')).length;
       const total = habits.length;
       document.getElementById('progressText').textContent = `${complete} of ${total} complete`;
+      document.getElementById('progressPercentage').textContent =
+        `${total ? Math.floor((complete / total) * 100) : 0}%`;
       document.getElementById('progressFill').style.width = `${total ? (complete / total) * 100 : 0}%`;
+      applyTodaySummaryState();
 
       const messages = {
         0: 'A clear page. Start when you’re ready.',
@@ -3990,6 +4340,31 @@
       if (celebrate && total > 0 && complete === total && !dayCelebrated) {
         dayCelebrated = true;
         showDayCelebration();
+      }
+
+      function applyTodaySummaryState() {
+        const card = document.getElementById('todaySummaryCard');
+        const disclosure = document.getElementById('summaryDisclosure');
+        if (!card || !disclosure) return;
+        card.dataset.expanded = String(todaySummaryExpanded);
+        disclosure.setAttribute('aria-expanded', String(todaySummaryExpanded));
+        disclosure.setAttribute(
+          'aria-label',
+          `${todaySummaryExpanded ? 'Expanded' : 'Collapsed'} daily progress. ` +
+            `${document.getElementById('progressText')?.textContent || ''}. ` +
+            `${todaySummaryExpanded ? 'Collapse' : 'Expand'} daily progress.`
+        );
+      }
+
+      function toggleTodaySummary() {
+        todaySummaryExpanded = !todaySummaryExpanded;
+        applyTodaySummaryState();
+        try {
+          localStorage.setItem(
+            TODAY_SUMMARY_EXPANDED_KEY,
+            String(todaySummaryExpanded),
+          );
+        } catch {}
       }
     }
 
@@ -4106,7 +4481,7 @@
 
     function openTravelSheet() {
       sheetTitle.textContent = 'Pause with intention';
-      sheetCopy.textContent = 'Steady can soften your plan while life is moving. Paused days won’t count against your consistency.';
+      sheetCopy.textContent = 'Steady Habits can soften your plan while life is moving. Paused days won’t count against your consistency.';
       sheetOptions.innerHTML = `
         <button class="sheet-option" data-choice="pause-today" onclick="choosePause('Today only')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 5v14M16 5v14"/></svg>
@@ -4225,7 +4600,7 @@
       const completed = details.filter(item => item.completed).length;
       const scheduled = details.length;
       const state = scheduled === 0
-        ? 'future'
+        ? 'no-schedule'
         : completed === scheduled
           ? 'complete'
           : completed === 0
@@ -4243,7 +4618,7 @@
       const cells = Array.from({ length: leadingEmptyDays }, () => '<span class="insights-calendar-day empty"></span>');
       const today = new Date();
       let completedTotal = 0;
-      let missedTotal = 0;
+      let completeDayTotal = 0;
 
       for (let day = 1; day <= lastDay.getDate(); day += 1) {
         const date = new Date(year, month, day);
@@ -4251,31 +4626,39 @@
         const isToday = date.toDateString() === today.toDateString();
         if (!['future', 'paused', 'travel'].includes(progress.state)) {
           completedTotal += progress.completed;
-          missedTotal += progress.scheduled - progress.completed;
+          if (progress.state === 'complete') completeDayTotal += 1;
         }
-        const fraction = progress.state === 'future'
-          ? day
+        const cellText = progress.state === 'future'
+          ? `${day}`
           : progress.state === 'paused'
             ? 'Pause'
             : progress.state === 'travel'
               ? 'Trip'
-              : `${progress.completed}/${progress.scheduled}`;
+              : progress.state === 'no-schedule'
+                ? `${day}`
+                : `${progress.completed}/${progress.scheduled}`;
         const label = progress.state === 'future'
           ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: upcoming`
           : progress.state === 'paused'
             ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: routine paused`
             : progress.state === 'travel'
               ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: travel day`
-              : `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: ${progress.completed} of ${progress.scheduled} habits completed`;
+              : progress.state === 'no-schedule'
+                ? `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: no habits scheduled`
+                : `${date.toLocaleDateString([], { month: 'long', day: 'numeric' })}: ${progress.completed} of ${progress.scheduled} habits completed`;
+        const accessibleLabel = isToday ? `Today. ${label}` : label;
+        const isInteractive = !['future', 'no-schedule'].includes(progress.state);
         cells.push(
-          `<button class="insights-calendar-day ${progress.state}${isToday ? ' today' : ''}" type="button" ${progress.state === 'future' ? 'disabled' : ''} onclick="openDailyInsight(event, ${year}, ${month}, ${day})" aria-label="${label}">${fraction}</button>`
+          `<button class="insights-calendar-day ${progress.state}${isToday ? ' today' : ''}" type="button" ${isInteractive ? `onclick="openDailyInsight(event, ${year}, ${month}, ${day})"` : 'disabled'} aria-label="${accessibleLabel}">${cellText}</button>`
         );
       }
 
       document.getElementById('insightsMonthLabel').textContent =
         insightsMonth.toLocaleDateString([], { month: 'long', year: 'numeric' });
       document.getElementById('monthlyCompletedCount').textContent = completedTotal;
-      document.getElementById('monthlyMissedCount').textContent = missedTotal;
+      document.getElementById('monthlyCompleteDayCount').textContent = completeDayTotal;
+      document.getElementById('monthlyCompletedMetric').setAttribute('aria-label', `${completedTotal} Habits complete`);
+      document.getElementById('monthlyPerfectMetric').setAttribute('aria-label', `${completeDayTotal} Steady days`);
       insightsCalendar.innerHTML = cells.join('');
 
       const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -4304,7 +4687,7 @@
         <div class="daily-preview-row">
           <span>${escapeHtml(habit.name)}</span>
           <span class="daily-preview-state${adjustedState ? ` ${adjustedState}` : completed ? '' : ' missed'}">
-            <i></i>${adjustedState === 'paused' ? 'Paused' : adjustedState === 'travel' ? 'Travel plan' : completed ? 'Completed' : 'Missed'}
+            ${adjustedState === 'paused' ? 'Paused' : adjustedState === 'travel' ? 'Travel plan' : completed ? 'Complete' : 'Incomplete'}
           </span>
         </div>
       `).join('');
@@ -4488,7 +4871,7 @@
       document.getElementById('suggestionNote').querySelector('span').textContent =
         mode === 'edit'
           ? 'Your chosen icon and color stay fixed while you edit.'
-          : 'Steady suggests an icon and color locally as you type.';
+          : 'Steady Habits suggests an icon and color locally as you type.';
 
       if (mode === 'add') {
         habitNameInput.value = '';
@@ -4557,7 +4940,7 @@
       document.getElementById('reminderHelp').textContent =
         mode === 'time'
           ? 'A gentle reminder can arrive at the exact time you selected.'
-          : 'For a routine cue, Steady uses the approximate preferred time above — never meal detection.';
+          : 'For a routine cue, Steady Habits uses the approximate preferred time above — never meal detection.';
       syncCueReminderState();
       updatePreview();
     }
@@ -4683,7 +5066,12 @@
           return;
         }
         const key = `habit-${Date.now().toString(36)}`;
-        habits[key] = { ...habitData, archived: false, completed: false };
+        habits[key] = {
+          ...habitData,
+          archived: false,
+          completed: false,
+          createdAt: prototypeDateKey(0)
+        };
         persistPrototypeData();
         renderPrototypeState();
         closeHabitEditor();
@@ -4850,11 +5238,14 @@
         localStorage.removeItem(DATA_KEY);
         localStorage.removeItem(INITIALIZED_KEY);
         localStorage.removeItem(ONBOARDING_KEY);
+        localStorage.removeItem(TODAY_SUMMARY_EXPANDED_KEY);
       } catch {}
       onboardingComplete = false;
+      todaySummaryExpanded = false;
       appearancePreference = 'system';
       applyAppearance('system');
       persistPrototypeData();
+      applyTodaySummaryState();
       closeAllOverlays();
       returnToToday();
       document.getElementById('travelButton').classList.remove('active');
@@ -4909,7 +5300,7 @@
     }
 
     function sendFeedback() {
-      window.location.href = 'mailto:ceo@monklabs.ai?subject=Steady%20feedback';
+      window.location.href = 'mailto:ceo@monklabs.ai?subject=Steady%20Habits%20feedback';
     }
 
     function selectNav(item, destination) {
@@ -4919,16 +5310,6 @@
       if (destination === 'Insights') phone.classList.add('destination-insights');
       if (destination === 'Settings') phone.classList.add('destination-settings');
       document.querySelector('.scroll-area').scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function replayLaunch() {
-      window.clearTimeout(launchTimer);
-      launchScreen.classList.remove('dismissed');
-      launchScreen.setAttribute('aria-hidden', 'false');
-      launchTimer = window.setTimeout(() => {
-        launchScreen.classList.add('dismissed');
-        launchScreen.setAttribute('aria-hidden', 'true');
-      }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 900 : 1700);
     }
 
     function trapFocus(container, event) {
@@ -5030,7 +5411,6 @@
     applyAppearance(appearancePreference);
     renderPrototypeState();
     if (!onboardingComplete) showOnboarding();
-    replayLaunch();
   </script>
 </body>
 </html>

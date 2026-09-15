@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Steady Habits — 10 momentum concepts</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #eceae4;
+      --page-text: #202521;
+      --page-secondary: #69716b;
+      --page-surface: #fffcf5;
+      --page-border: #dddcd4;
+      --shadow: 0 18px 55px rgba(45, 54, 48, .12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-width: 320px;
+      margin: 0;
+      padding: 32px 18px 56px;
+      color: var(--page-text);
+      background: var(--page);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button { font: inherit; }
+    .page { width: min(1180px, 100%); margin: 0 auto; }
+    .intro { max-width: 760px; margin-bottom: 24px; }
+    .eyebrow {
+      color: #426b5a;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 8px 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(31px, 5vw, 50px);
+      line-height: 1.08;
+    }
+    .intro p { margin: 0; color: var(--page-secondary); line-height: 1.6; }
+    .gallery { display: grid; gap: 20px; }
+    .concept {
+      padding: 20px;
+      border: 1px solid var(--page-border);
+      border-radius: 27px;
+      background: color-mix(in srgb, var(--page-surface) 94%, transparent);
+      box-shadow: var(--shadow);
+    }
+    .concept-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 17px;
+    }
+    .concept-heading h2 { margin: 0 0 5px; font-size: 18px; }
+    .concept-heading p {
+      max-width: 700px;
+      margin: 0;
+      color: var(--page-secondary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .tag {
+      flex: 0 0 auto;
+      padding: 6px 9px;
+      color: #426b5a;
+      border-radius: 999px;
+      background: #dce9e1;
+      font-size: 10px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+    .theme-pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    .theme-preview { min-width: 0; text-align: center; }
+    .theme-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--page-secondary);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .phone {
+      --bg: #f7f5ef;
+      --surface: #fffcf5;
+      --text: #202521;
+      --secondary: #69716b;
+      --border: #e6e3da;
+      --sage: #426b5a;
+      --sage-soft: #e4eee8;
+      --slate: #587484;
+      --slate-soft: #e3edf1;
+      --coral: #ad604f;
+      --coral-soft: #f4e2dd;
+      --lilac: #766583;
+      --lilac-soft: #eee8f1;
+      --water: #4f7180;
+      --water-soft: #e7f0f2;
+      --warm: #9a6a38;
+      --warm-soft: #f4e8d7;
+      width: min(100%, 410px);
+      margin: 0 auto;
+      padding: 18px 12px;
+      color: var(--text);
+      border: 7px solid #303632;
+      border-radius: 32px;
+      background: var(--bg);
+      text-align: left;
+    }
+    .phone.dark {
+      color-scheme: dark;
+      --bg: #151a17;
+      --surface: #1e2521;
+      --text: #f1eee6;
+      --secondary: #adb6af;
+      --border: #39413c;
+      --sage: #94d6b2;
+      --sage-soft: #294438;
+      --slate: #9fc7d4;
+      --slate-soft: #293b42;
+      --coral: #efa58f;
+      --coral-soft: #4a302a;
+      --lilac: #c7b5d8;
+      --lilac-soft: #3b3041;
+      --water: #9fc7d4;
+      --water-soft: #263940;
+      --warm: #ddb37e;
+      --warm-soft: #3b3023;
+      border-color: #090d0b;
+    }
+    .phone-header { margin: 0 4px 14px; }
+    .phone-header small {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--secondary);
+      font-size: 10px;
+    }
+    .phone-header strong {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 21px;
+    }
+    .habit-list { display: grid; gap: 9px; }
+    .habit-row {
+      position: relative;
+      min-width: 0;
+      min-height: 68px;
+      display: grid;
+      grid-template-columns: 43px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 11px;
+      padding: 11px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+    }
+    .habit-icon-wrap {
+      position: relative;
+      width: 43px;
+      height: 43px;
+    }
+    .habit-icon-trigger {
+      position: relative;
+      width: 43px;
+      height: 43px;
+      padding: 0;
+      overflow: visible;
+      color: inherit;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      cursor: pointer;
+    }
+    .habit-icon-trigger:focus-visible {
+      outline: 2px solid var(--state);
+      outline-offset: 5px;
+    }
+    .habit-icon {
+      position: relative;
+      z-index: 1;
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      color: var(--water);
+      border-radius: 14px;
+      background: var(--water-soft);
+    }
+    .habit-icon.warm { color: var(--warm); background: var(--warm-soft); }
+    .habit-icon.sage { color: var(--sage); background: var(--sage-soft); }
+    .habit-icon.lilac { color: var(--lilac); background: var(--lilac-soft); }
+    .habit-icon svg { width: 21px; height: 21px; }
+    .habit-copy { position: relative; min-width: 0; }
+    .habit-copy strong,
+    .habit-copy > span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .habit-copy strong { margin-bottom: 4px; font-size: 13px; }
+    .habit-copy > span { color: var(--secondary); font-size: 10px; }
+    .check {
+      width: 42px;
+      height: 42px;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--surface) 88%, var(--bg));
+    }
+    .state-up { --state: var(--sage); --state-soft: var(--sage-soft); }
+    .state-flat { --state: var(--slate); --state-soft: var(--slate-soft); }
+    .state-down { --state: var(--coral); --state-soft: var(--coral-soft); }
+    .state-new { --state: var(--lilac); --state-soft: var(--lilac-soft); }
+    .marker {
+      position: absolute;
+      z-index: 3;
+      top: -5px;
+      right: -5px;
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      color: var(--state);
+      border-radius: 50%;
+      background: var(--surface);
+      box-shadow: 0 2px 7px rgba(26, 32, 28, .2);
+    }
+    .marker svg { width: 11px; height: 11px; }
+    .ring::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border: 2px solid var(--state);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+    .state-new.ring::after { border-style: dashed; }
+    .badge {
+      position: absolute;
+      z-index: 3;
+      right: -5px;
+      bottom: -5px;
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      color: white;
+      border: 2px solid var(--surface);
+      border-radius: 50%;
+      background: var(--state);
+    }
+    .badge svg { width: 12px; height: 12px; }
+    .badge.state-flat::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .side-accent::before {
+      content: "";
+      position: absolute;
+      inset-block: 10px;
+      inset-inline-start: 0;
+      width: 4px;
+      border-radius: 0 4px 4px 0;
+      background: var(--state);
+    }
+    .state-new.side-accent::before {
+      background: repeating-linear-gradient(to bottom, var(--state) 0 4px, transparent 4px 7px);
+    }
+    .status-chip {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 4px;
+      width: fit-content;
+      max-width: 100%;
+      margin-top: 5px;
+      padding: 3px 7px;
+      color: var(--state) !important;
+      border-radius: 999px;
+      background: var(--state-soft);
+      font-size: 9px !important;
+      font-weight: 800;
+    }
+    .status-chip svg { flex: 0 0 auto; width: 11px; height: 11px; }
+    .temporary-chip {
+      max-height: 0;
+      margin-top: 0;
+      padding-block: 0;
+      opacity: 0;
+    }
+    .tap-chip {
+      max-height: 0;
+      margin-top: 0;
+      padding-block: 0;
+      opacity: 0;
+      transition: max-height .18s ease, margin-top .18s ease, padding .18s ease, opacity .15s ease;
+    }
+    .selected-row.show-chip .tap-chip {
+      max-height: 23px;
+      margin-top: 5px;
+      padding-block: 3px;
+      opacity: 1;
+    }
+    .concept.replaying .temporary-chip {
+      animation: temporaryLabel 2.5s ease both;
+    }
+    .dot-trail {
+      display: flex !important;
+      gap: 4px;
+      margin-top: 7px;
+    }
+    .dot-trail i {
+      width: 6px;
+      height: 6px;
+      border: 1px solid var(--state);
+      border-radius: 50%;
+    }
+    .dot-trail i.done { background: var(--state); }
+    .dot-trail i.off { border-color: var(--border); background: transparent; }
+    .row-action {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      color: var(--secondary);
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+    }
+    .row-action svg { width: 19px; height: 19px; }
+    .row-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sparkline { color: var(--state); }
+    .progress-arc {
+      position: absolute;
+      z-index: 0;
+      inset: -5px;
+      border-radius: 19px;
+      background: conic-gradient(var(--state) calc(var(--progress) * 1%), transparent 0);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0);
+      mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0);
+    }
+    .history-state {
+      color: var(--state);
+      border-color: color-mix(in srgb, var(--state) 42%, transparent);
+      background: var(--state-soft);
+    }
+    .detail {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 1px;
+      padding: 8px 10px;
+      color: var(--secondary);
+      border-radius: 10px;
+      background: var(--state-soft);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+    .habit-row.show-detail .detail { display: block; }
+    .concept-controls { text-align: center; }
+    .replay {
+      margin-top: 13px;
+      padding: 9px 13px;
+      color: #426b5a;
+      border: 1px solid rgba(66, 107, 90, .24);
+      border-radius: 12px;
+      background: #dce9e1;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .ux-note {
+      margin: 14px 2px 0;
+      color: var(--page-secondary);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .ux-note strong { color: var(--page-text); }
+    @keyframes temporaryLabel {
+      0%, 100% { max-height: 0; margin-top: 0; padding-block: 0; opacity: 0; transform: translateY(3px); }
+      14%, 74% { max-height: 23px; margin-top: 5px; padding-block: 3px; opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .concept.replaying .temporary-chip { animation: none; }
+    }
+    @media (max-width: 800px) {
+      .theme-pair { grid-template-columns: 1fr; }
+      .concept-heading { display: block; }
+      .tag { display: inline-block; margin-top: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <span class="eyebrow">Design exploration</span>
+      <h1>10 thoughtful momentum treatments</h1>
+      <p>The selected icon-tap combination appears first and is now reflected in the main Steady Habits prototype. The remaining treatments stay here for comparison, with Light and Dark mode shown side by side.</p>
+    </header>
+    <section class="gallery" id="gallery"></section>
+  </main>
+
+  <script>
+    const habits = [
+      { name: 'Water', note: '2.5 L · Anytime', icon: 'water', state: 'up', label: 'Going great', progress: 86, pattern: [1,1,1,0,1,1,1] },
+      { name: 'Walking', note: '10,000 steps · Anytime', icon: 'walk', state: 'flat', label: 'Holding steady', progress: 71, pattern: [1,1,0,1,1,0,1] },
+      { name: 'Exercise', note: '30 minutes · 7:30 AM', icon: 'exercise', state: 'down', label: 'Finding its rhythm', progress: 43, pattern: [1,0,0,1,0,1,0] },
+      { name: 'Meditate', note: '10 minutes · After waking', icon: 'meditate', state: 'new', label: 'New habit', progress: 28, pattern: [0,0,1,0,1,0,0] },
+    ];
+
+    const concepts = [
+      { id: 'selected', title: 'Selected combination', description: 'A persistent corner badge communicates momentum. Finding its rhythm stays visible; New habit stays visible for the first seven calendar days. Positive and stable chips appear only after tapping the habit icon.', note: 'After the first week, a habit stays neutral until there is enough history for a trustworthy trend. History and completion remain predictable permanent actions.', tag: 'Selected' },
+      { id: 'outline', title: '1. Rounded state outline', description: 'A shape-matched outline surrounds the habit icon; New habit uses a dashed ring.', note: 'Persistent and premium. State-specific shape treatment prevents color from carrying the entire meaning.', tag: 'Strong option' },
+      { id: 'badge', title: '2. Corner status badge', description: 'A compact badge overlaps the icon corner without changing the habit’s identity color.', note: 'Highly discoverable and space-efficient, though it adds another small object to every row.' },
+      { id: 'accent', title: '3. Logical-start accent', description: 'A slim colored edge marks each row; New habit uses a broken line.', note: 'Extremely scannable and responsive. It can resemble priority, so supporting history copy remains important.' },
+      { id: 'chip', title: '4. Persistent status chip', description: 'A short label appears beneath the schedule for maximum clarity.', note: 'The easiest concept to understand, but the heaviest option for the primary Today checklist.' },
+      { id: 'temporary', title: '5. Temporary status label', description: 'Labels appear only when a state changes, then disappear while the row returns to normal.', note: 'Rewarding without permanent clutter. It must not replay on every launch or become the only signal.', tag: 'Calm motion' },
+      { id: 'dots', title: '6. Seven-day dot trail', description: 'Seven dots reveal the underlying recent completion pattern instead of summarizing it as an arrow.', note: 'Transparent and honest, but visually denser and less immediate than a single state signal.' },
+      { id: 'sparkline', title: '7. Mini trend line', description: 'A small graph occupies the action area and opens history when selected.', note: 'Communicates direction directly, but can feel financial or overly analytical for Steady.' },
+      { id: 'arc', title: '8. Recent-completion arc', description: 'A partial ring represents completion rate while its color identifies the interpreted state.', note: 'Information-rich and attractive, but asks users to understand both amount and direction at once.' },
+      { id: 'history', title: '9. State-aware history action', description: 'The dedicated history button carries the state color while the habit icon remains untouched.', note: 'The safest interaction model and easiest Android implementation. Momentum feels slightly detached from the habit.' },
+      { id: 'ondemand', title: '10. On-demand explanation', description: 'Today stays nearly unchanged; selecting history reveals the trend and its numerical evidence.', note: 'The cleanest Today experience. Discoverability is lower, but interpretation is never shown without context.', tag: 'Lowest noise' },
+    ];
+
+    const habitIcons = {
+      water: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.2S6.5 9.4 6.5 14a5.5 5.5 0 0 0 11 0C17.5 9.4 12 3.2 12 3.2Z"/><path d="M9.4 15.2a2.8 2.8 0 0 0 2.6 1.9"/></svg>',
+      walk: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M8.8 4.2c1.3 1.2 1.4 3.6.2 5S5.5 10.7 4.5 9.4 4.3 6 5.6 4.8s2.1-1.5 3.2-.6ZM15.2 13.3c1.3 1.2 1.4 3.6.2 5s-3.5 1.5-4.5.2-.2-3.4 1.1-4.6 2.1-1.5 3.2-.6Z"/></svg>',
+      exercise: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8v8M18 8v8M3.5 10v4M20.5 10v4M6 12h12"/></svg>',
+      meditate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 4a2 2 0 1 0 0 .1M8 10c1.2-1 2.5-1.5 4-1.5s2.8.5 4 1.5M12 9v6M7 18c1.2-2 2.9-3 5-3s3.8 1 5 3M5 20h14"/></svg>',
+    };
+    const stateIcons = {
+      up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 16 5-5 4 4 5-7"/><path d="M15 8h4v4"/></svg>',
+      flat: '',
+      down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 5 5 4-4 5 7"/><path d="M15 16h4v-4"/></svg>',
+      new: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19v-7"/><path d="M12 14c-3 0-5-1.7-5.3-4.7 3-.2 5 1.3 5.3 4.1M12 12c.4-2.7 2.3-4.2 5.3-4-.3 3-2.2 4.7-5.3 4.7"/></svg>',
+    };
+    const historyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.1-5.6"/><path d="M3.5 4.8v4.8h4.8"/><path d="M12 7.5V12l3 2"/></svg>';
+
+    function iconTone(icon) {
+      if (icon === 'walk') return ' warm';
+      if (icon === 'exercise') return ' sage';
+      if (icon === 'meditate') return ' lilac';
+      return '';
+    }
+
+    function stateMarker(habit) {
+      if (habit.state === 'flat') return '';
+      return `<span class="marker">${stateIcons[habit.state]}</span>`;
+    }
+
+    function sparkline(habit) {
+      const paths = {
+        up: 'M2 17 7 12 11 14 17 6 22 4',
+        flat: 'M2 11 7 10 12 11 17 10 22 11',
+        down: 'M2 5 7 8 12 7 17 14 22 17',
+        new: 'M2 16 7 14 12 15 17 11 22 12',
+      };
+      return `<svg class="sparkline" viewBox="0 0 24 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[habit.state]}"/></svg>`;
+    }
+
+    function decoration(concept, habit) {
+      if (concept === 'outline') {
+        return { wrap: ` ring state-${habit.state}`, extra: stateMarker(habit), copy: '' };
+      }
+      if (concept === 'badge' || concept === 'selected') {
+        return { wrap: '', extra: `<span class="badge state-${habit.state}">${stateIcons[habit.state]}</span>`, copy: '' };
+      }
+      if (concept === 'chip') {
+        return { wrap: '', extra: '', copy: `<span class="status-chip state-${habit.state}">${stateIcons[habit.state]}${habit.label}</span>` };
+      }
+      if (concept === 'temporary') {
+        return { wrap: ` ring state-${habit.state}`, extra: stateMarker(habit), copy: `<span class="status-chip temporary-chip state-${habit.state}">${stateIcons[habit.state]}${habit.label}</span>` };
+      }
+      if (concept === 'dots') {
+        const dots = habit.pattern.map(value => `<i class="${value ? 'done' : 'off'}"></i>`).join('');
+        return { wrap: '', extra: '', copy: `<span class="dot-trail state-${habit.state}" aria-label="${habit.label}: recent seven days">${dots}</span>` };
+      }
+      if (concept === 'arc') {
+        return { wrap: ` state-${habit.state}`, extra: `<span class="progress-arc" style="--progress:${habit.progress}"></span>${stateMarker(habit)}`, copy: '' };
+      }
+      return { wrap: '', extra: '', copy: '' };
+    }
+
+    function rowAction(concept, habit) {
+      if (concept === 'sparkline') {
+        return `<button class="row-action state-${habit.state}" type="button" aria-label="${habit.label}. View history">${sparkline(habit)}</button>`;
+      }
+      if (concept === 'selected') {
+        return `
+          <span class="row-actions">
+            <button class="row-action history-state state-${habit.state}" type="button" aria-label="${habit.label}. View history">${historyIcon}</button>
+            <button class="check" type="button" aria-label="Mark ${habit.name} complete"></button>
+          </span>`;
+      }
+      if (concept === 'history') {
+        return `<button class="row-action history-state state-${habit.state}" type="button" aria-label="${habit.label}. View history">${historyIcon}</button>`;
+      }
+      if (concept === 'ondemand') {
+        return `<button class="row-action" type="button" onclick="toggleDetail(this)" aria-label="Show momentum explanation for ${habit.name}">${historyIcon}</button>`;
+      }
+      return '<button class="check" type="button" aria-label="Mark habit complete"></button>';
+    }
+
+    function habitRow(concept, habit) {
+      const visual = decoration(concept, habit);
+      const rowState = concept === 'accent'
+        ? ` side-accent state-${habit.state}`
+        : concept === 'selected'
+          ? ' selected-row'
+          : '';
+      const iconContent = `
+        <span class="habit-icon-wrap${visual.wrap}">
+          <span class="habit-icon${iconTone(habit.icon)}">${habitIcons[habit.icon]}</span>
+          ${visual.extra}
+        </span>`;
+      const icon = concept === 'selected'
+        ? `<button class="habit-icon-trigger state-${habit.state}" type="button" onclick="showStatusChip(this)" aria-label="Show ${habit.label} status for ${habit.name}">${iconContent}</button>`
+        : iconContent;
+      const selectedChip = concept === 'selected'
+        ? `<span class="status-chip ${habit.state === 'down' || habit.state === 'new' ? 'persistent-chip' : 'tap-chip'} state-${habit.state}">${stateIcons[habit.state]}${habit.label}</span>`
+        : '';
+      const detail = concept === 'ondemand'
+        ? `<span class="detail state-${habit.state}"><strong>${habit.label}.</strong> ${habit.state === 'new' ? 'Not enough scheduled history yet.' : `${habit.progress}% completed recently, compared with the previous seven days.`}</span>`
+        : '';
+      return `
+        <div class="habit-row${rowState}" aria-label="${habit.name}. ${habit.label}.">
+          ${icon}
+          <span class="habit-copy">
+            <strong>${habit.name}</strong>
+            <span>${habit.note}</span>
+            ${visual.copy}
+            ${selectedChip}
+          </span>
+          ${rowAction(concept, habit)}
+          ${detail}
+        </div>`;
+    }
+
+    function phone(concept, theme) {
+      return `
+        <div class="theme-preview">
+          <span class="theme-label">${theme === 'dark' ? 'Dark mode' : 'Light mode'}</span>
+          <div class="phone ${theme}">
+            <div class="phone-header"><small>Tuesday, 15 September</small><strong>Good afternoon, Kartik</strong></div>
+            <div class="habit-list">${habits.map(habit => habitRow(concept, habit)).join('')}</div>
+          </div>
+        </div>`;
+    }
+
+    function conceptCard(concept) {
+      return `
+        <article class="concept${concept.id === 'temporary' ? ' replaying' : ''}" data-concept="${concept.id}">
+          <div class="concept-heading">
+            <div><h2>${concept.title}</h2><p>${concept.description}</p></div>
+            ${concept.tag ? `<span class="tag">${concept.tag}</span>` : ''}
+          </div>
+          <div class="theme-pair">${phone(concept.id, 'light')}${phone(concept.id, 'dark')}</div>
+          ${concept.id === 'temporary' ? '<div class="concept-controls"><button class="replay" type="button" onclick="replayLabels(this)">Replay temporary labels</button></div>' : ''}
+          <p class="ux-note"><strong>UX:</strong> ${concept.note}</p>
+        </article>`;
+    }
+
+    document.getElementById('gallery').innerHTML = concepts.map(conceptCard).join('');
+
+    function replayLabels(button) {
+      const concept = button.closest('.concept');
+      concept.classList.remove('replaying');
+      void concept.offsetWidth;
+      concept.classList.add('replaying');
+    }
+
+    function toggleDetail(button) {
+      button.closest('.habit-row').classList.toggle('show-detail');
+    }
+
+    const statusChipTimers = new WeakMap();
+    function showStatusChip(button) {
+      const row = button.closest('.habit-row');
+      const previousTimer = statusChipTimers.get(row);
+      if (previousTimer) window.clearTimeout(previousTimer);
+      row.classList.add('show-chip');
+      const timer = window.setTimeout(() => {
+        row.classList.remove('show-chip');
+        statusChipTimers.delete(row);
+      }, 3000);
+      statusChipTimers.set(row, timer);
+    }
+  </script>
+</body>
+</html>
